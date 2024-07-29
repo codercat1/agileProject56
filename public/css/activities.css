@@ -1,0 +1,118 @@
+.container {
+    display: flex;
+}
+
+.activities-container .sidebar {
+    width: 250px;
+    background-color: #333;
+    padding: 15px;
+    color: #fff;
+}
+
+.activities-container .sidebar h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.activities-container .sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.activities-container .sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.activities-container .sidebar ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.activities-container .main-content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f9f9f9;
+    margin-left: 250px; /* Ensure content starts after sidebar */
+}
+
+.activities-container header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.activities-container header h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.activities-container header nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+}
+
+.activities-container .activities {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+.activities-container .record-sections {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.activities-container .record-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.activities-container .record-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.activities-container .calendar, .activities-container .notes {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.activities-container .calendar h2, .activities-container .notes h2 {
+    margin-top: 0;
+}
+
+.activities-container textarea {
+    width: 100%;
+    height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.activities-container .connections {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.activities-container .connections h2 {   
+    margin-top: 0;
+}
+
+.activities-container .connections-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 10px;
+    text-align: center;
+}

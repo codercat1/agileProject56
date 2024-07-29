@@ -1,0 +1,107 @@
+/* top_discussion Page Styles */
+.top_discussion {
+    padding: 20px;
+    margin-left: 250px; /* Ensure it doesn't overlap with sidebar */
+    max-width: calc(100% - 250px); /* Ensure it fits within the main content area */
+}
+
+.top_discussion h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.top_discussion .search-bar {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.top_discussion .search-bar input {
+    padding: 10px;
+    width: 80%;
+    max-width: 600px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.content-area {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px; /* Add space between the posts-grid and recommended-communities */
+}
+
+.posts-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 60%;
+    margin: 0 auto 20px;
+}
+
+.post {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.post img {
+    width: 100px; /* Adjust the width for smaller images */
+    height: 100px; /* Adjust the height for smaller images */
+    border-radius: 10px;
+    margin-right: 20px; /* Add margin to separate image and text */
+}
+
+.recommended-communities {
+    width: 35%;
+    padding: 20px;
+    background-color: #1a237e; /* Background color similar to design */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    color: white; /* Ensure text is visible on dark background */
+}
+
+.recommended-communities h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.recommended-communities ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0; /* Remove gap between items */
+}
+
+.recommended-communities li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #283593; /* Slightly lighter color for items */
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.recommended-communities button {
+    background-color: #00bfa5; /* Button color */
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.recommended-communities button:hover {
+    background-color: #00796b; /* Darken button on hover */
+}
+
+footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: #f0f0f0;
+    margin-top: 20px;
+}

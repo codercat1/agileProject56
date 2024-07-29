@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Health Tracker</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Healro</h2>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/activities">Activities</a></li>
+                <li><a href="/contents">Contents</a></li>
+                <li><a href="/all-topics">All Topics</a></li>
+                <li><a href="/posting">Community</a></li>
+                <li><a href="/top_discussion">Top Discussion</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Healro</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Community</a></li>
+                    <li><a href="#">Tracker</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Login</a></li>
+                </ul>
+            </nav>
+        </header>
+        <section class="health-tracker">
+            <h2>Welcome, <%= username %></h2>
+            <div class="health-stats">
+                <div class="stat-item">
+                    <h3>Calories</h3>
+                    <p>0 <span>consumed</span></p>
+                </div>
+                <div class="stat-item">
+                    <h3>Steps</h3>
+                    <p>0 / <span>5,000</span></p>
+                </div>
+                <div class="stat-item">
+                    <h3>MVPA</h3>
+                    <p>0 <span>/ 30 mins</span></p>
+                </div>
+                <div class="stat-item">
+                    <h3>Sleep</h3>
+                    <p>0 <span>/ 7 hours</span></p>
+                </div>
+            </div>
+            <div class="buddies">
+                <h3>Your Buddies</h3>
+                <div class="buddy-list">
+                    <!-- Example Buddy -->
+                    <div class="buddy-item">
+                        <img src="/images/buddy1.png" alt="Buddy 1">
+                        <p><strong>Buddy 1</strong></p>
+                        <p>"I've lost 5 pounds!"</p>
+                    </div>
+                    <div class="buddy-item">
+                        <img src="/images/buddy2.png" alt="Buddy 2">
+                        <p><strong>Buddy 2</strong></p>
+                        <p>"I ran a marathon!"</p>
+                    </div>
+                    <div class="buddy-item">
+                        <img src="/images/buddy3.png" alt="Buddy 3">
+                        <p><strong>Buddy 3</strong></p>
+                        <p>"I'm getting stronger!"</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

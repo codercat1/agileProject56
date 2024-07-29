@@ -1,0 +1,32 @@
+/* Login/Signup Page Styles */
+.login-signup {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.login-signup input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.login-signup button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.login-signup button:hover {
+    background-color: #0056b3;
+}
+
+.google-signup {
+    background-color: #db4437;
+}

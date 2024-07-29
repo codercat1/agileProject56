@@ -1,0 +1,51 @@
+/* contents Page Styles */
+.contents {
+    padding: 20px;
+    margin-left: 250px; /* Ensure it doesn't overlap with sidebar */
+}
+
+.contents h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-bar {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.contents-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.contents-item {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    width: calc(33% - 20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.contents-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.contents-item h3 {
+    margin: 10px 0;
+}
+
+.contents-item p {
+    margin: 0;
+}
