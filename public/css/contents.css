@@ -38,9 +38,10 @@
 /* .contents-item img {
     width: 100%;
     height: 300px;
+    object-fit: cover;
     border-radius: 10px;
     margin-bottom: 10px;
-} */
+} 
 
 .contents-item h3 {
     margin: 10px 0;
@@ -48,10 +49,4 @@
 
 .contents-item p {
     margin: 0;
-}
-
-.health-image {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
 }
