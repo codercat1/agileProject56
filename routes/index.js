@@ -1,44 +1,168 @@
 const express = require('express');
+const bcrypt = require('bcrypt');
 const router = express.Router();
+const db = require('../db'); // Assuming you created db.js for modularization
 
 // Home page
 router.get('/', (req, res) => {
-    res.render('health_tracker', { username: 'Username' });
+  if (!req.session.userId) {
+    res.redirect('/login');
+  } else {
+    res.redirect(`/health_tracker/${req.session.userId}`);
+  }
 });
 
 // Monthly Record
 router.get('/activities', (req, res) => {
-    res.render('activities');
+  res.render('activities');
 });
 
 // All Topics
 router.get('/all-topics', (req, res) => {
-    res.render('all_topics');
+  res.render('all_topics');
 });
 
-// contents
+// Contents
 router.get('/contents', (req, res) => {
-    res.render('contents');
+  res.render('contents');
 });
 
-// Login/Signup
-router.get('/login', (req, res) => {
-    res.render('login');
-});
 
 // Posting
 router.get('/posting', (req, res) => {
-    res.render('posting');
+  res.render('posting');
 });
 
-// Profile
-router.get('/profile', (req, res) => {
-    res.render('profile', { username: 'Username' });
-});
 
-// top_discussion
+// Top Discussion
 router.get('/top_discussion', (req, res) => {
-    res.render('top_discussion');
+  res.render('top_discussion');
+});
+
+// Login
+router.get('/login', (req, res) => {
+  res.render('login');
+});
+
+// Signup page
+router.get('/signup', (req, res) => {
+  res.render('signup');
+});
+
+// Signup route
+router.post('/signup', async (req, res) => {
+  const { email, password } = req.body;
+  const username = email.split('@')[0];
+
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  db.run('INSERT INTO users (username, email, password) VALUES (?, ?, ?)', [username, email, hashedPassword], function(err) {
+    if (err) {
+      if (err.code === 'SQLITE_CONSTRAINT') {
+        res.status(400).send('Email already exists. Please login.');
+      } else {
+        console.error(err.message);
+        res.status(500).send('Database error');
+      }
+    } else {
+      req.session.userId = this.lastID;
+      res.redirect(`/profile/${this.lastID}`);
+    }
+  });
+});
+
+// Login route
+router.post('/login', (req, res) => {
+  const { email, password } = req.body;
+
+  db.get('SELECT * FROM users WHERE email = ?', [email], async (err, row) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Database error');
+    } else if (row && await bcrypt.compare(password, row.password)) {
+      req.session.userId = row.id;
+      res.redirect(`/profile/${row.id}`);
+    } else {
+      res.status(401).send('Invalid email or password');
+    }
+  });
+});
+
+// Logout route
+router.post('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.redirect('/');
+    }
+    res.clearCookie('connect.sid');
+    res.redirect('/login');
+  });
+});
+
+
+// Profile route
+router.get('/profile/:id', (req, res) => {
+  const userId = req.params.id;
+
+  db.get('SELECT * FROM users WHERE id = ?', [userId], (err, userRow) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Database error');
+    } else {
+      db.all('SELECT * FROM health_stats WHERE user_id = ?', [userId], (err, healthRows) => {
+        if (err) {
+          console.error(err.message);
+          res.status(500).send('Database error');
+        } else {
+          db.all('SELECT * FROM friends WHERE user_id = ?', [userId], (err, friendRows) => {
+            if (err) {
+              console.error(err.message);
+              res.status(500).send('Database error');
+            } else {
+              res.render('profile', { user: userRow, healthStats: healthRows, friends: friendRows });
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
+// Health Tracker route
+router.get('/health_tracker/:id', (req, res) => {
+  const userId = req.params.id;
+
+  db.get('SELECT * FROM users WHERE id = ?', [userId], (err, userRow) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Database error');
+    } else {
+      db.get('SELECT * FROM health_stats WHERE user_id = ? ORDER BY id DESC LIMIT 1', [userId], (err, statsRow) => {
+        if (err) {
+          console.error(err.message);
+          res.status(500).send('Database error');
+        } else {
+          const stats = statsRow || { calories: 0, steps: 0, mvpa: 0, sleep: 0 };
+          res.render('health_tracker', { user: userRow, stats });
+        }
+      });
+    }
+  });
+});
+
+// Handle form submission for health data
+router.post('/health_tracker/:id', (req, res) => {
+  const userId = req.params.id;
+  const { calories, steps, mvpa, sleep } = req.body;
+
+  db.run('INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (?, ?, ?, ?, ?)', [userId, calories, steps, mvpa, sleep], function(err) {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Database error');
+    } else {
+      res.redirect(`/health_tracker/${userId}`);
+    }
+  });
 });
 
 module.exports = router;

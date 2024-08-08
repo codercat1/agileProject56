@@ -1,0 +1,20 @@
+# dotenv environment variables file
+.env
+
+# Node.js dependencies
+node_modules/
+npm-debug.log
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Optional npm cache directory
+.npm
+
+# VSCode files
+.vscode/
+
+# Local history
+.history/
