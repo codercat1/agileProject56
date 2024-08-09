@@ -179,6 +179,76 @@ router.get('/physical-health', (req, res) => {
   });
 });
 
+// Mental Health Page
+router.get('/mental-health', (req, res) => {
+  const articles = [
+      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
+      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
+      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
+  ];
+
+  res.render('contents/mental-health', {
+      heading: 'Mental Health',
+      articles
+  });
+});
+
+// General Disease Page
+router.get('/general-disease', (req, res) => {
+  const articles = [
+      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
+      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
+      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
+  ];
+
+  res.render('contents/general-disease', {
+      heading: 'General Disease',
+      articles
+  });
+});
+
+// Physical Health Page
+router.get('/human-body', (req, res) => {
+  const articles = [
+      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
+      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
+      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
+  ];
+
+  res.render('contents/human-body', {
+      heading: 'Human Body',
+      articles
+  });
+});
+
+// Physical Health Page
+router.get('/medicine', (req, res) => {
+  const articles = [
+      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
+      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
+      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
+  ];
+
+  res.render('contents/medicine', {
+      heading: 'Medicine',
+      articles
+  });
+});
+
+// Physical Health Page
+router.get('/fitness', (req, res) => {
+  const articles = [
+      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
+      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
+      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
+  ];
+
+  res.render('contents/fitness', {
+      heading: 'fitness',
+      articles
+  });
+});
+
 
 
 module.exports = router;

@@ -23,48 +23,41 @@
     </div>
     <div class="main-content">
         <header>
-            <h1>Healro</h1>
+            <h1>General Disease</h1>
             <nav>
                 <ul>
-                    <!-- <li><a href="#">Community</a></li>
-                    <li><a href="#">Tracker</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Login</a></li> -->
                     <li><form action="/logout" method="post" style="display:inline;"><button type="submit">Log Off</button></form></li>
-
                 </ul>
             </nav>
         </header>
-        <section>
-            <!-- Table to display list of articles -->
+        <section class="table-container">
+            <h2>Articles</h2>
             <table>
                 <thead>
                     <tr>
-                        <!-- Column headers for article title and publication date -->
                         <th>Title</th>
                         <th>Published Date</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Checks if there are articles to display -->
                     <% if (articles.length > 0) { %>
-                        <!-- Loops through each article in the articles array -->
                         <% articles.forEach(article => { %>
                             <tr>
-                                <!-- Displays article title as a link to the article details page -->
                                 <td><a href="/reader-article/<%= article.id %>"><%= article.title %></a></td>
-                                <!-- Displays formatted publication date of the article -->
                                 <td><%= new Date(article.publicationDate).toLocaleString() %></td>
                             </tr>
                         <% }); %>
                     <% } else { %>
-                        <!-- Displays a message if there are no published articles -->
                         <tr>
                             <td colspan="2">No published articles.</td>
                         </tr>
                     <% } %>
                 </tbody>
             </table>
+            <!-- Button placed below the table -->
+            <div class="button-container">
+                <button onclick="location.href='/contents'">Back to Contents Page</button>
+            </div>
         </section>
     </div>
 </body>
