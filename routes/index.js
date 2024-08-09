@@ -165,4 +165,20 @@ router.post('/health_tracker/:id', (req, res) => {
   });
 });
 
+// Physical Health Page
+router.get('/physical-health', (req, res) => {
+  const articles = [
+      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
+      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
+      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
+  ];
+
+  res.render('contents/physical-health', {
+      heading: 'Physical Health',
+      articles
+  });
+});
+
+
+
 module.exports = router;
