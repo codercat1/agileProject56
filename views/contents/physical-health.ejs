@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>contents</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Healro</h2>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/activities">Activities</a></li>
+                <li><a href="/contents">Contents</a></li>
+                <li><a href="/all-topics">All Topics</a></li>
+                <li><a href="/posting">Community</a></li>
+                <li><a href="/top_discussion">Top Discussion</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Healro</h1>
+            <nav>
+                <ul>
+                    <!-- <li><a href="#">Community</a></li>
+                    <li><a href="#">Tracker</a></li>
+                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Login</a></li> -->
+                    <li><form action="/logout" method="post" style="display:inline;"><button type="submit">Log Off</button></form></li>
+
+                </ul>
+            </nav>
+        </header>
+        <section>
+            <!-- Table to display list of articles -->
+            <table>
+                <thead>
+                    <tr>
+                        <!-- Column headers for article title and publication date -->
+                        <th>Title</th>
+                        <th>Published Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Checks if there are articles to display -->
+                    <% if (articles.length > 0) { %>
+                        <!-- Loops through each article in the articles array -->
+                        <% articles.forEach(article => { %>
+                            <tr>
+                                <!-- Displays article title as a link to the article details page -->
+                                <td><a href="/reader-article/<%= article.id %>"><%= article.title %></a></td>
+                                <!-- Displays formatted publication date of the article -->
+                                <td><%= new Date(article.publicationDate).toLocaleString() %></td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <!-- Displays a message if there are no published articles -->
+                        <tr>
+                            <td colspan="2">No published articles.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</body>
+</html>
