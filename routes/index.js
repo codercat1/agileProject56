@@ -167,17 +167,33 @@ router.post('/health_tracker/:id', (req, res) => {
 
 // Physical Health Page
 router.get('/physical-health', (req, res) => {
-  const articles = [
-      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
-      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
-      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
-  ];
+  // Query to fetch published articles related to physical health, ordered by publication date
+  const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "physical-health" ORDER BY published_at DESC';
+  
+  db.all(articlesSql, (err, articlesRows) => {
+      if (err) {
+          // Log and handle database error
+          console.error(err.message);
+          res.status(500).send('Internal Server Error');
+          return;
+      }
 
-  res.render('contents/physical-health', {
-      heading: 'Physical Health',
-      articles
+      // Map database query results to a more structured format for rendering
+      const articles = articlesRows.map(row => ({
+          id: row.id,
+          title: row.title,
+          publicationDate: row.published_at
+      }));
+
+      // Render the physical health page with fetched data
+      res.render('contents/physical-health', {
+          heading: 'Physical Health',
+          articles
+      });
   });
 });
+
+module.exports = router;
 
 // Mental Health Page
 router.get('/mental-health', (req, res) => {

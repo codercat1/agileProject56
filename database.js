@@ -45,6 +45,17 @@ db.serialize(async () => {
       FOREIGN KEY (friend_id) REFERENCES users(id)
     )
   `);
+  
+  // create articles table for contents
+  db.run(`
+    CREATE TABLE IF NOT EXISTS articles (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      title TEXT NOT NULL,
+      content TEXT NOT NULL,
+      category TEXT NOT NULL,
+      published_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
 
   // Insert dummy users
   const hashedPassword1 = await bcrypt.hash('password1', 10);
@@ -64,6 +75,9 @@ db.serialize(async () => {
   db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (1, 2, 'Jane Smith', 'Great workout buddy!')`);
   db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (1, 1, 'Self', 'Stay motivated!')`);
 
+  //insert dummy articles for contents
+  db.run (`INSERT INTO articles (title, content, category)  VALUES ('Benefits of Exercise', 'Content about exercise...', 'physical-health')`);
+
   // Insert dummy friends data for Jane Smith
   db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 1, 'John Doe', 'Inspiring runner!')`);
   db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 2, 'Self', 'Keep going!')`, (err) => {
@@ -78,4 +92,5 @@ db.serialize(async () => {
       }
     });
   });
+
 });
