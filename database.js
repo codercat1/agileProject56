@@ -1,7 +1,6 @@
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 
-
 const db = new sqlite3.Database('./database.db', (err) => {
   if (err) {
     console.error(err.message);
@@ -17,7 +16,8 @@ db.serialize(async () => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT,
       email TEXT UNIQUE,
-      password TEXT
+      password TEXT,
+      role TEXT DEFAULT 'user'
     )
   `);
 
@@ -83,16 +83,15 @@ db.serialize(async () => {
     )
   `);
 
-
   // Insert dummy data for posts
   db.run(`INSERT INTO posts (username, title, content) VALUES ('Junjie', 'Test Title', 'Testing')`);
 
   // Insert dummy users
   const hashedPassword1 = await bcrypt.hash('password1', 10);
   const hashedPassword2 = await bcrypt.hash('password2', 10);
-  db.run(`INSERT INTO users (username, email, password) VALUES ('John Doe', 'john@gmail.com', ?)`, [hashedPassword1]);
-  db.run(`INSERT INTO users (username, email, password) VALUES ('Jane Smith', 'jane@gmail.com', ?)`, [hashedPassword2]);
-
+  db.run(`INSERT INTO users (username, email, password, user) VALUES ('John Doe', 'john@gmail.com', ?)`, [hashedPassword1]);
+  db.run(`INSERT INTO users (username, email, password, user) VALUES ('Jane Smith', 'jane@gmail.com', ?)`, [hashedPassword2]);
+  
   // Insert dummy health data for John Doe
   db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (1, 2000, 8000, 45, 7)`);
   db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (1, 2200, 9000, 60, 6.5)`);
