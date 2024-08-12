@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/health_tracker.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Health Tracker</title>
 </head>
 <body>
@@ -27,17 +28,17 @@
             <h1>Healro</h1>
             <nav>
                 <ul>
-                    <!-- <li><a href="#">Community</a></li>
-                    <li><a href="#">Tracker</a></li>
-                    <li><a href="#">Contact</a></li>
-                    <li><a href="#">Login</a></li> -->
                     <li><form action="/logout" method="post" style="display:inline;"><button type="submit">Log Off</button></form></li>
-
                 </ul>
             </nav>
         </header>
         <section class="health-tracker">
             <h2>Welcome, <%= user.username %></h2>
+
+            <div class="chart-container">
+                <canvas id="myChart"></canvas> <!-- Ensure ID matches -->
+            </div>
+
             <div class="health-stats">
                 <div class="stat-item">
                     <h3>Calories</h3>
@@ -56,6 +57,7 @@
                     <p><%= stats.sleep %> <span>/ 7 hours</span></p>
                 </div>
             </div>
+
             <form action="/health_tracker/<%= user.id %>" method="POST">
                 <div>
                     <label for="calories">Calories Consumed:</label>
@@ -75,6 +77,7 @@
                 </div>
                 <button type="submit">Update Stats</button>
             </form>
+
             <div class="friends">
                 <h3>Your friends</h3>
                 <div class="friend-list">
@@ -98,5 +101,41 @@
             </div>
         </section>
     </div>
+
+    <!-- Place the script just before the closing body tag -->
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Calories', 'Steps', 'MVPA', 'Sleep'],
+                datasets: [{
+                    label: 'Health Stats',
+                    data: [<%= stats.calories %>, <%= stats.steps %>, <%= stats.mvpa %>, <%= stats.sleep %>],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                // rotation: -Math.PI, // Start at 9 o'clock
+                // circumference: Math.PI, // Only show half of the doughnut (180 degrees)
+                // cutout: '50%', // Doughnut instead of pie chart
+            }
+        });
+    </script>
+    
 </body>
 </html>

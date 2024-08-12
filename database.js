@@ -1,6 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 
+
 const db = new sqlite3.Database('./database.db', (err) => {
   if (err) {
     console.error(err.message);
@@ -81,6 +82,7 @@ db.serialize(async () => {
     )
   `);
 
+
   // Insert dummy data for posts
   db.run(`INSERT INTO posts (username, title, content, published_at) VALUES ('Junjie', 'Test Title', 'Testing', ?)`);
 
@@ -101,9 +103,6 @@ db.serialize(async () => {
   // Insert dummy friends data for John Doe
   db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (1, 2, 'Jane Smith', 'Great workout buddy!')`);
   db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (1, 1, 'Self', 'Stay motivated!')`);
-
-  //insert dummy articles for contents
-  db.run (`INSERT INTO articles (title, content, category)  VALUES ('Benefits of Exercise', 'Content about exercise...', 'physical-health')`);
 
   // Insert dummy friends data for Jane Smith
   db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 1, 'John Doe', 'Inspiring runner!')`);

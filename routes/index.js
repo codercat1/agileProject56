@@ -17,11 +17,6 @@ router.get('/activities', (req, res) => {
   res.render('activities');
 });
 
-// All Topics
-router.get('/all-topics', (req, res) => {
-  res.render('all_topics');
-});
-
 // Contents
 router.get('/contents', (req, res) => {
   res.render('contents');
@@ -217,71 +212,141 @@ module.exports = router;
 
 // Mental Health Page
 router.get('/mental-health', (req, res) => {
-  const articles = [
-      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
-      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
-      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
-  ];
+  // Query to fetch published articles related to physical health, ordered by publication date
+  const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "mental-health" ORDER BY published_at DESC';
+  
+  db.all(articlesSql, (err, articlesRows) => {
+      if (err) {
+          // Log and handle database error
+          console.error(err.message);
+          res.status(500).send('Internal Server Error');
+          return;
+      }
 
-  res.render('contents/mental-health', {
-      heading: 'Mental Health',
-      articles
+      // Map database query results to a more structured format for rendering
+      const articles = articlesRows.map(row => ({
+          id: row.id,
+          title: row.title,
+          publicationDate: row.published_at
+      }));
+
+      // Render the physical health page with fetched data
+      res.render('contents/mental-health', {
+          heading: 'Mental Health',
+          articles
+      });
   });
 });
 
 // General Disease Page
 router.get('/general-disease', (req, res) => {
-  const articles = [
-      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
-      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
-      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
-  ];
+  // Query to fetch published articles related to physical health, ordered by publication date
+  const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "general-disease" ORDER BY published_at DESC';
+  
+  db.all(articlesSql, (err, articlesRows) => {
+      if (err) {
+          // Log and handle database error
+          console.error(err.message);
+          res.status(500).send('Internal Server Error');
+          return;
+      }
 
-  res.render('contents/general-disease', {
-      heading: 'General Disease',
-      articles
+      // Map database query results to a more structured format for rendering
+      const articles = articlesRows.map(row => ({
+          id: row.id,
+          title: row.title,
+          publicationDate: row.published_at
+      }));
+
+      // Render the physical health page with fetched data
+      res.render('contents/general-disease', {
+          heading: 'General Disease',
+          articles
+      });
   });
 });
 
-// Physical Health Page
+// Human Body Page
 router.get('/human-body', (req, res) => {
-  const articles = [
-      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
-      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
-      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
-  ];
+  // Query to fetch published articles related to physical health, ordered by publication date
+  const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "human-body" ORDER BY published_at DESC';
+  
+  db.all(articlesSql, (err, articlesRows) => {
+      if (err) {
+          // Log and handle database error
+          console.error(err.message);
+          res.status(500).send('Internal Server Error');
+          return;
+      }
 
-  res.render('contents/human-body', {
-      heading: 'Human Body',
-      articles
+      // Map database query results to a more structured format for rendering
+      const articles = articlesRows.map(row => ({
+          id: row.id,
+          title: row.title,
+          publicationDate: row.published_at
+      }));
+
+      // Render the physical health page with fetched data
+      res.render('contents/human-body', {
+          heading: 'Human Body',
+          articles
+      });
   });
 });
 
-// Physical Health Page
+// Medicine Page
 router.get('/medicine', (req, res) => {
-  const articles = [
-      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
-      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
-      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
-  ];
+  // Query to fetch published articles related to physical health, ordered by publication date
+  const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "medicine" ORDER BY published_at DESC';
+  
+  db.all(articlesSql, (err, articlesRows) => {
+      if (err) {
+          // Log and handle database error
+          console.error(err.message);
+          res.status(500).send('Internal Server Error');
+          return;
+      }
 
-  res.render('contents/medicine', {
-      heading: 'Medicine',
-      articles
+      // Map database query results to a more structured format for rendering
+      const articles = articlesRows.map(row => ({
+          id: row.id,
+          title: row.title,
+          publicationDate: row.published_at
+      }));
+
+      // Render the physical health page with fetched data
+      res.render('contents/medicine', {
+          heading: 'Medicine',
+          articles
+      });
   });
 });
 
-// Physical Health Page
+// Fitness Page
 router.get('/fitness', (req, res) => {
-  const articles = [
-      { id: 1, title: 'Benefits of Exercise', publicationDate: '2024-07-15T12:00:00Z' },
-      { id: 2, title: 'Healthy Eating Habits', publicationDate: '2024-08-01T15:30:00Z' },
-      { id: 3, title: 'Mental Health and Fitness', publicationDate: '2024-08-05T10:00:00Z' }
-  ];
+  // Query to fetch published articles related to physical health, ordered by publication date
+  const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "fitness" ORDER BY published_at DESC';
+  
+  db.all(articlesSql, (err, articlesRows) => {
+      if (err) {
+          // Log and handle database error
+          console.error(err.message);
+          res.status(500).send('Internal Server Error');
+          return;
+      }
 
-  res.render('contents/fitness', {
-      heading: 'fitness',
-      articles
+      // Map database query results to a more structured format for rendering
+      const articles = articlesRows.map(row => ({
+          id: row.id,
+          title: row.title,
+          publicationDate: row.published_at
+      }));
+
+      // Render the physical health page with fetched data
+      res.render('contents/fitness', {
+          heading: 'Fitness',
+          articles
+      });
   });
 });
 

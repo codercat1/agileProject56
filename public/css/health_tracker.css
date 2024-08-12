@@ -1,4 +1,12 @@
 /* Health Tracker Page Styles */
+
+.chart-container {
+    width: 70%;
+    margin: 0 auto;
+    padding-top: 50px;
+}
+
+
 .health-tracker {
     text-align: center;
     padding: 20px;
