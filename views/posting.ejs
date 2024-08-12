@@ -60,7 +60,7 @@
                         <% posts.forEach(post => { %>
                             <div class="post">
                                 <img src="/images/post1.jpg" alt="Post Image">
-                                <p><strong><%= post.username %></strong></p>
+                                <p><strong><%= post.username %></strong> | <%= new Date(post.published_at).toLocaleString() %></p>
                                 <h2><%= post.title %></h2>
                                 <p><%= post.content %> #topic</p>
                             </div>
@@ -69,17 +69,17 @@
                         <p>No published articles found.</p>
                     <% } %>
                 </div>
-            </div>
-            <div class="recommended-communities">
-                <h3>Recommended Communities</h3>
-                <ul>
-                    <li><a href="#">Community 1</a><button>Join</button></li>
-                    <li><a href="#">Community 2</a><button>Join</button></li>
-                    <li><a href="#">Community 3</a><button>Join</button></li>
-                    <li><a href="#">Community 4</a><button>Join</button></li>
-                    <li><a href="#">Community 5</a><button>Join</button></li>
-                    <li><a href="#">Community 6</a><button>Join</button></li>
-                </ul>
+                <div class="recommended-communities">
+                    <h3>Recommended Communities</h3>
+                    <ul>
+                        <li><a href="#">Community 1</a><button>Join</button></li>
+                        <li><a href="#">Community 2</a><button>Join</button></li>
+                        <li><a href="#">Community 3</a><button>Join</button></li>
+                        <li><a href="#">Community 4</a><button>Join</button></li>
+                        <li><a href="#">Community 5</a><button>Join</button></li>
+                        <li><a href="#">Community 6</a><button>Join</button></li>
+                    </ul>
+                </div>
             </div>
         </section>
     </div>

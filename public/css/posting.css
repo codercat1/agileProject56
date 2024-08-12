@@ -23,12 +23,11 @@
 }
 
 .posts-grid {
-    flex: 3; /* Take more space */
+    flex: 3; /* Takes up more space */
     display: flex;
     flex-direction: column;
     gap: 20px;
     max-width: 100%;
-    margin: 0 auto 20px;
 }
 
 .post {
@@ -55,14 +54,12 @@
 }
 
 .recommended-communities {
-    flex: 1; /* Take less space */
+    flex: 1; /* Takes up less space */
     padding: 20px;
     background-color: #1a237e; /* Background color similar to design */
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     color: white; /* Ensure text is visible on dark background */
-    position: sticky;
-    top: 0; /* Keep it sticky at the top */
     max-height: 100vh; /* Ensure it doesn’t overflow the viewport */
     overflow-y: auto; /* Add scroll if content exceeds viewport height */
 }

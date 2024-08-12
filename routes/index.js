@@ -30,7 +30,7 @@ router.get('/contents', (req, res) => {
 
 // Posting
 router.get('/posting', (req, res) => {
-  db.all('SELECT * FROM posts ORDER BY created_at DESC', (err, posts) => {
+  db.all('SELECT * FROM posts ORDER BY published_at DESC', (err, posts) => {
     if (err) {
       console.error(err.message);
       return res.status(500).send('Database error');
@@ -41,9 +41,10 @@ router.get('/posting', (req, res) => {
 
 router.post('/posting', (req, res) => {
   const { title, body } = req.body;
-  const username = 'current_user'; // Replace with actual user logic
+  const username = req.session.username || 'default_username'; // Replace with actual user logic
+  const publishedAt = new Date().toISOString(); // Get current date and time
 
-  db.run('INSERT INTO posts (title, content, username) VALUES (?, ?, ?)', [title, body, username], (err) => {
+  db.run('INSERT INTO posts (title, content, username, published_at) VALUES (?, ?, ?, ?)', [title, body, username, publishedAt], (err) => {
       if (err) {
           return res.status(500).send(err.message);
       }
@@ -56,7 +57,7 @@ router.get('/top_discussion', (req, res) => {
   res.render('top_discussion');
 });
 
-// Login
+// Login page
 router.get('/login', (req, res) => {
   res.render('login');
 });
@@ -83,6 +84,7 @@ router.post('/signup', async (req, res) => {
       }
     } else {
       req.session.userId = this.lastID;
+      req.session.username = username;
       res.redirect(`/profile/${this.lastID}`);
     }
   });
@@ -98,6 +100,7 @@ router.post('/login', (req, res) => {
       res.status(500).send('Database error');
     } else if (row && await bcrypt.compare(password, row.password)) {
       req.session.userId = row.id;
+      req.session.username = row.username; // Store username in session
       res.redirect(`/profile/${row.id}`);
     } else {
       res.status(401).send('Invalid email or password');
