@@ -17,11 +17,6 @@ router.get('/activities', (req, res) => {
   res.render('activities');
 });
 
-// All Topics
-router.get('/all-topics', (req, res) => {
-  res.render('all_topics');
-});
-
 // Contents
 router.get('/contents', (req, res) => {
   res.render('contents');
