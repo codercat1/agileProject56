@@ -30,9 +30,26 @@ router.get('/contents', (req, res) => {
 
 // Posting
 router.get('/posting', (req, res) => {
-  res.render('posting');
+  db.all('SELECT * FROM posts ORDER BY created_at DESC', (err, posts) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    res.render('posting', { posts });
+  });
 });
 
+router.post('/posting', (req, res) => {
+  const { title, body } = req.body;
+  const username = 'current_user'; // Replace with actual user logic
+
+  db.run('INSERT INTO posts (title, content, username) VALUES (?, ?, ?)', [title, body, username], (err) => {
+      if (err) {
+          return res.status(500).send(err.message);
+      }
+      res.redirect('/posting');
+  });
+});
 
 // Top Discussion
 router.get('/top_discussion', (req, res) => {

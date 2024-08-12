@@ -57,6 +57,34 @@ db.serialize(async () => {
     )
   `);
 
+  // Create posts table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS posts (
+      post_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL,
+      title TEXT NOT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      published_at DATETIME,
+      content TEXT NOT NULL,
+      likes INTEGER DEFAULT 0,
+      views INTEGER DEFAULT 0
+    )
+  `);
+
+  // Create comments table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS comments (
+      comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      post_id INTEGER NOT NULL,
+      commenter_name TEXT NOT NULL,
+      comment_text TEXT NOT NULL,
+      comment_date DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `);
+
+  // Insert dummy data for posts
+  db.run(`INSERT INTO posts (username, title, content) VALUES ('Junjie', 'Test Title', 'Testing')`);
+
   // Insert dummy users
   const hashedPassword1 = await bcrypt.hash('password1', 10);
   const hashedPassword2 = await bcrypt.hash('password2', 10);
