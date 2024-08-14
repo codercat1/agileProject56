@@ -3,6 +3,24 @@ const bcrypt = require('bcrypt');
 const router = express.Router();
 const db = require('../db'); // Assuming you created db.js for modularization
 
+// Middleware to inject user data into all routes
+router.use((req, res, next) => {
+  if (req.session.userId) {
+    db.get('SELECT * FROM users WHERE id = ?', [req.session.userId], (err, userRow) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      res.locals.user = userRow;
+      next();
+    });
+  } else {
+    next();
+  }
+});
+
+
+
 // Home page
 router.get('/', (req, res) => {
   if (!req.session.userId) {
