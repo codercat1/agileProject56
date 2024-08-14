@@ -82,6 +82,18 @@ db.serialize(async () => {
     )
   `);
 
+  // Create likes table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS likes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      post_id INTEGER,
+      user_id INTEGER,
+      FOREIGN KEY (post_id) REFERENCES posts(post_id),
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      UNIQUE (post_id, user_id)
+    )
+  `);
+
   // Insert dummy data for posts
   db.run(`INSERT INTO posts (username, title, content, published_at) VALUES ('Junjie', 'Test Title', 'Testing', ?)`);
 

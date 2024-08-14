@@ -57,6 +57,10 @@
                                 <p><strong><%= post.username %></strong> | <%= new Date(post.published_at).toLocaleString() %></p>
                                 <h2><%= post.title %></h2>
                                 <p><%= post.content %> #topic</p>
+                                <form action="/post/<%= post.post_id %>/like" method="POST" style="display:inline;">
+                                    <button type="submit">Like</button>
+                                </form>
+                                <p>Likes: <%= post.likes %></p>
 
                                 <!-- Comments Section -->
                                 <div class="comments">
@@ -95,5 +99,35 @@
     <footer>
         <p>&copy; 2024 Healro. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          document.querySelectorAll('.like-button').forEach(button => {
+            button.addEventListener('click', () => {
+              const postId = button.getAttribute('data-post-id');
+      
+              fetch(`/post/${postId}/like`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                credentials: 'same-origin' // Include cookies for session management
+              })
+              .then(response => response.json())
+              .then(data => {
+                alert(data.message); // Show a simple alert or you can customize this
+                if (data.likes !== undefined) {
+                  // Update the like count
+                  const likeCount = button.nextElementSibling;
+                  likeCount.textContent = `${data.likes} Likes`;
+                }
+              })
+              .catch(error => {
+                console.error('Error:', error);
+              });
+            });
+          });
+        });
+      </script>
 </body>
 </html>

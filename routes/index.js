@@ -73,6 +73,41 @@ router.post('/post/:post_id/comment', (req, res) => {
   });
 });
 
+// Likes route
+router.post('/post/:post_id/like', (req, res) => {
+  const postId = req.params.post_id;
+  const userId = req.session.userId;  // Assuming you have user sessions
+
+  // Check if user has already liked the post
+  db.get('SELECT * FROM likes WHERE post_id = ? AND user_id = ?', [postId, userId], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    if (row) {
+      // User has already liked this post
+      return res.status(400).send('You have already liked this post');
+    }
+
+    // Add like to the database
+    db.run('INSERT INTO likes (post_id, user_id) VALUES (?, ?)', [postId, userId], (err) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+
+      // Increment like count on the post
+      db.run('UPDATE posts SET likes = likes + 1 WHERE post_id = ?', [postId], (err) => {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send('Database error');
+        }
+        res.redirect('/posting');
+      });
+    });
+  });
+});
+
 // Top Discussion
 router.get('/top_discussion', (req, res) => {
   res.render('top_discussion');
