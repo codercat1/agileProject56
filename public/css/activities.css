@@ -2,28 +2,29 @@
     display: flex;
 }
 
-.activities-container .sidebar {
+/*custom-sidenar is for the menu*/
+.activities-container .custom-sidebar {
     width: 250px;
     background-color: #333;
     padding: 15px;
     color: #fff;
 }
 
-.activities-container .sidebar h1 {
+.activities-container .custom-sidebar h1 {
     font-size: 24px;
     margin-bottom: 20px;
 }
 
-.activities-container .sidebar ul {
+.activities-container .custom-sidebar ul {
     list-style: none;
     padding: 0;
 }
 
-.activities-container .sidebar ul li {
+.activities-container .custom-sidebar ul li {
     margin-bottom: 10px;
 }
 
-.activities-container .sidebar ul li a {
+.activities-container .custom-sidebar ul li a {
     color: #fff;
     text-decoration: none;
 }
@@ -115,4 +116,63 @@
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
     gap: 10px;
     text-align: center;
+}
+
+/* ---------------------------Style for the menu icon-------------------------------------*/
+.menu-icon {
+    font-size: 30px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+/* Sidebar starts off hidden */
+.custom-sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Hidden offscreen */
+    width: 250px;
+    height: 100%;
+    background-color: #f0f2f5;
+    padding: 20px;
+    transition: left 0.3s ease;
+    z-index: 1001;
+}
+
+/* When hovering over the menu icon or the sidebar, the sidebar slides into view */
+.header-container:hover + .activities-container .custom-sidebar,
+.custom-sidebar:hover {
+    left: 0;
+}
+
+/* Sidebar styling */
+.custom-sidebar h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.custom-sidebar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.custom-sidebar ul li {
+    margin-bottom: 10px;
+}
+
+.custom-sidebar ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+/* Adjust the main content to start after the sidebar */
+.main-content {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+/* When the sidebar is visible, the main content shifts */
+.header-container:hover + .activities-container .main-content,
+.custom-sidebar:hover + .main-content {
+    margin-left: 250px;
 }
