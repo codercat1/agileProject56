@@ -242,7 +242,7 @@ router.post('/health_tracker/:id', (req, res) => {
 });
 
 // Physical Health Page
-router.get('/physical-health', (req, res) => {
+router.get('/contents/physical-health', (req, res) => {
   // Query to fetch published articles related to physical health, ordered by publication date
   const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "physical-health" ORDER BY published_at DESC';
   
@@ -269,10 +269,8 @@ router.get('/physical-health', (req, res) => {
   });
 });
 
-module.exports = router;
-
 // Mental Health Page
-router.get('/mental-health', (req, res) => {
+router.get('/contents/mental-health', (req, res) => {
   // Query to fetch published articles related to physical health, ordered by publication date
   const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "mental-health" ORDER BY published_at DESC';
   
@@ -300,7 +298,7 @@ router.get('/mental-health', (req, res) => {
 });
 
 // General Disease Page
-router.get('/general-disease', (req, res) => {
+router.get('/contents/general-disease', (req, res) => {
   // Query to fetch published articles related to physical health, ordered by publication date
   const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "general-disease" ORDER BY published_at DESC';
   
@@ -328,7 +326,7 @@ router.get('/general-disease', (req, res) => {
 });
 
 // Human Body Page
-router.get('/human-body', (req, res) => {
+router.get('/contents/human-body', (req, res) => {
   // Query to fetch published articles related to physical health, ordered by publication date
   const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "human-body" ORDER BY published_at DESC';
   
@@ -356,7 +354,7 @@ router.get('/human-body', (req, res) => {
 });
 
 // Medicine Page
-router.get('/medicine', (req, res) => {
+router.get('/contents/medicine', (req, res) => {
   // Query to fetch published articles related to physical health, ordered by publication date
   const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "medicine" ORDER BY published_at DESC';
   
@@ -384,7 +382,7 @@ router.get('/medicine', (req, res) => {
 });
 
 // Fitness Page
-router.get('/fitness', (req, res) => {
+router.get('/contents/fitness', (req, res) => {
   // Query to fetch published articles related to physical health, ordered by publication date
   const articlesSql = 'SELECT id, title, published_at FROM articles WHERE category = "fitness" ORDER BY published_at DESC';
   

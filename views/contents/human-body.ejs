@@ -12,7 +12,6 @@
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/profile/<%= user.id %>">Profile</a></li>
                 <li><a href="/activities">Activities</a></li>
                 <li><a href="/contents">Contents</a></li>
                 <li><a href="/posting">Community</a></li>
@@ -42,7 +41,7 @@
                     <% if (articles.length > 0) { %>
                         <% articles.forEach(article => { %>
                             <tr>
-                                <td><a href="/reader-article/<%= article.id %>"><%= article.title %></a></td>
+                                <td><a href="/contents/human-body/<%= article.id %>"><%= article.title %></a></td>
                                 <td><%= new Date(article.publicationDate).toLocaleString() %></td>
                             </tr>
                         <% }); %>
