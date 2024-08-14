@@ -23,14 +23,22 @@ router.get('/contents', (req, res) => {
 });
 
 
-// Posting
+// Posting page
 router.get('/posting', (req, res) => {
   db.all('SELECT * FROM posts ORDER BY published_at DESC', (err, posts) => {
     if (err) {
       console.error(err.message);
       return res.status(500).send('Database error');
     }
-    res.render('posting', { posts });
+
+    db.all('SELECT * FROM comments ORDER BY comment_date ASC', (err, comments) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+
+      res.render('posting', { posts, comments });
+    });
   });
 });
 
@@ -44,6 +52,24 @@ router.post('/posting', (req, res) => {
           return res.status(500).send(err.message);
       }
       res.redirect('/posting');
+  });
+});
+
+// Comments Route
+router.post('/post/:post_id/comment', (req, res) => {
+  const postId = req.params.post_id;
+  const commenterName = req.session.username;  // Assuming you have user sessions
+  const commentText = req.body.comment_text;
+  const commentDate = new Date().toISOString();
+
+  const query = `INSERT INTO comments (post_id, commenter_name, comment_text, comment_date) VALUES (?, ?, ?, ?)`;
+  db.run(query, [postId, commenterName, commentText, commentDate], function (err) {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Error adding comment');
+    } else {
+      res.redirect('/posting');  // Redirect back to the posting page
+    }
   });
 });
 
