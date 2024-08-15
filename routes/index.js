@@ -428,6 +428,16 @@ router.get('/contents/fitness', (req, res) => {
   });
 });
 
+function isAdmin(req, res, next) {
+  if (req.session.role === 'admin') {
+    return next();
+  } else {
+    res.status(403).send('Forbidden: You do not have permission to access this page');
+  }
+}
+
+
+
 
 
 module.exports = router;
