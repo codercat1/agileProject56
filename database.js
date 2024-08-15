@@ -10,9 +10,12 @@ const db = new sqlite3.Database('./database.db', (err) => {
 });
 
 db.serialize(async () => {
-  // Create users table
+  // Drop the existing users table if it exists
+  db.run(`DROP TABLE IF EXISTS users`);
+
+  // Recreate the users table with the role column
   db.run(`
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT,
       email TEXT UNIQUE,
@@ -47,7 +50,7 @@ db.serialize(async () => {
     )
   `);
   
-  // create articles table for contents
+  // Create articles table for contents
   db.run(`
     CREATE TABLE IF NOT EXISTS articles (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -94,15 +97,19 @@ db.serialize(async () => {
     )
   `);
 
+  // Insert admin user
+  const hashedAdminPassword = await bcrypt.hash('admin_password', 10);
+  db.run(`INSERT INTO users (username, email, password, role) VALUES ('Admin', 'admin@example.com', ?, 'admin')`, [hashedAdminPassword]);
+
   // Insert dummy data for posts
-  db.run(`INSERT INTO posts (username, title, content, published_at) VALUES ('Junjie', 'Test Title', 'Testing', ?)`);
+  db.run(`INSERT INTO posts (username, title, content, published_at) VALUES ('Junjie', 'Test Title', 'Testing', ?)`, [new Date().toISOString()]);
 
   // Insert dummy users
   const hashedPassword1 = await bcrypt.hash('password1', 10);
   const hashedPassword2 = await bcrypt.hash('password2', 10);
-  db.run(`INSERT INTO users (username, email, password, user) VALUES ('John Doe', 'john@gmail.com', ?)`, [hashedPassword1]);
-  db.run(`INSERT INTO users (username, email, password, user) VALUES ('Jane Smith', 'jane@gmail.com', ?)`, [hashedPassword2]);
-  
+  db.run(`INSERT INTO users (username, email, password, role) VALUES ('John Doe', 'john@gmail.com', ?, 'user')`, [hashedPassword1]);
+  db.run(`INSERT INTO users (username, email, password, role) VALUES ('Jane Smith', 'jane@gmail.com', ?, 'user')`, [hashedPassword2]);
+
   // Insert dummy health data for John Doe
   db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (1, 2000, 8000, 45, 7)`);
   db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (1, 2200, 9000, 60, 6.5)`);
