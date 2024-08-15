@@ -175,6 +175,7 @@ router.post('/login', (req, res) => {
     } else if (row && await bcrypt.compare(password, row.password)) {
       req.session.userId = row.id;
       req.session.username = row.username; // Store username in session
+      req.session.role = row.role; // Store role in session
       res.redirect(`/profile/${row.id}`);
     } else {
       res.status(401).send('Invalid email or password');
