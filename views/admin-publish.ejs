@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Dynamic title based on whether article.id exists -->
+    <title><%= article.id ? 'Edit Article' : 'Create New Draft' %></title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <header>
+        <!-- Dynamic heading based on whether article.id exists -->
+        <h1><%= article.id ? 'Edit Article' : 'Create New Draft' %></h1>
+    </header>
+    <main>
+        <section class="article-details">
+            <!-- Display article details if article.id exists -->
+            <% if (article.id) { %>
+                <h2>Article Details</h2>
+                <p>Created: <%= new Date(article.created_at).toLocaleString() %></p>
+                <p>Last Modified: <%= new Date(article.last_modified).toLocaleString() %></p>
+            <% } %>
+        </section>
+        <section>
+            <!-- Form for editing or creating an article -->
+            <form action="/author-edit" method="POST">
+                <% if (article.id) { %>
+                    <!-- Include article ID as hidden input field if editing -->
+                    <input type="hidden" name="id" value="<%= article.id %>">
+                <% } %>
+                <div>
+                    <label for="title">Article Title:</label>
+                    <!-- Input field for article title with default value from article object -->
+                    <input type="text" id="title" name="title" value="<%= article.title || '' %>" required>
+                </div>
+                <div>
+                    <label for="content">Article Content:</label>
+                    <!-- Textarea for article content with default value from article object -->
+                    <textarea id="content" name="content" rows="10" required><%= article.content || '' %></textarea>
+                </div>
+                <!-- Submit button to save changes -->
+                <button type="submit">Submit Changes</button>
+            </form>
+        </section>
+    </main>
+    <footer>
+        <!-- Button to navigate back to author home page -->
+        <button onclick="location.href='/author-home'">Back to Author Home</button>
+    </footer>
+</body>
+</html>

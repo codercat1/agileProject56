@@ -428,6 +428,7 @@ router.get('/contents/fitness', (req, res) => {
   });
 });
 
+// Function to call create session for admin
 function isAdmin(req, res, next) {
   if (req.session.role === 'admin') {
     return next();
@@ -435,7 +436,6 @@ function isAdmin(req, res, next) {
     res.status(403).send('Forbidden: You do not have permission to access this page');
   }
 }
-
 
 
 

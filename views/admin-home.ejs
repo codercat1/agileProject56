@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Author Home Page</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <header>
+        <!-- Display dynamic heading and blog information -->
+        <h1><%= heading %></h1>
+        <h2><%= blogTitle %> by <%= authorName %></h2>
+        <!-- Button to navigate to author settings page -->
+        <button class="header-button" onclick="location.href='/author-settings'">Author Settings Page</button>
+    </header>
+    <main>
+        <section>
+            <h2>Published Articles</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <!-- Table headers for published articles -->
+                        <th>Title</th>
+                        <th>Created</th>
+                        <th>Published</th>
+                        <th>Last Modified</th>
+                        <th>Views</th>
+                        <th>Likes</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Check if there are published articles to display -->
+                    <% if (publishedArticles.length > 0) { %>
+                        <% publishedArticles.forEach(article => { %>
+                            <tr>
+                                <!-- Link to individual article for readers -->
+                                <td><a href="/reader-article/<%= article.id %>"><%= article.title %></a></td>
+                                <!-- Display dates in a readable format -->
+                                <td><%= new Date(article.created_at).toLocaleString() %></td>
+                                <td><%= new Date(article.published_at).toLocaleString() %></td>
+                                <td><%= new Date(article.last_modified).toLocaleString() %></td>
+                                <!-- Display article views and likes -->
+                                <td><%= article.views %></td>
+                                <td><%= article.likes %></td>
+                                <td>
+                                    <!-- Form to delete published article -->
+                                    <form action="/author-home/delete/<%= article.id %>" method="POST" style="display:inline;">
+                                        <button class="table-button delete-button" type="submit">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <!-- Display message if no published articles found -->
+                        <tr>
+                            <td colspan="7">No published articles found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </section>
+        <section>
+            <h2>Draft Articles</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <!-- Table headers for draft articles -->
+                        <th>Title</th>
+                        <th>Created</th>
+                        <th>Last Modified</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Check if there are draft articles to display -->
+                    <% if (draftArticles.length > 0) { %>
+                        <% draftArticles.forEach(article => { %>
+                            <tr>
+                                <!-- Link to edit draft article -->
+                                <td><a href="/author-edit/<%= article.id %>"><%= article.title %></a></td>
+                                <!-- Display dates in a readable format -->
+                                <td><%= new Date(article.created_at).toLocaleString() %></td>
+                                <td><%= new Date(article.last_modified).toLocaleString() %></td>
+                                <td>
+                                    <!-- Form to publish draft article -->
+                                    <form action="/author-home/publish/<%= article.id %>" method="POST" style="display:inline;">
+                                        <button class="table-button publish-button" type="submit">Publish</button>
+                                    </form>
+                                    <!-- Form to delete draft article -->
+                                    <form action="/author-home/delete/<%= article.id %>" method="POST" style="display:inline;">
+                                        <button class="table-button delete-button" type="submit">Delete</button>
+                                    </form>
+                                    <!-- Form to edit draft article -->
+                                    <form action="/author-edit/<%= article.id %>" method="GET" style="display:inline;">
+                                        <button class="table-button edit-button" type="submit">Edit</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <!-- Display message if no draft articles found -->
+                        <tr>
+                            <td colspan="4">No draft articles found.</td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </section>
+        
+    </main>
+    <footer>
+        <!-- Button to create a new draft article -->
+        <button onclick="location.href='/author-edit/'">Create new draft</button>
+        <!-- Button to navigate back to main home -->
+        <button onclick="location.href='/'">Back to Main Home</button>
+    </footer>
+</body>
+</html>
