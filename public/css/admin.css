@@ -1,4 +1,19 @@
 /* Admin Home Page Styles */
+
+.container {
+    width: 100%;
+    margin: 0 auto; /* Center the container */
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding-left: 50px; /* Adjust padding as needed */
+}
+
+h1 {
+    text-align: center;
+}
+
 .table-container {
     padding: 20px;
     margin-left: 250px; /* Adjust based on sidebar width */
@@ -61,4 +76,52 @@ td a:hover {
 .publish-button:hover,
 .edit-button:hover {
     background-color: #0056b3;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 600px; /* Optional: max width for the form */
+    margin-left: 450px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.form-group input, .form-group textarea, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: none; /* Prevent resizing */
+    width: 100%; /* Make sure it takes the full width of the form group */
+}
+
+.buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.buttons button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.buttons button.back {
+    background-color: #6c757d;
+}
+
+.buttons button:hover {
+    opacity: 0.9;
 }

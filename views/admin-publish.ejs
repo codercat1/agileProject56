@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
-    <title>Admin Publishing Page</title>
+    <title>Admin Home</title>
 </head>
 <body>
     <div class="sidebar">
@@ -29,6 +29,34 @@
                 </ul>
             </nav>
         </header>
+        <div class="container">
+            <h1>Publishing article</h1>
+            <form action="/submit" method="POST">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="contents">Contents:</label>
+                    <textarea id="contents" name="contents" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="category">Category:</label>
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected>Select a category</option>
+                        <option value="physical-health">Physical Health</option>
+                        <option value="mental-health">Mental Health</option>
+                        <option value="nutrition">Nutrition</option>
+                        <option value="fitness">Fitness</option>
+                        <!-- Add more categories as needed -->
+                    </select>
+                </div>
+                <div class="buttons">
+                    <button type="submit">Submit Changes</button>
+                    <a href="/admin/home" class="back"><button type="button">Back to Home</button></a>
+                </div>
+            </form>
+        </div>
     </div>
 </body>
 </html>
