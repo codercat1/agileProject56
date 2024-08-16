@@ -437,6 +437,13 @@ function isAdmin(req, res, next) {
   }
 }
 
+router.get('/admin/home', isAdmin, (req, res) => {
+  res.render('admin-home');
+});
+
+router.get('/admin/publish', isAdmin, (req, res) => {
+  res.render('admin-publish');
+});
 
 
 

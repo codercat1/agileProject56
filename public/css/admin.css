@@ -1,0 +1,64 @@
+/* Admin Home Page Styles */
+.table-container {
+    padding: 20px;
+    margin-left: 250px; /* Adjust based on sidebar width */
+    max-width: 1200px;
+    margin: 0 auto; /* Center the table */
+}
+
+.table-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+td {
+    background-color: #fff;
+}
+
+td a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+td a:hover {
+    text-decoration: underline;
+}
+
+/* Button Styles */
+.delete-button,
+.publish-button,
+.edit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-button:hover,
+.publish-button:hover,
+.edit-button:hover {
+    background-color: #0056b3;
+}
