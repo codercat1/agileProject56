@@ -62,21 +62,32 @@ td a:hover {
 /* Button Styles */
 .delete-button,
 .publish-button,
-.edit-button {
+.edit-button,
+.create-draft-button {
     background-color: #007bff;
     color: #fff;
     border: none;
-    padding: 8px 12px;
-    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
 }
 
 .delete-button:hover,
 .publish-button:hover,
-.edit-button:hover {
+.edit-button:hover,
+.create-draft-button:hover {
     background-color: #0056b3;
 }
+
+/* Center Align Button */
+.center-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
 
 .form-group {
     margin-bottom: 15px;
