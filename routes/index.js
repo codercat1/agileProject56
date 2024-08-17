@@ -60,18 +60,49 @@ router.get('/posting', (req, res) => {
   });
 });
 
+//OLD POSTING ROUTE for /posting
+// router.post('/posting', (req, res) => {
+//   const { title, body } = req.body;
+//   const username = req.session.username || 'default_username'; // Replace with actual user logic
+//   const publishedAt = new Date().toISOString(); // Get current date and time
+
+//   db.run('INSERT INTO posts (title, content, username, published_at) VALUES (?, ?, ?, ?)', [title, body, username, publishedAt], (err) => {
+//       if (err) {
+//           return res.status(500).send(err.message);
+//       }
+//       res.redirect('/posting');
+//   });
+// });
+
+// Updated Posting route to include user_id
 router.post('/posting', (req, res) => {
   const { title, body } = req.body;
-  const username = req.session.username || 'default_username'; // Replace with actual user logic
+  const userId = req.session.userId; // Get the user ID from the session
+  const username = req.session.username; // Get the username from the session
   const publishedAt = new Date().toISOString(); // Get current date and time
 
-  db.run('INSERT INTO posts (title, content, username, published_at) VALUES (?, ?, ?, ?)', [title, body, username, publishedAt], (err) => {
+  // Check if title and body are provided
+  if (!title || !body) {
+      return res.status(400).send('Title and body are required');
+  }
+
+  // Ensure user is authenticated
+  if (!userId) {
+    return res.status(401).send('User not authenticated');
+  }
+
+  db.run(
+    'INSERT INTO posts (user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?)',
+    [userId, title, body, username, publishedAt],
+    (err) => {
       if (err) {
-          return res.status(500).send(err.message);
+        return res.status(500).send(err.message);
       }
       res.redirect('/posting');
-  });
+    }
+  );
 });
+
 
 // Comments Route
 router.post('/post/:post_id/comment', (req, res) => {
@@ -194,7 +225,29 @@ router.post('/logout', (req, res) => {
 });
 
 
+
 // Profile route
+// router.get('/profile/:id', (req, res) => {
+//   const userId = req.params.id;
+
+//   db.get('SELECT * FROM users WHERE id = ?', [userId], (err, userRow) => {
+//     if (err) {
+//       console.error(err.message);
+//       res.status(500).send('Database error');
+//     } else {
+//       db.all('SELECT * FROM friends WHERE user_id = ?', [userId], (err, friendRows) => {
+//         if (err) {
+//           console.error(err.message);
+//           res.status(500).send('Database error');
+//         } else {
+//           res.render('profile', { user: userRow, friends: friendRows });
+//         }
+//       });
+//     }
+//   });
+// });
+
+//Updated Profile route so there's a list of posts from the specific user
 router.get('/profile/:id', (req, res) => {
   const userId = req.params.id;
 
@@ -203,7 +256,7 @@ router.get('/profile/:id', (req, res) => {
       console.error(err.message);
       res.status(500).send('Database error');
     } else {
-      db.all('SELECT * FROM health_stats WHERE user_id = ?', [userId], (err, healthRows) => {
+      db.all('SELECT * FROM posts WHERE user_id = ? ORDER BY published_at DESC', [userId], (err, userPosts) => {
         if (err) {
           console.error(err.message);
           res.status(500).send('Database error');
@@ -213,7 +266,7 @@ router.get('/profile/:id', (req, res) => {
               console.error(err.message);
               res.status(500).send('Database error');
             } else {
-              res.render('profile', { user: userRow, healthStats: healthRows, friends: friendRows });
+              res.render('profile', { user: userRow, posts: userPosts, friends: friendRows });
             }
           });
         }
@@ -221,6 +274,7 @@ router.get('/profile/:id', (req, res) => {
     }
   });
 });
+
 
 // Health Tracker route
 router.get('/health_tracker/:id', (req, res) => {
@@ -231,18 +285,27 @@ router.get('/health_tracker/:id', (req, res) => {
       console.error(err.message);
       res.status(500).send('Database error');
     } else {
-      db.get('SELECT * FROM health_stats WHERE user_id = ? ORDER BY id DESC LIMIT 1', [userId], (err, statsRow) => {
+      db.all('SELECT * FROM health_stats WHERE user_id = ? ORDER BY id DESC', [userId], (err, healthRows) => {
         if (err) {
           console.error(err.message);
           res.status(500).send('Database error');
         } else {
-          const stats = statsRow || { calories: 0, steps: 0, mvpa: 0, sleep: 0 };
-          res.render('health_tracker', { user: userRow, stats });
+          const stats = healthRows[0] || { calories: 0, steps: 0, mvpa: 0, sleep: 0 };
+          db.all('SELECT * FROM friends WHERE user_id = ?', [userId], (err, friendRows) => {
+            if (err) {
+              console.error(err.message);
+              res.status(500).send('Database error');
+            } else {
+              res.render('health_tracker', { user: userRow, stats, healthStats: healthRows, friends: friendRows });
+            }
+          });
         }
       });
     }
   });
 });
+
+
 
 // Handle form submission for health data
 router.post('/health_tracker/:id', (req, res) => {

@@ -1,0 +1,190 @@
+    <!-- Place the script just before the closing body tag -->
+<script>
+    const ctx = document.getElementById('myChart').getContext('2d');
+    const myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Calories', '', 'Steps', '', 'MVPA', '', 'Sleep', ''],
+            datasets: [{
+                data: [
+                    Math.min((<%= stats.calories %> / 2000) * 45, 45),  // Calories: Cap at 45 degrees
+                    45 - Math.min((<%= stats.calories %> / 2000) * 45, 45), // Grey remainder
+                    Math.min((<%= stats.steps %> / 5000) * 45, 45),     // Steps: Cap at 45 degrees
+                    45 - Math.min((<%= stats.steps %> / 5000) * 45, 45), // Grey remainder
+                    Math.min((<%= stats.mvpa %> / 30) * 45, 45),        // MVPA: Cap at 45 degrees
+                    45 - Math.min((<%= stats.mvpa %> / 30) * 45, 45), // Grey remainder
+                    Math.min((<%= stats.sleep %> / 7) * 45, 45),         // Sleep: Cap at 45 degrees
+                    45 - Math.min((<%= stats.sleep %> / 7) * 45, 45), // Grey remainder
+                ],
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)',  // Calories (Red)
+                    'rgba(192, 192, 192, 0.2)',   // Grey remainder
+                    'rgba(54, 162, 235, 0.2)',  // Steps (Blue)
+                    'rgba(192, 192, 192, 0.2)',   // Grey remainder
+                    'rgba(255, 206, 86, 0.2)',  // MVPA (Yellow)
+                    'rgba(192, 192, 192, 0.2)',   // Grey remainder
+                    'rgba(75, 192, 192, 0.2)',  // Sleep (Green)
+                    'rgba(192, 192, 192, 0.2)',   // Grey remainder
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',  // Calories (Red)
+                    'rgba(255, 255, 255, 0)', // Transparent border for remainder
+                    'rgba(54, 162, 235, 1)',  // Steps (Blue)
+                    'rgba(255, 255, 255, 0)', // Transparent border for remainder
+                    'rgba(255, 206, 86, 1)',  // MVPA (Yellow)
+                    'rgba(255, 255, 255, 0)', // Transparent border for remainder
+                    'rgba(75, 192, 192, 1)',  // Sleep (Green)
+                    'rgba(255, 255, 255, 0)', // Transparent border for remainder
+                ],
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            rotation: 270,  // Start from the top
+            circumference: 180,  // Half doughnut (180 degrees)
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            if (context.label === '') {
+                                return null; // Don't show tooltip for grey remainder segments
+                            }
+                            
+                            const labelIndex = context.dataIndex / 2;
+                            const labels = [
+                                `<%= stats.calories %> Calories`,
+                                `<%= stats.steps %> Steps`,
+                                `<%= stats.mvpa %> min MVPA`,
+                                `<%= stats.sleep %> hours Sleep`,
+                            ];
+                            return labels[Math.floor(labelIndex)];
+                        }
+                    }
+                },
+                legend: {
+                    labels: {
+                        filter: function(legendItem, chartData) {
+                            // Only show legend for non-remainder segments
+                            return chartData.labels[legendItem.index] !== '';
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
+
+
+old profile:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>User Profile</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Healro</h2>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/profile/<%= user.id %>">Profile</a></li>
+                <li><a href="/activities">Activities</a></li>
+                <li><a href="/contents">Contents</a></li>
+                <li><a href="/posting">Community</a></li>
+                <li><a href="/top_discussion">Top Discussion</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Healro</h1>
+            <nav>
+                <ul>
+                    <li><form action="/logout" method="post" style="display:inline;"><button type="submit">Log Off</button></form></li>
+                </ul>
+            </nav>
+        </header>
+        <section class="user-profile">
+            <div class="profile-header">
+                <img src="/images/user-profile.jpg" alt="Profile Picture" class="profile-picture">
+                <h2><%= user.username %></h2>
+                <p>000,000 Followers</p>
+            </div>
+            <div class="profile-content">
+                <div class="posts">
+                    <!-- Example Post -->
+                    <% healthStats.forEach(stat => { %>
+                    <div class="post">
+                        <p><strong><%= user.username %></strong> - Calories: <%= stat.calories %>, Steps: <%= stat.steps %>, MVPA: <%= stat.mvpa %>, Sleep: <%= stat.sleep %> hours</p>
+                    </div>
+                    <% }) %>
+                </div>
+                <div class="profile-info">
+                    <h3>Profile Info</h3>
+                    <p><strong>Name:</strong> <%= user.username %></p>
+                    <p><strong>Email:</strong> <%= user.email %></p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+
+
+index.js 
+// Profile route
+router.get('/profile/:id', (req, res) => {
+  const userId = req.params.id;
+
+  db.get('SELECT * FROM users WHERE id = ?', [userId], (err, userRow) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Database error');
+    } else {
+      db.all('SELECT * FROM health_stats WHERE user_id = ?', [userId], (err, healthRows) => {
+        if (err) {
+          console.error(err.message);
+          res.status(500).send('Database error');
+        } else {
+          db.all('SELECT * FROM friends WHERE user_id = ?', [userId], (err, friendRows) => {
+            if (err) {
+              console.error(err.message);
+              res.status(500).send('Database error');
+            } else {
+              res.render('profile', { user: userRow, healthStats: healthRows, friends: friendRows });
+            }
+          });
+        }
+      });
+    }
+  });
+});
+
+// Health Tracker route
+router.get('/health_tracker/:id', (req, res) => {
+  const userId = req.params.id;
+
+  db.get('SELECT * FROM users WHERE id = ?', [userId], (err, userRow) => {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Database error');
+    } else {
+      db.get('SELECT * FROM health_stats WHERE user_id = ? ORDER BY id DESC LIMIT 1', [userId], (err, statsRow) => {
+        if (err) {
+          console.error(err.message);
+          res.status(500).send('Database error');
+        } else {
+          const stats = statsRow || { calories: 0, steps: 0, mvpa: 0, sleep: 0 };
+          res.render('health_tracker', { user: userRow, stats });
+        }
+      });
+    }
+  });
+});

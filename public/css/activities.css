@@ -167,7 +167,7 @@
 
 /* Adjust the main content to start after the sidebar */
 .main-content {
-    margin-left: 250px;
+    /* margin-left: 250px; */
     transition: margin-left 0.3s ease;
 }
 

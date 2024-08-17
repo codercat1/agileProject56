@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -37,17 +37,81 @@
             </div>
             <div class="profile-content">
                 <div class="posts">
-                    <!-- Example Post -->
-                    <% healthStats.forEach(stat => { %>
-                    <div class="post">
-                        <p><strong><%= user.username %></strong> - Calories: <%= stat.calories %>, Steps: <%= stat.steps %>, MVPA: <%= stat.mvpa %>, Sleep: <%= stat.sleep %> hours</p>
-                    </div>
-                    <% }) %>
+                    <h3>Posts</h3>
+                    <ul>
+                        <li><a href="/posting">Post 1</a></li>
+                        <li><a href="/posting">Post 2</a></li>
+                        <li><a href="/posting">Post 3</a></li>
+                        <li><a href="/posting">Post 4</a></li>
+                        <li><a href="/posting">Post 5</a></li>
+                    </ul>
                 </div>
                 <div class="profile-info">
                     <h3>Profile Info</h3>
                     <p><strong>Name:</strong> <%= user.username %></p>
                     <p><strong>Email:</strong> <%= user.email %></p>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>User Profile</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Healro</h2>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/profile/<%= user.id %>">Profile</a></li>
+                <li><a href="/activities">Activities</a></li>
+                <li><a href="/contents">Contents</a></li>
+                <li><a href="/posting">Community</a></li>
+                <li><a href="/top_discussion">Top Discussion</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Healro</h1>
+            <nav>
+                <ul>
+                    <li><form action="/logout" method="post" style="display:inline;"><button type="submit">Log Off</button></form></li>
+                </ul>
+            </nav>
+        </header>
+        <section class="user-profile">
+            <div class="profile-header">
+                <img src="/images/user-profile.jpg" alt="Profile Picture" class="profile-picture">
+                <h2><%= user.username %></h2>
+                <p>000,000 Followers</p>
+            </div>
+            <div class="profile-content">
+                <div class="profile-info">
+                    <h3>Profile Info</h3>
+                    <p><strong>Name:</strong> <%= user.username %></p>
+                    <p><strong>Email:</strong> <%= user.email %></p>
+                </div>
+                <div class="posts">
+                    <h3>Your Posts</h3>
+                    <% if (posts.length > 0) { %>
+                        <% posts.forEach(post => { %>
+                            <div class="post">
+                                <h4><%= post.title %></h4>
+                                <p><%= post.content %></p>
+                                <p><small><%= new Date(post.published_at).toLocaleString() %></small></p>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>You haven't posted anything yet.</p>
+                    <% } %>
                 </div>
             </div>
         </section>
