@@ -123,15 +123,16 @@
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)'
                     ],
-                    borderWidth: 1
-                }]
+                    borderWidth: 2
+                }]  
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                // rotation: -Math.PI, // Start at 9 o'clock
-                // circumference: Math.PI, // Only show half of the doughnut (180 degrees)
+                circumference: 180,
+                rotation:270,
                 // cutout: '50%', // Doughnut instead of pie chart
+                
             }
         });
     </script>
