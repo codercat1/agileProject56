@@ -437,9 +437,34 @@ function isAdmin(req, res, next) {
   }
 }
 
+// Route to render the admin home page
 router.get('/admin/home', isAdmin, (req, res) => {
-  res.render('admin-home');
+  const query = `SELECT id, title, category, content, published_at FROM articles ORDER BY published_at DESC`;
+
+  db.all(query, [], (err, articles) => {
+    if (err) {
+      return res.status(500).send(`Internal Server Error: ${err.message}`);
+    }
+
+    res.render('admin-home', { user: req.session.user, articles });
+  });
 });
+
+// Route to handle article deletion
+router.post('/admin/delete/:id', isAdmin, (req, res) => {
+  const articleId = req.params.id;
+
+  const deleteQuery = `DELETE FROM articles WHERE id = ?`;
+
+  db.run(deleteQuery, articleId, function(err) {
+    if (err) {
+      return res.status(500).send(`Internal Server Error: ${err.message}`);
+    }
+
+    res.redirect('/admin/home');
+  });
+});
+
 
 // Admin Publish GET Route
 router.get('/admin/publish', isAdmin, (req, res) => {
