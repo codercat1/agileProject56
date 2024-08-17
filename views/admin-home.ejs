@@ -12,7 +12,6 @@
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/profile/<%= user.id %>">Profile</a></li>
                 <li><a href="/activities">Activities</a></li>
                 <li><a href="/contents">Contents</a></li>
                 <li><a href="/posting">Community</a></li>
@@ -25,7 +24,11 @@
             <h1>Healro</h1>
             <nav>
                 <ul>
-                    <li><form action="/logout" method="post" style="display:inline;"><button type="submit">Log Off</button></form></li>
+                    <li>
+                        <form action="/logout" method="post" style="display:inline;">
+                            <button type="submit">Log Off</button>
+                        </form>
+                    </li>
                 </ul>
             </nav>
         </header>
@@ -35,45 +38,30 @@
                 <thead>
                     <tr>
                         <th>Title</th>
-                        <th>Created</th>
                         <th>Published</th>
+                        <th>Category</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Published Articles Rows -->
-                    <tr>
-                        <td><a href="#">Sample Title</a></td>
-                        <td>2024-08-16 10:00 AM</td>
-                        <td>2024-08-16 11:00 AM</td>
-                        <td>
-                            <button class="delete-button">Delete</button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <h2>Draft Articles</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Title</th>
-                        <th>Created</th>
-                        <th>Last Modified</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Draft Articles Rows -->
-                    <tr>
-                        <td><a href="#">Draft Title</a></td>
-                        <td>2024-08-16 09:00 AM</td>
-                        <td>2024-08-16 09:30 AM</td>
-                        <td>
-                            <button class="publish-button">Publish</button>
-                            <button class="edit-button">Edit</button>
-                            <button class="delete-button">Delete</button>
-                        </td>
-                    </tr>
+                    <% if (articles.length > 0) { %>
+                        <% articles.forEach(function(article) { %>
+                        <tr>
+                            <td><a href="/article/<%= article.id %>"><%= article.title %></a></td>
+                            <td><%= article.published_at ? new Date(article.published_at).toLocaleString() : "Unpublished" %></td>
+                            <td><%= article.category %></td>
+                            <td>
+                                <form action="/admin/delete/<%= article.id %>" method="post" style="display:inline;">
+                                    <button type="submit" class="delete-button">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    <% } else { %>
+                        <tr>
+                            <td colspan="4" style="text-align: center;">No published articles</td>
+                        </tr>
+                    <% } %>
                 </tbody>
             </table>
             <div class="center-button">
