@@ -107,35 +107,89 @@
         const myChart = new Chart(ctx, {
             type: 'doughnut',
             data: {
-                labels: ['Calories', 'Steps', 'MVPA', 'Sleep'],
+                labels: ['Calories', '', 'Steps', '', 'MVPA', '', 'Sleep', ''],
                 datasets: [{
-                    label: 'Health Stats',
-                    data: [<%= stats.calories %>, <%= stats.steps %>, <%= stats.mvpa %>, <%= stats.sleep %>],
+                    data: [
+                        Math.min((<%= stats.calories %> / 2000) * 45, 45),  // Calories: Cap at 45 degrees
+                        45 - Math.min((<%= stats.calories %> / 2000) * 45, 45), // Grey remainder
+                        Math.min((<%= stats.steps %> / 5000) * 45, 45),     // Steps: Cap at 45 degrees
+                        45 - Math.min((<%= stats.steps %> / 5000) * 45, 45), // Grey remainder
+                        Math.min((<%= stats.mvpa %> / 30) * 45, 45),        // MVPA: Cap at 45 degrees
+                        45 - Math.min((<%= stats.mvpa %> / 30) * 45, 45), // Grey remainder
+                        Math.min((<%= stats.sleep %> / 7) * 45, 45),         // Sleep: Cap at 45 degrees
+                        45 - Math.min((<%= stats.sleep %> / 7) * 45, 45), // Grey remainder
+                    ],
                     backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)'
+                        'rgba(255, 99, 132, 0.2)',  // Calories (Red)
+                        'rgba(192, 192, 192, 0.2)',   // Grey remainder
+                        'rgba(54, 162, 235, 0.2)',  // Steps (Blue)
+                        'rgba(192, 192, 192, 0.2)',   // Grey remainder
+                        'rgba(255, 206, 86, 0.2)',  // MVPA (Yellow)
+                        'rgba(192, 192, 192, 0.2)',   // Grey remainder
+                        'rgba(75, 192, 192, 0.2)',  // Sleep (Green)
+                        'rgba(192, 192, 192, 0.2)',   // Grey remainder
                     ],
                     borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)'
+                        'rgba(255, 99, 132, 1)',  // Calories (Red)
+                        'rgba(255, 255, 255, 0)', // Transparent border for remainder
+                        'rgba(54, 162, 235, 1)',  // Steps (Blue)
+                        'rgba(255, 255, 255, 0)', // Transparent border for remainder
+                        'rgba(255, 206, 86, 1)',  // MVPA (Yellow)
+                        'rgba(255, 255, 255, 0)', // Transparent border for remainder
+                        'rgba(75, 192, 192, 1)',  // Sleep (Green)
+                        'rgba(255, 255, 255, 0)', // Transparent border for remainder
                     ],
                     borderWidth: 2
-                }]  
+                }]
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                circumference: 180,
-                rotation:270,
-                // cutout: '50%', // Doughnut instead of pie chart
-                
+                rotation: 270,  // Start from the top
+                circumference: 180,  // Half doughnut (180 degrees)
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                // Hide tooltip for grey remainder segments
+                                    if (!context.label) {
+                                    return null;
+                                }
+                                
+                                const labelIndex = context.dataIndex / 2;
+                                const labels = [
+                                    `<%= stats.calories %> Calories`,
+                                    `<%= stats.steps %> Steps`,
+                                    `<%= stats.mvpa %> Mins`,
+                                    `<%= stats.sleep %> Hours`,
+                                ];
+                                return labels[Math.floor(labelIndex)];
+                            }
+                        },
+                        // Hide the tooltip box if there's no data to display
+                        displayColors: false,
+                    },
+                    legend: {
+                        labels: {
+                            filter: function(legendItem, chartData) {
+                                // Only show legend for non-remainder segments
+                                return chartData.labels[legendItem.index] !== '';
+                            }
+                        }
+                    }
+                }
             }
         });
     </script>
+    
+
+    
+
+    
+    
+    
+    
+    
     
 </body>
 </html>
