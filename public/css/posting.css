@@ -61,7 +61,14 @@
 }
 
 .posts-creation textarea {
-    resize: vertical; /* Allow users to resize vertically */
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+    resize: none; /* Prevent resizing */
+    height: 200px; /* Set a standard height */
 }
 
 .posts-creation button {
@@ -188,6 +195,10 @@
     margin: 5px 0;
     font-size: 0.9em;
     color: var(--text-color);
+}
+
+.comments textarea {
+    resize: none; /* Prevent resizing */
 }
 
 /* Recommended Communities */
