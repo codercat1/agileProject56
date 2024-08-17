@@ -31,7 +31,7 @@
         </header>
         <div class="container">
             <h1>Publishing article</h1>
-            <form action="/submit" method="POST">
+            <form action="/admin/publish" method="POST">
                 <div class="form-group">
                     <label for="title">Title:</label>
                     <input type="text" id="title" name="title" required>
@@ -46,9 +46,10 @@
                         <option value="" disabled selected>Select a category</option>
                         <option value="physical-health">Physical Health</option>
                         <option value="mental-health">Mental Health</option>
-                        <option value="nutrition">Nutrition</option>
+                        <option value="general-disease">General Disease</option>
+                        <option value="human-body">Human Body</option>
+                        <option value="medicine">Medicine</option>
                         <option value="fitness">Fitness</option>
-                        <!-- Add more categories as needed -->
                     </select>
                 </div>
                 <div class="buttons">

@@ -441,10 +441,26 @@ router.get('/admin/home', isAdmin, (req, res) => {
   res.render('admin-home');
 });
 
+// Admin Publish GET Route
 router.get('/admin/publish', isAdmin, (req, res) => {
   res.render('admin-publish');
 });
 
+// Admin Publish POST Route
+router.post('/admin/publish', isAdmin, (req, res) => {
+  const { title, contents, category } = req.body;
+
+  const sql = `INSERT INTO articles (title, content, category) VALUES (?, ?, ?)`;
+  const params = [title, contents, category];
+
+  db.run(sql, params, function(err) {
+    if (err) {
+      console.error('Error inserting article:', err.message);
+      return res.status(500).send('An error occurred while publishing the article.');
+    }
+    res.redirect('/admin/home'); // Redirect to the Admin Home page after successful insertion
+  });
+});
 
 
 module.exports = router;
