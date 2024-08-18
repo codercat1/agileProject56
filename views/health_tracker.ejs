@@ -99,6 +99,24 @@
                 </div>
             </div>
         </section>
+
+        <section class="user-profile">
+            <div class="profile-header">
+                <img src="/images/user-profile.jpg" alt="Profile Picture" class="profile-picture">
+                <h2><%= user.username %></h2>
+            </div>
+            <div class="profile-content">
+                <div class="posts">
+                    <!-- Example Post -->
+                    <% healthStats.forEach(stat => { %>
+                    <div class="post">
+                        <p><strong><%= user.username %></strong> - Calories: <%= stat.calories %>, Steps: <%= stat.steps %>, MVPA: <%= stat.mvpa %>, Sleep: <%= stat.sleep %> hours</p>
+                    </div>
+                    <% }) %>
+                </div>
+            </div>
+        </section>
+        
     </div>
 
     <!-- Place the script just before the closing body tag -->
@@ -181,15 +199,5 @@
             }
         });
     </script>
-    
-
-    
-
-    
-    
-    
-    
-    
-    
 </body>
 </html>

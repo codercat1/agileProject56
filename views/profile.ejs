@@ -36,18 +36,24 @@
                 <p>000,000 Followers</p>
             </div>
             <div class="profile-content">
-                <div class="posts">
-                    <!-- Example Post -->
-                    <% healthStats.forEach(stat => { %>
-                    <div class="post">
-                        <p><strong><%= user.username %></strong> - Calories: <%= stat.calories %>, Steps: <%= stat.steps %>, MVPA: <%= stat.mvpa %>, Sleep: <%= stat.sleep %> hours</p>
-                    </div>
-                    <% }) %>
-                </div>
                 <div class="profile-info">
                     <h3>Profile Info</h3>
                     <p><strong>Name:</strong> <%= user.username %></p>
                     <p><strong>Email:</strong> <%= user.email %></p>
+                </div>
+                <div class="posts">
+                    <h3>Your Posts</h3>
+                    <% if (posts.length > 0) { %>
+                        <% posts.forEach(post => { %>
+                            <div class="post">
+                                <h4><%= post.title %></h4>
+                                <p><%= post.content %></p>
+                                <p><small><%= new Date(post.published_at).toLocaleString() %></small></p>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <p>You haven't posted anything yet.</p>
+                    <% } %>
                 </div>
             </div>
         </section>

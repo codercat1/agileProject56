@@ -67,3 +67,53 @@ form {
 form div {
     margin-bottom: 10px;
 }
+
+
+/* taken from posts, combine them later, kept here for activities page to use */
+
+/* Profile Page Styles */
+.user-profile {
+    text-align: center;
+    padding: 20px;
+    margin-left: 250px; /* Ensure it doesn't overlap with sidebar */
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profile-picture {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-content {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.posts {
+    flex: 2;
+    max-width: 60%;
+}
+
+.post {
+    background-color: #f0f0f0;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.post img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}

@@ -10,12 +10,9 @@ const db = new sqlite3.Database('./database.db', (err) => {
 });
 
 db.serialize(async () => {
-  // Drop the existing users table if it exists
-  db.run(`DROP TABLE IF EXISTS users`);
-
-  // Recreate the users table with the role column
+  // Create users table
   db.run(`
-    CREATE TABLE users (
+    CREATE TABLE IF NOT EXISTS users (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT,
       email TEXT UNIQUE,
@@ -49,7 +46,7 @@ db.serialize(async () => {
       FOREIGN KEY (friend_id) REFERENCES users(id)
     )
   `);
-  
+
   // Create articles table for contents
   db.run(`
     CREATE TABLE IF NOT EXISTS articles (
@@ -61,16 +58,18 @@ db.serialize(async () => {
     )
   `);
 
-  // Create posts table
+  // Create posts table with user_id
   db.run(`
     CREATE TABLE IF NOT EXISTS posts (
       post_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
       username TEXT NOT NULL,
       title TEXT NOT NULL,
       published_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       content TEXT NOT NULL,
       likes INTEGER DEFAULT 0,
-      views INTEGER DEFAULT 0
+      views INTEGER DEFAULT 0,
+      FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
 
@@ -81,7 +80,8 @@ db.serialize(async () => {
       post_id INTEGER NOT NULL,
       commenter_name TEXT NOT NULL,
       comment_text TEXT NOT NULL,
-      comment_date DATETIME DEFAULT CURRENT_TIMESTAMP
+      comment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (post_id) REFERENCES posts(post_id)
     )
   `);
 
@@ -101,30 +101,35 @@ db.serialize(async () => {
   const hashedAdminPassword = await bcrypt.hash('admin_password', 10);
   db.run(`INSERT INTO users (username, email, password, role) VALUES ('Admin', 'admin@example.com', ?, 'admin')`, [hashedAdminPassword]);
 
-  // Insert dummy data for posts
-  db.run(`INSERT INTO posts (username, title, content, published_at) VALUES ('Junjie', 'Test Title', 'Testing', ?)`, [new Date().toISOString()]);
-
   // Insert dummy users
   const hashedPassword1 = await bcrypt.hash('password1', 10);
   const hashedPassword2 = await bcrypt.hash('password2', 10);
   db.run(`INSERT INTO users (username, email, password, role) VALUES ('John Doe', 'john@gmail.com', ?, 'user')`, [hashedPassword1]);
   db.run(`INSERT INTO users (username, email, password, role) VALUES ('Jane Smith', 'jane@gmail.com', ?, 'user')`, [hashedPassword2]);
 
+  // Insert dummy posts for John Doe
+  db.run(`INSERT INTO posts (user_id, username, title, content, published_at) VALUES (2, 'John Doe', 'First Post', 'This is the content of John Doe''s first post.', ?)`, [new Date().toISOString()]);
+  db.run(`INSERT INTO posts (user_id, username, title, content, published_at) VALUES (2, 'John Doe', 'Second Post', 'This is the content of John Doe''s second post.', ?)`, [new Date().toISOString()]);
+
+  // Insert dummy posts for Jane Smith
+  db.run(`INSERT INTO posts (user_id, username, title, content, published_at) VALUES (3, 'Jane Smith', 'First Post', 'This is the content of Jane Smith''s first post.', ?)`, [new Date().toISOString()]);
+  db.run(`INSERT INTO posts (user_id, username, title, content, published_at) VALUES (3, 'Jane Smith', 'Second Post', 'This is the content of Jane Smith''s second post.', ?)`, [new Date().toISOString()]);
+
   // Insert dummy health data for John Doe
-  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (1, 2000, 8000, 45, 7)`);
-  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (1, 2200, 9000, 60, 6.5)`);
+  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (2, 2000, 8000, 45, 7)`);
+  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (2, 2200, 9000, 60, 6.5)`);
 
   // Insert dummy health data for Jane Smith
-  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (2, 1800, 7000, 30, 8)`);
-  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (2, 1900, 7500, 35, 7.5)`);
+  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (3, 1800, 7000, 30, 8)`);
+  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (3, 1900, 7500, 35, 7.5)`);
 
   // Insert dummy friends data for John Doe
-  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (1, 2, 'Jane Smith', 'Great workout buddy!')`);
-  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (1, 1, 'Self', 'Stay motivated!')`);
+  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 3, 'Jane Smith', 'Great workout buddy!')`);
+  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 2, 'Self', 'Stay motivated!')`);
 
   // Insert dummy friends data for Jane Smith
-  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 1, 'John Doe', 'Inspiring runner!')`);
-  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 2, 'Self', 'Keep going!')`, (err) => {
+  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 2, 'John Doe', 'Inspiring runner!')`);
+  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 3, 'Self', 'Keep going!')`, (err) => {
     if (err) {
       console.error(err.message);
     }
@@ -136,5 +141,4 @@ db.serialize(async () => {
       }
     });
   });
-
 });
