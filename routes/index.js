@@ -483,8 +483,15 @@ router.post('/admin/publish', isAdmin, (req, res) => {
       console.error('Error inserting article:', err.message);
       return res.status(500).send('An error occurred while publishing the article.');
     }
-    res.redirect('/admin/home'); // Redirect to the Admin Home page after successful insertion
+    res.redirect('/admin/home'); 
   });
+});
+
+// Article View GET Route
+router.get('/article', (req, res) => {
+
+    // Render the article-view.ejs template without user data
+    res.render('contents/article-view.ejs');
 });
 
 
