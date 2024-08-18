@@ -446,7 +446,7 @@ router.get('/admin/home', isAdmin, (req, res) => {
       return res.status(500).send(`Internal Server Error: ${err.message}`);
     }
 
-    res.render('admin-home', { user: req.session.user, articles });
+    res.render('admin/admin-home', { user: req.session.user, articles });
   });
 });
 
@@ -468,7 +468,7 @@ router.post('/admin/delete/:id', isAdmin, (req, res) => {
 
 // Admin Publish GET Route
 router.get('/admin/publish', isAdmin, (req, res) => {
-  res.render('admin-publish');
+  res.render('admin/admin-publish');
 });
 
 // Admin Publish POST Route
