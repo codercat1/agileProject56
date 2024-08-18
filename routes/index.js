@@ -40,18 +40,11 @@ router.get('/posting', (req, res) => {
 });
 
 router.post('/posting', (req, res) => {
-<<<<<<< Updated upstream
-  const { title, body } = req.body;
-  const username = 'current_user'; // Replace with actual user logic
-
-  db.run('INSERT INTO posts (title, content, username) VALUES (?, ?, ?)', [title, body, username], (err) => {
-=======
   const {body } = req.body;
   const username = req.session.username || 'default_username';
   const publishedAt = new Date().toISOString();
 
   db.run('INSERT INTO posts (content, username, published_at) VALUES (?, ?, ?)', [body, username, publishedAt], (err) => {
->>>>>>> Stashed changes
       if (err) {
           return res.status(500).send(err.message);
       }
