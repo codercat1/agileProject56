@@ -60,14 +60,9 @@
                         <% posts.forEach(post => { %>
                             <div class="post">
                                 <img src="/images/post1.jpg" alt="Post Image">
-<<<<<<< Updated upstream
-                                <p><strong><%= post.username %></strong></p>
-                                <h2><%= post.title %></h2>
-=======
                                 <div class="post-meta">
                                     <p><strong><%= post.username %></strong> | <%= new Date(post.published_at).toLocaleString() %></p>
                                 </div>
->>>>>>> Stashed changes
                                 <p><%= post.content %> #topic</p>
                             </div>
                         <% }) %>

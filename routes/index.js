@@ -40,11 +40,11 @@ router.get('/posting', (req, res) => {
 });
 
 router.post('/posting', (req, res) => {
-  const {body } = req.body;
+  const { body } = req.body;
   const username = req.session.username || 'default_username';
-  const publishedAt = new Date().toISOString();
+  const createdAt = new Date().toISOString();
 
-  db.run('INSERT INTO posts (content, username, published_at) VALUES (?, ?, ?)', [body, username, publishedAt], (err) => {
+  db.run('INSERT INTO posts (content, username, created_at) VALUES (?, ?, ?)', [body, username, createdAt], (err) => {
       if (err) {
           return res.status(500).send(err.message);
       }

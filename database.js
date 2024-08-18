@@ -57,12 +57,13 @@ db.serialize(async () => {
     )
   `);
 
+  db.run('DROP TABLE IF EXISTS posts');
   // Create posts table
   db.run(`
     CREATE TABLE IF NOT EXISTS posts (
       post_id INTEGER PRIMARY KEY AUTOINCREMENT,
       username TEXT NOT NULL,
-      published_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       content TEXT NOT NULL,
       likes INTEGER DEFAULT 0,
       views INTEGER DEFAULT 0
@@ -81,7 +82,7 @@ db.serialize(async () => {
   `);
 
   // Insert dummy data for posts
-  db.run(`INSERT INTO posts (username, content, published_at) VALUES ('Junjie', 'Testing', ?)`, [new Date().toISOString()]);
+  db.run(`INSERT INTO posts (username, content, created_at) VALUES ('Junjie', 'Testing', ?)`, [new Date().toISOString()]);
 
   // Insert dummy users
   const hashedPassword1 = await bcrypt.hash('password1', 10);
