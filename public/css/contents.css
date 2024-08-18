@@ -92,7 +92,33 @@ td a:hover {
     text-decoration: underline;
 }
 
-/* Button Styles */
+.article-content {
+    margin-left: 270px; /* Adjust based on the width of your sidebar */
+    padding: 20px;
+    background-color: #fff; /* Background color for the content area */
+}
+
+.article-content h1 {
+    font-size: 2em;
+    margin-bottom: 20px;
+}
+
+.article-text {
+    border: 2px solid #ddd; 
+    border-radius: 5px; 
+    padding: 15px; 
+    background-color: #f9f9f9;
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.article-content p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 10px;
+}
+
 .button-container {
     text-align: center;
     margin-top: 20px;

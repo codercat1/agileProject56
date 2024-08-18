@@ -487,11 +487,23 @@ router.post('/admin/publish', isAdmin, (req, res) => {
   });
 });
 
-// Article View GET Route
-router.get('/article', (req, res) => {
+router.get('/article/:id', (req, res) => {
+  const articleId = req.params.id;
 
-    // Render the article-view.ejs template without user data
-    res.render('contents/article-view.ejs');
+  // Query the database to find the article by ID
+  db.get('SELECT * FROM articles WHERE id = ?', [articleId], (err, row) => {
+      if (err) {
+          console.error(err.message);
+          return res.status(500).send('Server error');
+      }
+
+      if (!row) {
+          return res.status(404).send('Article not found');
+      }
+
+      // Render the article-view.ejs template with the article data
+      res.render('contents/article-view.ejs', { article: row });
+  });
 });
 
 

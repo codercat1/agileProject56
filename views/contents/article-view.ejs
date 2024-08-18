@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
-    <title>Article View</title>
+    <title><%= article.title %></title>
 </head>
 <body>
     <div class="sidebar">
@@ -12,13 +12,19 @@
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li>Profile</a></li>
+                <li><a href="/profile/<%= user.id %>">Profile</a></li>
                 <li><a href="/activities">Activities</a></li>
                 <li><a href="/contents">Contents</a></li>
                 <li><a href="/posting">Community</a></li>
                 <li><a href="/top_discussion">Top Discussion</a></li>
             </ul>
         </nav>
+    </div>
+    <div class="article-content">
+        <h1><%= article.title %></h1>
+        <p>Category: <%= article.category %></p>
+        <p>Published at: <%= new Date(article.published_at).toLocaleDateString() %></p>
+        <p class="article-text"><%= article.content %></p>
     </div>
 </body>
 </html>
