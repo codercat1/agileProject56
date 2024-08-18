@@ -10,11 +10,10 @@
     --white-color: #fff;
 }
 
-/* Today's Topic Page Styles */
 .today-topic {
     padding: 20px;
-    margin-left: 250px; /* Ensure it doesn't overlap with sidebar */
-    max-width: calc(100% - 250px); /* Ensure it fits within the main content area */
+    margin-left: 250px;
+    max-width: calc(100% - 250px);
     color: var(--text-color);
 }
 
@@ -30,7 +29,6 @@
     font-size: 1.1em;
 }
 
-/* Posts Creation Styles */
 .posts-creation {
     background-color: var(--white-color);
     border-radius: 10px;
@@ -57,7 +55,7 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 1em;
-    box-sizing: border-box; /* Ensure padding is included in width */
+    box-sizing: border-box;
 }
 
 .posts-creation textarea {
@@ -67,8 +65,8 @@
     border-radius: 5px;
     font-size: 1em;
     box-sizing: border-box;
-    resize: none; /* Prevent resizing */
-    height: 200px; /* Set a standard height */
+    resize: none;
+    height: 200px;
 }
 
 .posts-creation button {
@@ -92,26 +90,23 @@
     outline-offset: 2px;
 }
 
-/* Content Area */
 .content-area {
     display: flex;
-    justify-content: space-between; /* Ensures space between posts-grid and recommended-communities */
-    align-items: flex-start; /* Align items to the top */
-    gap: 20px; /* Space between posts-grid and recommended-communities */
-    max-width: calc(100% - 270px); /* Adjust width minus sidebar width and extra space for margins */
-    margin: 0 auto; /* Center content if necessary */
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: calc(100% - 270px);
+    margin: 0 auto;
     padding: 20px;
 }
 
-/* Posts Grid */
 .posts-grid {
-    flex: 3; /* Takes up more space */
+    flex: 3;
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/* Post Styles */
 .post {
     background-color: var(--white-color);
     border-radius: 10px;
@@ -121,7 +116,7 @@
     flex-direction: column;
     gap: 15px;
     transition: background-color 0.3s, box-shadow 0.3s;
-    max-width: 100%; /* Ensure it uses the full width of the container */
+    max-width: 100%;
 }
 
 .post:hover {
@@ -189,6 +184,7 @@
     margin-bottom: 10px;
     font-size: 1.2em;
     color: var(--secondary-bg-color);
+    text-align: center;
 }
 
 .comments p {
@@ -198,19 +194,32 @@
 }
 
 .comments textarea {
-    resize: none; /* Prevent resizing */
+    resize: none;
+    border-radius: 5px;
 }
 
-/* Recommended Communities */
+.comments form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.comments .comment-button {
+    width: auto;
+    margin: 0;
+    margin-top: 10px;
+}
+
 .recommended-communities {
-    flex: 1; /* Takes up less space */
+    flex: 1;
     padding: 20px;
-    background-color: var(--secondary-bg-color); /* Background color similar to design */
+    background-color: var(--secondary-bg-color);
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    color: var(--white-color); /* Ensure text is visible on dark background */
-    max-height: 100vh; /* Ensure it doesn’t overflow the viewport */
-    overflow-y: auto; /* Add scroll if content exceeds viewport height */
+    color: var(--white-color);
+    max-height: 100vh;
+    overflow-y: auto;
 }
 
 .recommended-communities h3 {
@@ -224,14 +233,14 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: 10px; /* Space between items */
+    gap: 10px;
 }
 
 .recommended-communities li {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--dark-color); /* Slightly lighter color for items */
+    background-color: var(--dark-color);
     padding: 10px;
     border-radius: 5px;
     transition: background-color 0.3s;
@@ -242,7 +251,7 @@
 }
 
 .recommended-communities button {
-    background-color: var(--highlight-color); /* Button color */
+    background-color: var(--highlight-color);
     border: none;
     padding: 5px 10px;
     border-radius: 5px;
@@ -252,10 +261,9 @@
 }
 
 .recommended-communities button:hover {
-    background-color: var(--hover-color); /* Darken button on hover */
+    background-color: var(--hover-color);
 }
 
-/* Footer */
 footer {
     text-align: center;
     padding: 10px 0;
@@ -265,11 +273,11 @@ footer {
     bottom: 0;
     width: 100%;
     left: 0;
-    border-top: 1px solid #ddd; /* Add a subtle border at the top */
+    border-top: 1px solid #ddd;
 }
 
 footer p {
     margin: 0;
     font-size: 0.9em;
-    color: #666; /* Slightly darker text for better readability */
+    color: #666;
 }

@@ -19,8 +19,6 @@ router.use((req, res, next) => {
   }
 });
 
-
-
 // Home page
 router.get('/', (req, res) => {
   if (!req.session.userId) {
@@ -62,8 +60,8 @@ router.get('/posting', (req, res) => {
 
 router.post('/posting', (req, res) => {
   const { title, body } = req.body;
-  const username = req.session.username || 'default_username'; // Replace with actual user logic
-  const publishedAt = new Date().toISOString(); // Get current date and time
+  const username = req.session.username || 'default_username';
+  const publishedAt = new Date().toISOString();
 
   db.run('INSERT INTO posts (title, content, username, published_at) VALUES (?, ?, ?, ?)', [title, body, username, publishedAt], (err) => {
       if (err) {
@@ -76,7 +74,7 @@ router.post('/posting', (req, res) => {
 // Comments Route
 router.post('/post/:post_id/comment', (req, res) => {
   const postId = req.params.post_id;
-  const commenterName = req.session.username;  // Assuming you have user sessions
+  const commenterName = req.session.username;
   const commentText = req.body.comment_text;
   const commentDate = new Date().toISOString();
 
@@ -86,7 +84,7 @@ router.post('/post/:post_id/comment', (req, res) => {
       console.error(err.message);
       res.status(500).send('Error adding comment');
     } else {
-      res.redirect('/posting');  // Redirect back to the posting page
+      res.redirect('/posting');
     }
   });
 });
@@ -94,7 +92,7 @@ router.post('/post/:post_id/comment', (req, res) => {
 // Likes route
 router.post('/post/:post_id/like', (req, res) => {
   const postId = req.params.post_id;
-  const userId = req.session.userId;  // Assuming you have user sessions
+  const userId = req.session.userId;
 
   // Check if user has already liked the post
   db.get('SELECT * FROM likes WHERE post_id = ? AND user_id = ?', [postId, userId], (err, row) => {
