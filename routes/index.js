@@ -6,6 +6,7 @@ const db = require('../db'); // Assuming you created db.js for modularization
 // Middleware to inject user data into all routes
 router.use((req, res, next) => {
   if (req.session.userId) {
+    console.log("Session Data:", req.session); // Log session data 
     db.get('SELECT * FROM users WHERE id = ?', [req.session.userId], (err, userRow) => {
       if (err) {
         console.error(err.message);
