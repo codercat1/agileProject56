@@ -32,35 +32,39 @@
         </header>
         <section class="my-activities">
             <h2>Monthly Record</h2>
-            <ul>
-                <li>General</li>
-                <li>Sleep</li>
-                <li>Nutrition</li>
-                <li>Training</li>
-                <li>Others</li>
-            </ul>
+
+            <!--activity topics: view only-->
+            <div class="activity-topics">
+                <ul>
+                    <li>General</li>
+                    <li>Sleep</li>
+                    <li>Nutrition</li>
+                    <li>Training</li>
+                    <li>Others</li>
+                </ul>
+            </div>
+            
             <!-- Calendar and Notes(split into data display and note) -->
-            <div class="record-content">
-                <div class="calendar">
-                    <h2>Select Month</h2>
-                    <div class="monthSelect">
-                        <!-- Calendar Content -->
-                        <input type="month">
-                    </div>
-                    <div class="calendar-grid">
-                        <!-- Calendar dates will be dynamically generated here -->
-                    </div>
+            <div class="calendar">
+                <h2>Select Month</h2>
+                <div class="monthSelect">
+                    <!-- Calendar Content -->
+                    <input type="month">
                 </div>
-                <div class="notes">
-                    <h2>Notes</h2>
-                    <div class="notes-content">
-                        <!-- Data will be populated here when a date is clicked -->
-                    </div>
-                    <textarea placeholder="Write your notes here..."></textarea>
+                <div class="calendar-grid">
+                    <!-- Calendar dates will be dynamically generated here -->
                 </div>
             </div>
+            <div class="notes">
+                <h2>Notes</h2>
+                <div class="notes-content">
+                    <!-- Data will be populated here when a date is clicked -->
+                </div>
+                <textarea placeholder="Write your notes here..."></textarea>
+            </div>
+        </div>
 
-        </section>
+    </section>
             
         <!--removed customise(input data function in activities page)-->
         <!-- <button class="customize-button" onclick="openCustomizePopup()">Customize</button> -->
