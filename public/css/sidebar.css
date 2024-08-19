@@ -30,3 +30,31 @@
     text-decoration: none;
     font-size: 18px;
 }
+
+/* ---------------------------sidebar hover------------------------------------*/
+/* Sidebar starts off hidden */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; 
+    width: 250px;
+    height: 100%;
+    padding: 20px;
+    transition: left 0.3s ease;
+    z-index: 1001;
+}
+
+
+/* When hovering over the icon or the sidebar, the sidebar slides into view */
+.sidebar +  .sidebar,
+.sidebar:hover {
+    left: 0;
+}
+
+/* Adjust the main content to start after the sidebar*/
+.main-content {
+    margin-left: -200px;
+    transition: margin-left 0.3s ease;
+}
+
+
