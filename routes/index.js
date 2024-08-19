@@ -251,7 +251,7 @@ router.post('/logout', (req, res) => {
 //   });
 // });
 
-//Updated Profile route so there's a list of posts from the specific user
+// Updated profile route with joined query to fetch friend's username
 router.get('/profile/:id', (req, res) => {
   const userId = req.params.id;
 
@@ -267,19 +267,28 @@ router.get('/profile/:id', (req, res) => {
           console.error(err.message);
           res.status(500).send('Database error');
         } else {
-          db.all('SELECT * FROM friends WHERE user_id = ?', [userId], (err, friendRows) => {
-            if (err) {
-              console.error(err.message);
-              res.status(500).send('Database error');
-            } else {
-              res.render('profile', { user: userRow, posts: userPosts, friends: friendRows });
+          // Fetch friends with join
+          db.all(`
+            SELECT users.username, friends.id AS friendId 
+            FROM friends 
+            JOIN users ON friends.friend_id = users.id 
+            WHERE friends.user_id = ?`, 
+            [userId], 
+            (err, friendRows) => {
+              if (err) {
+                console.error(err.message);
+                res.status(500).send('Database error');
+              } else {
+                res.render('profile', { user: userRow, posts: userPosts, friends: friendRows });
+              }
             }
-          });
+          );
         }
       });
     }
   });
 });
+
 
 //route to search for friend
 router.post('/search-friend', (req, res) => {
@@ -299,7 +308,7 @@ router.post('/search-friend', (req, res) => {
 
 // Route to handle adding a new friend
 router.post('/add-friend', (req, res) => {
-  const { friendName } = req.body;
+  const friendId = req.body.friendId;
   const userId = req.session.userId; // Assuming the user is logged in and userId is stored in session
 
   // Ensure that the user is logged in
@@ -308,7 +317,7 @@ router.post('/add-friend', (req, res) => {
   }
 
   // Insert the new friend into the 'friends' table
-  db.run('INSERT INTO friends (user_id, friend_name) VALUES (?, ?)', [userId, friendName], function(err) {
+  db.run('INSERT INTO friends (user_id, friend_id) VALUES (?, ?)', [userId, friendId], function(err) {
     if (err) {
       console.error(err.message);
       return res.status(500).send('Database error');
@@ -317,7 +326,6 @@ router.post('/add-friend', (req, res) => {
     // Redirect back to the profile page after adding a friend
     res.redirect(`/profile/${userId}`);
   });
-
 });
 
 

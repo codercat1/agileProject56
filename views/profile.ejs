@@ -37,7 +37,7 @@
                 <form action="/add-friend" method="post" style="display:inline;">
                     <input type="hidden" name="friendId" value="<%= user.id %>">
                     <button type="submit">Add Friend</button>
-                </form>
+                </form>                
             </div>
             <div class="profile-content">
                 <div class="profile-info">
@@ -59,7 +59,6 @@
                         <p>You haven't posted anything yet.</p>
                     <% } %>
                 </div>
-
                 <div class="friends-section">
                     <h3>Add a New Friend</h3>
                     <form id="searchForm" method="POST">
@@ -68,9 +67,7 @@
                     </form>
                     <!-- Dropdown menu for search results -->
                     <ul id="searchResults" class="dropdown-menu" style="display: none;">
-                        <!-- Search results will be injected here by JavaScript -->
                     </ul>
-
                     <h3>Your Friends</h3>
                     <ul>
                         <% friends.forEach(friend => { %>
@@ -81,7 +78,6 @@
                                 </form>
                             </div>
                         <% }); %>
-                        
                     </ul>
                 </div>
             </div>
