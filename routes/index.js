@@ -259,6 +259,8 @@ router.get('/profile/:id', (req, res) => {
     if (err) {
       console.error(err.message);
       res.status(500).send('Database error');
+    } else if (!userRow) {
+      res.status(404).send('User not found');
     } else {
       db.all('SELECT * FROM posts WHERE user_id = ? ORDER BY published_at DESC', [userId], (err, userPosts) => {
         if (err) {
@@ -278,6 +280,69 @@ router.get('/profile/:id', (req, res) => {
     }
   });
 });
+
+//route to search for friend
+router.post('/search-friend', (req, res) => {
+  const searchQuery = req.body.username; // Use body to get the search query
+
+  db.all('SELECT id, username FROM users WHERE username LIKE ?', [`%${searchQuery}%`], (err, rows) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).json({ error: 'Server Error' });
+    }
+
+    // Send the results as a JSON response
+    res.json({ results: rows || [] });
+
+  });
+});
+
+// Route to handle adding a new friend
+router.post('/add-friend', (req, res) => {
+  const { friendName } = req.body;
+  const userId = req.session.userId; // Assuming the user is logged in and userId is stored in session
+
+  // Ensure that the user is logged in
+  if (!userId) {
+    return res.redirect('/login');
+  }
+
+  // Insert the new friend into the 'friends' table
+  db.run('INSERT INTO friends (user_id, friend_name) VALUES (?, ?)', [userId, friendName], function(err) {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    
+    // Redirect back to the profile page after adding a friend
+    res.redirect(`/profile/${userId}`);
+  });
+
+});
+
+
+// Route to handle removing a friend
+router.post('/remove-friend/:id', (req, res) => {
+  const friendId = req.params.id;
+  const userId = req.session.userId; // Assuming the user is logged in and userId is stored in session
+
+  // Ensure that the user is logged in
+  if (!userId) {
+    return res.redirect('/login');
+  }
+
+  // Delete the friend from the 'friends' table
+  db.run('DELETE FROM friends WHERE id = ? AND user_id = ?', [friendId, userId], function(err) {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+
+    // Redirect back to the profile page after removing the friend
+    res.redirect(`/profile/${userId}`);
+  });
+});
+
 
 // OLD Health Tracker route
 // router.get('/health_tracker/:id', (req, res) => {
