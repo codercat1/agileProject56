@@ -1,6 +1,107 @@
+
+/*-----------------------------topics styling-----------------------------------------*/
 .my-activities {
     padding: 20px;
     margin-left: 250px;
     max-width: calc(100% - 250px);
     color: var(--text-color);
+}
+
+.my-activities h2 {
+    margin-bottom: 20px;
+}
+
+.activity-topics {
+    margin-bottom: 20px;
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 10px;
+    list-style-type: none; /* Remove bullet points */
+}
+
+.activity-topics ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none; /* Ensure no bullets for the list */
+}
+
+.activity-topics li {
+    padding: 10px;
+    background-color: #cce0ff; /* Light blue background */
+    margin-bottom: 5px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.activity-topics li:last-child {
+    margin-bottom: 0; /* Remove margin from the last item */
+}
+
+/*-----------------------------calender styling-----------------------------------------*/
+.calendar-records {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.calendar-section {
+    flex: 2;
+    text-align: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+    margin-right: 20px;
+}
+
+
+/*-----------------------------data styling-----------------------------------------*/
+.activity-data {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+
+.records {
+    margin-bottom: 20px;
+}
+
+.record-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+}
+
+
+
+/*-----------------------------notes styling-----------------------------------------*/
+.notes {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+}
+
+.notes textarea {
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.notes button {
+    margin-top: 10px;
+    background-color: #6200EE;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
