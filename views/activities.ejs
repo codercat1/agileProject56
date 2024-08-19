@@ -6,8 +6,6 @@
     <link rel="stylesheet" type="text/css" href="/css/activities.css">
 </head>
 <body>
-    
-    
 
     <div class="activities-container">
 
@@ -26,7 +24,7 @@
         <!-- Main Content -->
         <div class="main-content">
             <header>
-                <h1>Monthly Record</h1>
+                <h1 class="page-title">Monthly Record</h1>
                 <nav>
                     <form action="/logout" method="post" style="display:inline;">
                         <button type="submit">Log Off</button>
@@ -35,76 +33,82 @@
             </header>
 
              <!-- Record Section -->
-            <div class="activities">
-                <div class="record-sections">
-                    <div class="topic"> 
-                        <button class="record-button">General</button>
-                        <ul class="subtopic-list">
-                            <li>Gym</li>
-                            <li>Stretches</li>
-                            <li>Sport Games</li>
-                        </ul>
-                    </div>
-
-                    <div class="topic">
-                        <button class="record-button">Sleep</button>
-                        <ul class="subtopic-list">
-                            <li>1</li>
-                            <li>2</li>
-                            <li>3</li>
-                        </ul>
-                    </div>
-
-                    <div class="topic">
-                        <button class="record-button">Nutrition</button>
-                        <ul class="subtopic-list">
-                            <li>Food</li>
-                            <li>Drinks</li>
-                            <li>Fruits</li>
-                        </ul>
-                    </div>
-
-                    <div class="topic">
-                        <button class="record-button">Training</button>
-                        <ul class="subtopic-list">
-                            <li>Cardio</li>
-                            <li>Agility</li>
-                            <li>Bicep</li>
-                        </ul>
-                    </div>
-
-                    <div class="topic">
-                        <button class="record-button">Others</button>
-                        <ul class="subtopic-list">
-                            <li>Summary</li>
-                            <li>2</li>
-                            <li>3</li>
-                        </ul>
-                    </div>
+            <div class="record-sections">
+                <div class="topic"> 
+                    <button class="record-button">General</button>
+                    <ul class="subtopic-list">
+                        <li>Gym</li>
+                        <li>Stretches</li>
+                        <li>Sport Games</li>
+                    </ul>
                 </div>
 
-                <button class="customize-button" onclick="openCustomizePopup()">Customize</button>
+                <div class="topic">
+                    <button class="record-button">Sleep</button>
+                    <ul class="subtopic-list">
+                        <li>1</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </div>
+
+                <div class="topic">
+                    <button class="record-button">Nutrition</button>
+                    <ul class="subtopic-list">
+                        <li>Food</li>
+                        <li>Drinks</li>
+                        <li>Fruits</li>
+                    </ul>
+                </div>
+
+                <div class="topic">
+                    <button class="record-button">Training</button>
+                    <ul class="subtopic-list">
+                        <li>Cardio</li>
+                        <li>Agility</li>
+                        <li>Bicep</li>
+                    </ul>
+                </div>
+
+                <div class="topic">
+                    <button class="record-button">Others</button>
+                    <ul class="subtopic-list">
+                        <li>Summary</li>
+                        <li>2</li>
+                        <li>3</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!--removed customise(input data function in activities page)-->
+            <!-- <button class="customize-button" onclick="openCustomizePopup()">Customize</button> -->
 
 
-                <!-- Calendar and Notes -->
-                <div class="record-content">
-                    <div class="calendar">
-                        <h2>Mon, Aug 17</h2>
-                        <div class="calendar-content">
-                            <!-- Calendar Content -->
-                            <input type="date">
-                        </div>
+            <!-- Calendar and Notes(split into data display and note) -->
+            <div class="record-content">
+                <div class="calendar">
+                    <h2>Select Month</h2>
+                    <div class="monthSelect">
+                        <!-- Calendar Content -->
+                        <input type="month">
                     </div>
-                    <div class="notes">
-                        <h2>Notes</h2>
-                        <textarea placeholder="Write your notes here..."></textarea>
+                    <div class="calendar-grid">
+                        <!-- Calendar dates will be dynamically generated here -->
                     </div>
                 </div>
-                <div class="connections">
-                    <h2>Connections</h2>
-                    <div class="connections-grid">
-                        <!-- Connection Items -->
+                <div class="notes">
+                    <h2>Notes</h2>
+                    <div class="notes-content">
+                        <!-- Data will be populated here when a date is clicked -->
                     </div>
+                    <textarea placeholder="Write your notes here..."></textarea>
+                </div>
+            </div>
+
+            <div class="connections">
+                <h2>Connections</h2>
+                <div class="connections-grid">
+                    <!-- Connection Items -->
                 </div>
             </div>
         </div>
@@ -113,5 +117,37 @@
     <footer>
         <!-- Footer content goes here -->
     </footer>
+
+
+
+
+    <!--populate month and extract data-->
+    <script>
+        // JavaScript to handle the calendar functionality
+        document.getElementById('monthSelect').addEventListener('change', function() {
+            const month = this.value;
+            const year = new Date().getFullYear(); // Get current year
+            const daysInMonth = new Date(year, parseInt(month) + 1, 0).getDate();
+
+            const calendarGrid = document.querySelector('.calendar-grid');
+            calendarGrid.innerHTML = ''; // Clear previous calendar
+
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateDiv = document.createElement('div');
+                dateDiv.classList.add('calendar-date');
+                dateDiv.innerText = day;
+                dateDiv.onclick = function() {
+                    loadDateData(day, month, year);
+                };
+                calendarGrid.appendChild(dateDiv);
+            }
+        });
+
+        function loadDateData(day, month, year) {
+            const notesSection = document.querySelector('.notes-content');
+            notesSection.innerHTML = `Data for ${year}-${parseInt(month)+1}-${day}`;
+        }
+    </script>
+
 </body>
 </html>

@@ -1,13 +1,26 @@
+html, body{
+    height: auto;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+}
+
 .container {
     display: flex;
+}
+
+.activities-container {
+    min-height: 100vh;
+    position: relative; /*extend beyond viewport*/
 }
 
 /*custom-sidenar is for the menu*/
 .activities-container .custom-sidebar {
     width: 250px;
     background-color: #333;
-    padding: 15px;
+    padding: 20px;
     color: #fff;
+    
 }
 
 .activities-container .custom-sidebar h1 {
@@ -27,6 +40,7 @@
 .activities-container .custom-sidebar ul li a {
     color: #fff;
     text-decoration: none;
+    margin-bottom: 20px;
 }
 
 .activities-container .main-content {
@@ -62,8 +76,13 @@
 
 .activities-container .record-sections {
     display: flex;
-    gap: 10px;
-    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    gap: 5px;
+    left: 30px;
+    top: 100px; /*adjust vertically*/
+    width: 200px; /*ensure no overlap with other content*/
+    /* justify-content: center; */
 }
 
 .activities-container .record-button {
@@ -138,7 +157,8 @@
     z-index: 1001;
 }
 
-/* When hovering over the menu icon or the sidebar, the sidebar slides into view */
+
+/* When hovering over the icon or the sidebar, the sidebar slides into view */
 .header-container:hover + .activities-container .custom-sidebar,
 .custom-sidebar:hover {
     left: 0;
@@ -151,8 +171,8 @@
 }
 
 .custom-sidebar ul {
-    list-style-type: none;
-    padding: 0;
+    list-style: none;
+    padding: 0px;
 }
 
 .custom-sidebar ul li {
@@ -167,8 +187,13 @@
 
 /* Adjust the main content to start after the sidebar */
 .main-content {
-    margin-left: 250px;
+    margin-left: 270px;
     transition: margin-left 0.3s ease;
+}
+
+/* Aligning the title */
+.page-title {
+    margin-bottom: 20px;
 }
 
 /* When the sidebar is visible, the main content shifts */
