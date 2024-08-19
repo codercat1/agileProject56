@@ -70,3 +70,27 @@
 .profile-info a:hover {
     text-decoration: underline;
 }
+
+.dropdown-menu {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    position: absolute;
+    z-index: 1000;
+    width: 200px;
+}
+
+.dropdown-menu li {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+.dropdown-menu form {
+    display: inline;
+}

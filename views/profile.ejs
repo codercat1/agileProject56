@@ -15,8 +15,8 @@
                 <li><a href="/profile/<%= user.id %>">Profile</a></li>
                 <li><a href="/activities">Activities</a></li>
                 <li><a href="/contents">Contents</a></li>
-                <li><a href="/posting">Community</a></li>
-                <li><a href="/top_discussion">Top Discussion</a></li>
+                <li><a href="/posting">My Feed</a></li>
+                <li><a href="/top_discussion">Communities</a></li>
             </ul>
         </nav>
     </div>
@@ -34,6 +34,10 @@
                 <img src="/images/user-profile.jpg" alt="Profile Picture" class="profile-picture">
                 <h2><%= user.username %></h2>
                 <p>000,000 Followers</p>
+                <form action="/add-friend" method="post" style="display:inline;">
+                    <input type="hidden" name="friendId" value="<%= user.id %>">
+                    <button type="submit">Add Friend</button>
+                </form>                
             </div>
             <div class="profile-content">
                 <div class="profile-info">
@@ -55,8 +59,82 @@
                         <p>You haven't posted anything yet.</p>
                     <% } %>
                 </div>
+                <div class="friends-section">
+                    <h3>Add a New Friend</h3>
+                    <form id="searchForm" method="POST">
+                        <input type="text" id="searchInput" name="username" placeholder="Enter friend's username">
+                        <button type="submit">Search</button>
+                    </form>
+                    <!-- Dropdown menu for search results -->
+                    <ul id="searchResults" class="dropdown-menu" style="display: none;">
+                    </ul>
+                    <h3>Your Friends</h3>
+                    <ul>
+                        <% friends.forEach(friend => { %>
+                            <div>
+                                <%= friend.username %> <!-- Display friend's username or other details -->
+                                <form action="/remove-friend/<%= friend.id %>" method="POST" style="display:inline;">
+                                    <button type="submit">Remove Friend</button>
+                                </form>
+                            </div>
+                        <% }); %>
+                    </ul>
+                </div>
             </div>
         </section>
     </div>
 </body>
 </html>
+
+
+
+<script>
+    document.getElementById('searchInput').addEventListener('input', function() {
+    const query = this.value;
+    // Send an AJAX request to the server
+    fetch('/search-friend', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: query }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            const resultsList = document.getElementById('searchResults');
+            resultsList.innerHTML = ''; // Clear previous results
+            
+            if (data.results.length > 0) {
+                resultsList.style.display = 'block'; // Show the dropdown
+                data.results.forEach(user => {
+                const li = document.createElement('li');
+                li.textContent = user.username;
+                li.dataset.userId = user.id; // Store the user's ID for future actions
+                resultsList.appendChild(li);
+                });
+            } else {
+                resultsList.style.display = 'none'; // Hide the dropdown if no results
+            }
+            // Populate the dropdown menu with the results
+            // data.results.forEach(user => {
+            //     const li = document.createElement('li');
+            //     li.textContent = user.username;
+            //     li.dataset.userId = user.id; // Store the user's ID for future actions
+            //     resultsList.appendChild(li);
+            // });
+        })
+        .catch(err => console.error('Error:', err));
+    });
+
+
+    document.getElementById('searchResults').addEventListener('click', function(e) {
+        if (e.target.tagName === 'LI') {
+            const selectedUsername = e.target.textContent;
+            const selectedUserId = e.target.dataset.userId;
+
+            //redirecting to selected user profile page
+            window.location.href = `/profile/${selectedUserId}`;
+        }
+    });
+
+</script>

@@ -35,6 +35,8 @@
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .posts-creation div {
@@ -66,7 +68,7 @@
     font-size: 1em;
     box-sizing: border-box;
     resize: none;
-    height: 200px;
+    height: 100px;
 }
 
 .posts-creation button {
@@ -95,7 +97,7 @@
     justify-content: space-between;
     align-items: flex-start;
     gap: 20px;
-    max-width: calc(100% - 270px);
+    max-width: calc(100% - 20px);
     margin: 0 auto;
     padding: 20px;
 }
