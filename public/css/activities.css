@@ -1,1 +1,6 @@
-
+.my-activities {
+    padding: 20px;
+    margin-left: 250px;
+    max-width: calc(100% - 250px);
+    color: var(--text-color);
+}
