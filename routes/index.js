@@ -154,9 +154,18 @@ router.post('/post/:post_id/like', (req, res) => {
   });
 });
 
-// Top Discussion
-router.get('/top_discussion', (req, res) => {
-  res.render('top_discussion');
+// Communities page
+router.get('/communities', (req, res) => {
+  // Fetch all communities from the database
+  db.all('SELECT * FROM communities', (err, communities) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    
+    // Render the communities page with the list of communities
+    res.render('communities', { communities });
+  });
 });
 
 // Login page
