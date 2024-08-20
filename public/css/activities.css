@@ -37,6 +37,17 @@
     margin-bottom: 0; /* Remove margin from the last item */
 }
 
+.activity-topics li:hover {
+    background-color: #b0c4de; /* Slightly darker blue on hover */
+    cursor: pointer;
+}
+
+.activity-topics h2 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
 /*-----------------------------calender styling-----------------------------------------*/
 .calendar-records {
     display: flex;
