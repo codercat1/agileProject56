@@ -29,30 +29,40 @@
                 </ul>
             </nav>
         </header>
-
         <!-- Community Posts Section -->
-        <section class="community-content">
-            <h2>Physical Health Discussions</h2>
-            <form action="/communities/physical-health" method="POST">
-                <input type="text" name="title" placeholder="Post Title" required>
-                <textarea name="content" placeholder="Share your thoughts..." required></textarea>
-                <button type="submit">Post</button>
-            </form>
-            <div class="posts">
-                <% if (posts && posts.length > 0) { %>
-                    <% posts.forEach(function(post) { %>
-                        <div class="post-item">
-                            <h3><%= post.title %></h3>
-                            <p>by <%= post.username %> on <%= new Date(post.published_at).toLocaleDateString() %></p>
+        <h1>Physical Health</h1>
+        <form action="/communities/physical-health" method="POST">
+            <div class="posts-creation">
+                <div>
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+                <div>
+                    <label for="body">Body:</label>
+                    <textarea id="body" name="body" rows="5" required></textarea>
+                </div>
+                <div>
+                    <button type="submit">Post</button>
+                </div>
+            </div>
+        </form>
+        <div class="content-area">
+            <div class="posts-grid">
+                <% if (community_posts.length > 0) { %>
+                    <% community_posts.forEach(post => { %>
+                        <div class="post">
+                            <div class="post-meta">
+                                <p><strong><%= post.username %></strong> | <%= new Date(post.published_at).toLocaleString() %></p>
+                            </div>
+                            <h2><%= post.title %></h2>
                             <p><%= post.content %></p>
-                            <p><small>Likes: <%= post.likes %>, Views: <%= post.views %></small></p>
                         </div>
                     <% }) %>
                 <% } else { %>
-                    <p>No posts available yet.</p>
+                    <p>No published posts found.</p>
                 <% } %>
             </div>
-        </section>
+        </div>
     </div>
     <footer>
         <p>&copy; 2024 Healro. All rights reserved.</p>

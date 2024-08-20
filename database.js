@@ -97,15 +97,6 @@ db.serialize(async () => {
     )
   `);
 
-  // Create Communities table
-  db.run(`
-    CREATE TABLE IF NOT EXISTS communities (
-      community_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      name TEXT NOT NULL,
-      description TEXT
-    )
-  `);
-
   // Create community_posts table
   db.run(`
     CREATE TABLE IF NOT EXISTS community_posts (
