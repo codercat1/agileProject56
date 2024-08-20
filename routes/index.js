@@ -154,9 +154,43 @@ router.post('/post/:post_id/like', (req, res) => {
   });
 });
 
-// Top Discussion
-router.get('/top_discussion', (req, res) => {
-  res.render('top_discussion');
+// Communities page
+router.get('/communities', (req, res) => {
+  res.render('communities');
+});
+
+// Community page for Physical Health
+router.get('/communities/physical-health', (req, res) => {
+  db.all('SELECT * FROM community_posts WHERE category = ? ORDER BY published_at DESC', ['physical-health'], (err, posts) => {
+    if (err) {
+        console.error(err.message);
+        return res.status(500).send("Internal Server Error");
+    }
+    res.render('communities/physical-health', { user: req.user, posts: posts, category: 'physical-health' });
+  });
+});
+
+router.post('/communities/physical-health/post', (req, res) => {
+  const { title, content } = req.body;
+  const userId = req.user.id;
+  const username = req.user.username;
+
+  // Validate input
+  if (!title || !content) {
+      return res.status(400).send('Title and content are required');
+  }
+
+  // Insert new post into the database
+  db.run(`
+      INSERT INTO community_posts (category, user_id, username, title, content) 
+      VALUES (?, ?, ?, ?, ?)
+  `, ['physical-health', userId, username, title, content], function(err) {
+      if (err) {
+          console.error(err.message);
+          return res.status(500).send("Internal Server Error");
+      }
+      res.redirect('/communities/physical-health');
+  });
 });
 
 // Login page

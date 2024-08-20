@@ -110,7 +110,7 @@ db.serialize(async () => {
   db.run(`
     CREATE TABLE IF NOT EXISTS community_posts (
       post_id INTEGER PRIMARY KEY AUTOINCREMENT,
-      community_id INTEGER NOT NULL,
+      category TEXT NOT NULL,
       user_id INTEGER NOT NULL,
       username TEXT NOT NULL,
       title TEXT NOT NULL,
@@ -118,14 +118,9 @@ db.serialize(async () => {
       published_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       likes INTEGER DEFAULT 0,
       views INTEGER DEFAULT 0,
-      FOREIGN KEY (community_id) REFERENCES communities(community_id),
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
-
-  // Insert dummy communities
-  db.run(`INSERT INTO communities (name, description) VALUES ('Mental Health', 'A community focused on mental well-being.')`);
-  db.run(`INSERT INTO communities (name, description) VALUES ('Physical Health', 'A community focused on physical fitness and well-being.')`);
 
   // Insert admin user
   const hashedAdminPassword = await bcrypt.hash('admin_password', 10);

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>Physical Health</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Healro</h2>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/profile">Profile</a></li>
+                <li><a href="/activities">Activities</a></li>
+                <li><a href="/contents">Contents</a></li>
+                <li><a href="/posting">My Feed</a></li>
+                <li><a href="/communities">Communities</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="main-content">
+        <header>
+            <h1>Healro</h1>
+            <nav>
+                <ul>
+                    <li><form action="/logout" method="post" style="display:inline;"><button type="submit">Log Off</button></form></li>
+                </ul>
+            </nav>
+        </header>
+
+        <!-- Community Posts Section -->
+        <section class="community-content">
+            <h2>Physical Health Discussions</h2>
+            <form action="/communities/physical-health" method="POST">
+                <input type="text" name="title" placeholder="Post Title" required>
+                <textarea name="content" placeholder="Share your thoughts..." required></textarea>
+                <button type="submit">Post</button>
+            </form>
+            <div class="posts">
+                <% if (posts && posts.length > 0) { %>
+                    <% posts.forEach(function(post) { %>
+                        <div class="post-item">
+                            <h3><%= post.title %></h3>
+                            <p>by <%= post.username %> on <%= new Date(post.published_at).toLocaleDateString() %></p>
+                            <p><%= post.content %></p>
+                            <p><small>Likes: <%= post.likes %>, Views: <%= post.views %></small></p>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p>No posts available yet.</p>
+                <% } %>
+            </div>
+        </section>
+    </div>
+    <footer>
+        <p>&copy; 2024 Healro. All rights reserved.</p>
+    </footer>
+</body>
+</html>
