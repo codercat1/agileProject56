@@ -156,15 +156,40 @@ router.post('/post/:post_id/like', (req, res) => {
 
 // Communities page
 router.get('/communities', (req, res) => {
-  // Fetch all communities from the database
-  db.all('SELECT * FROM communities', (err, communities) => {
+  res.render('communities');
+});
+
+// Community page for Physical Health
+router.get('/communities/physical-health', (req, res) => {
+  db.all('SELECT * FROM community_posts WHERE category = ? ORDER BY published_at DESC', ['physical-health'], (err, posts) => {
     if (err) {
-      console.error(err.message);
-      return res.status(500).send('Database error');
+        console.error(err.message);
+        return res.status(500).send("Internal Server Error");
     }
-    
-    // Render the communities page with the list of communities
-    res.render('communities', { communities });
+    res.render('communities/physical-health', { user: req.user, posts: posts, category: 'physical-health' });
+  });
+});
+
+router.post('/communities/physical-health/post', (req, res) => {
+  const { title, content } = req.body;
+  const userId = req.user.id;
+  const username = req.user.username;
+
+  // Validate input
+  if (!title || !content) {
+      return res.status(400).send('Title and content are required');
+  }
+
+  // Insert new post into the database
+  db.run(`
+      INSERT INTO community_posts (category, user_id, username, title, content) 
+      VALUES (?, ?, ?, ?, ?)
+  `, ['physical-health', userId, username, title, content], function(err) {
+      if (err) {
+          console.error(err.message);
+          return res.status(500).send("Internal Server Error");
+      }
+      res.redirect('/communities/physical-health');
   });
 });
 

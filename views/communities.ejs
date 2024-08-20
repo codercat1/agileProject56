@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/communities.css">
-    <title>Top Discussion</title>
+    <title>Communities</title>
 </head>
 <body>
     <div class="sidebar">
@@ -36,20 +36,24 @@
                 <input type="text" placeholder="Search...">
             </div>
             <div class="content-area">
-                <h1>Communities</h1>
-                <ul>
-                <% communities.forEach(community => { %>
-                    <li><a href="/communities/<%= community.id %>"><%= community.name %></a></li>
-                <% }) %>
-                </ul>
                 <div class="posts-grid">
-                    <div class="post">
-                        <img src="/images/post1.jpg" alt="Post Image">
-                        <p><strong>Username</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit. #topic</p>
+                    <div class="communities-item">
+                        <h3><a href="/communities/physical-health">Physical Health</a></h3>
                     </div>
-                    <div class="post">
-                        <img src="/images/post2.jpg" alt="Post Image">
-                        <p><strong>Username</strong> Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Sed at libero vehicula, ullamcorper velit vitae, tincidunt erat. #topic</p>
+                    <div class="communities-item">
+                        <h3><a href="/communities/mental-health">Mental Health</h3>
+                    </div>
+                    <div class="communities-item">
+                        <h3><a href="/communities/general-diseases">General Diseases</h3>
+                    </div>
+                    <div class="communities-item">
+                        <h3><a href="/communities/human-body">Human Body</h3>
+                    </div>
+                    <div class="communities-item">
+                        <h3><a href="/communities/medicine">Medicine</h3>
+                    </div>
+                    <div class="communities-item">
+                        <h3><a href="/communities/fitness">Fitness</h3>
                     </div>
                 </div>
                 <div class="recommended-communities">
