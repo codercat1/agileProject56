@@ -67,6 +67,8 @@
                         <input type="text" id="searchInput" name="username" placeholder="Enter friend's username">
                         <button type="submit">Search</button>
                     </form>
+                    <!-- Error message container -->
+                    <p id="errorMessage" style="color: red; display: none;"></p>
                     <!-- Dropdown menu for search results -->
                     <ul id="searchResults" class="dropdown-menu" style="display: none;">
                     </ul>
@@ -91,52 +93,97 @@
 
 
 <script>
+    // Trigger the dropdown as the user types in the search input
     document.getElementById('searchInput').addEventListener('input', function() {
-    const query = this.value;
-    // Send an AJAX request to the server
-    fetch('/search-friend', {
-        method: 'POST',
-        headers: {
-        'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username: query }),
-    })
+        const query = this.value;
+        const errorMessage = document.getElementById('errorMessage');
+        const resultsList = document.getElementById('searchResults');
+
+        // Hide the error message initially
+        errorMessage.style.display = 'none';
+
+        if (query) {
+            fetch('/search-friend', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: query }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                resultsList.innerHTML = ''; // Clear previous results
+
+                if (data.results.length > 0) {
+                    resultsList.style.display = 'block'; // Show the dropdown
+                    data.results.forEach(user => {
+                        const li = document.createElement('li');
+                        li.textContent = user.username;
+                        li.dataset.userId = user.id; // Store the user's ID for future actions
+                        resultsList.appendChild(li);
+                    });
+                } else {
+                    resultsList.style.display = 'none'; // Hide the dropdown if no results
+                }
+            })
+            .catch(err => console.error('Error:', err));
+        } else {
+            resultsList.style.display = 'none'; // Hide the dropdown if the input is cleared
+        }
+    });
+
+    // Handle form submission (pressing search button)
+    document.getElementById('searchForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+
+        const query = document.getElementById('searchInput').value;
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Hide the error message initially
+        errorMessage.style.display = 'none';
+
+        if (!query) {
+            // If the search input is empty, show the error
+            errorMessage.textContent = 'Please fill out this field.';
+            errorMessage.style.display = 'block';
+            return;
+        }
+
+        // Send a search request to the server to check for valid usernames
+        fetch('/search-friend', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: query }),
+        })
         .then(response => response.json())
         .then(data => {
             const resultsList = document.getElementById('searchResults');
             resultsList.innerHTML = ''; // Clear previous results
-            
+
             if (data.results.length > 0) {
-                resultsList.style.display = 'block'; // Show the dropdown
-                data.results.forEach(user => {
-                const li = document.createElement('li');
-                li.textContent = user.username;
-                li.dataset.userId = user.id; // Store the user's ID for future actions
-                resultsList.appendChild(li);
-                });
+                // If the user exists, redirect to their profile page
+                window.location.href = `/profile/${data.results[0].id}`;
             } else {
+                // Show error message if no user found
+                errorMessage.textContent = 'This user does not exist.';
+                errorMessage.style.display = 'block';
                 resultsList.style.display = 'none'; // Hide the dropdown if no results
             }
-            // Populate the dropdown menu with the results
-            // data.results.forEach(user => {
-            //     const li = document.createElement('li');
-            //     li.textContent = user.username;
-            //     li.dataset.userId = user.id; // Store the user's ID for future actions
-            //     resultsList.appendChild(li);
-            // });
         })
         .catch(err => console.error('Error:', err));
     });
 
-
+    // Handle clicking on a dropdown result
     document.getElementById('searchResults').addEventListener('click', function(e) {
         if (e.target.tagName === 'LI') {
-            const selectedUsername = e.target.textContent;
             const selectedUserId = e.target.dataset.userId;
 
-            //redirecting to selected user profile page
+            // Redirecting to the selected user profile page
             window.location.href = `/profile/${selectedUserId}`;
         }
     });
+
 
 </script>
