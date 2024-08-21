@@ -37,7 +37,7 @@
     position: fixed;
     top: 0;
     left: -250px; 
-    width: 250px;
+    width: 250px; /*left an edge of sidebar visible while hidden*/
     height: 100%;
     padding: 20px;
     transition: left 0.3s ease;
