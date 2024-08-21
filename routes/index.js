@@ -505,6 +505,7 @@ router.post('/logout', (req, res) => {
 // Updated profile route with joined query to fetch friend's username
 router.get('/profile/:id', (req, res) => {
   const userId = req.params.id;
+  const loggedInUserId = req.session.userId;
 
   db.get('SELECT * FROM users WHERE id = ?', [userId], (err, userRow) => {
     if (err) {
@@ -530,7 +531,12 @@ router.get('/profile/:id', (req, res) => {
                 console.error(err.message);
                 res.status(500).send('Database error');
               } else {
-                res.render('profile', { user: userRow, posts: userPosts, friends: friendRows });
+                res.render('profile', { 
+                  user: userRow, 
+                  posts: userPosts, 
+                  friends: friendRows,
+                  loggedInUserId: loggedInUserId, // Pass loggedInUserId to the template
+                });
               }
             }
           );

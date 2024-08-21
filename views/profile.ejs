@@ -34,10 +34,12 @@
                 <img src="/images/user-profile.jpg" alt="Profile Picture" class="profile-picture">
                 <h2><%= user.username %></h2>
                 <p>000,000 Followers</p>
-                <form action="/add-friend" method="post" style="display:inline;">
-                    <input type="hidden" name="friendId" value="<%= user.id %>">
-                    <button type="submit">Add Friend</button>
-                </form>                
+                <% if (user.id !== loggedInUserId) { %> <!-- Only show the button if this is not the logged-in user's profile -->
+                    <form action="/add-friend" method="post" style="display:inline;">
+                        <input type="hidden" name="friendId" value="<%= user.id %>">
+                        <button type="submit">Add Friend</button>
+                    </form>
+                <% } %>                
             </div>
             <div class="profile-content">
                 <div class="profile-info">
@@ -73,7 +75,7 @@
                         <% friends.forEach(friend => { %>
                             <div>
                                 <%= friend.username %> <!-- Display friend's username or other details -->
-                                <form action="/remove-friend/<%= friend.id %>" method="POST" style="display:inline;">
+                                <form action="/remove-friend/<%= friend.friendId%>" method="POST" style="display:inline;">
                                     <button type="submit">Remove Friend</button>
                                 </form>
                             </div>
