@@ -9,6 +9,7 @@
     top: 0;
     left: 0;
     overflow-y: auto;
+    transition: width 0.3s ease;
 }
 
 .sidebar h2 {
@@ -46,8 +47,7 @@
 
 
 /* When hovering over the icon or the sidebar, the sidebar slides into view */
-.sidebar +  .sidebar,
-.sidebar:hover {
+.sidebar:hover{
     left: 0;
 }
 
@@ -56,5 +56,15 @@
     margin-left: -200px;
     transition: margin-left 0.3s ease;
 }
+
+.sidebar .arrows {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+}
+
 
 
