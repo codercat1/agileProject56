@@ -29,50 +29,52 @@
                 </ul>
             </nav>
         </header>
-        <!-- Community Posts Section -->
-        <h1>Fitness</h1>
-        <form action="/communities/fitness" method="POST">
-            <div class="posts-creation">
-                <div>
-                    <label for="title">Title:</label>
-                    <input type="text" id="title" name="title" required>
+        <section class="today-topic">
+            <!-- Community Posts Section -->
+            <h1>Fitness</h1>
+            <form action="/communities/fitness" method="POST">
+                <div class="posts-creation">
+                    <div>
+                        <label for="title">Title:</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div>
+                        <label for="body">Body:</label>
+                        <textarea id="body" name="body" rows="5" required></textarea>
+                    </div>
+                    <div>
+                        <button type="submit">Post</button>
+                    </div>
                 </div>
-                <div>
-                    <label for="body">Body:</label>
-                    <textarea id="body" name="body" rows="5" required></textarea>
-                </div>
-                <div>
-                    <button type="submit">Post</button>
-                </div>
-            </div>
-        </form>
-        <div class="content-area">
-            <div class="posts-grid">
-                <% if (community_posts.length > 0) { %>
-                    <% community_posts.forEach(post => { %>
-                        <div class="post">
-                            <div class="post-meta">
-                                <p><strong><%= post.username %></strong> | <%= new Date(post.published_at).toLocaleString() %></p>
+            </form>
+            <div class="content-area">
+                <div class="posts-grid">
+                    <% if (community_posts.length > 0) { %>
+                        <% community_posts.forEach(post => { %>
+                            <div class="post">
+                                <div class="post-meta">
+                                    <p><strong><%= post.username %></strong> | <%= new Date(post.published_at).toLocaleString() %></p>
+                                </div>
+                                <h2><%= post.title %></h2>
+                                <p><%= post.content %></p>
                             </div>
-                            <h2><%= post.title %></h2>
-                            <p><%= post.content %></p>
-                        </div>
-                    <% }) %>
-                <% } else { %>
-                    <p>No published posts found.</p>
-                <% } %>
+                        <% }) %>
+                    <% } else { %>
+                        <p>No published posts found.</p>
+                    <% } %>
+                </div>
+                <div class="recommended-communities">
+                    <h3>Recommended Communities</h3>
+                    <ul>
+                        <li><a href="/communities/physical-health">Physical Health</a><button>Join</button></li>
+                        <li><a href="/communities/mental-health">Mental Health</a><button>Join</button></li>
+                        <li><a href="/communities/general-diseases">General Diseases</a><button>Join</button></li>
+                        <li><a href="/communities/human-body">Human Body</a><button>Join</button></li>
+                        <li><a href="/communities/medicine">Medicine</a><button>Join</button></li>
+                    </ul>
+                </div>
             </div>
-            <div class="recommended-communities">
-                <h3>Recommended Communities</h3>
-                <ul>
-                    <li><a href="/communities/physical-health">Physical Health</a><button>Join</button></li>
-                    <li><a href="/communities/mental-health">Mental Health</a><button>Join</button></li>
-                    <li><a href="/communities/general-diseases">General Diseases</a><button>Join</button></li>
-                    <li><a href="/communities/human-body">Human Body</a><button>Join</button></li>
-                    <li><a href="/communities/medicine">Medicine</a><button>Join</button></li>
-                </ul>
-            </div>
-        </div>
+        </section>
     </div>
     <footer>
         <p>&copy; 2024 Healro. All rights reserved.</p>
