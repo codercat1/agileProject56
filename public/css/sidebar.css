@@ -59,12 +59,19 @@
 
 .sidebar .arrows {
     position: absolute;
+    background-image: url('https://i.pinimg.com/564x/85/d1/27/85d127c90473159e9232a4a1e1636cb5.jpg');
     top: 10px;
     right: 5px;
     width: 40px;
     height: 40px;
     background-size: cover;
+    background-repeat: no-repeat;
+    
 }
 
-
+.sidebar:hover .arrows {
+    background-image: url('https://i.pinimg.com/564x/85/d1/27/85d127c90473159e9232a4a1e1636cb5.jpg');
+    transition: background-image 0.3s ease;
+    background-repeat: no-repeat;
+}
 
