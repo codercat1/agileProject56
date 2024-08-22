@@ -125,8 +125,8 @@ router.post('/communities/physical-health/:post_id/comment', (req, res) => {
   const commentText = req.body.comment_text;
   const commentDate = new Date().toISOString();
 
-  const query = `INSERT INTO comments (post_id, commenter_name, comment_text, comment_date) VALUES (?, ?, ?, ?)`;
-  db.run(query, [postId, commenterName, commentText, commentDate], function (err) {
+  const query = `INSERT INTO community_comments (post_id, commenter_name, category, comment_text, comment_date) VALUES (?, ?, ?, ?, ?)`;
+  db.run(query, [postId, commenterName, 'physical-health', commentText, commentDate], function (err) {
     if (err) {
       console.error(err.message);
       res.status(500).send('Error adding comment');
@@ -211,7 +211,14 @@ router.get('/communities/physical-health', (req, res) => {
       console.error(err.message);
       return res.status(500).send('Database error');
     }
-    res.render('communities/physical-health', { community_posts });
+
+    db.all('SELECT * FROM community_comments WHERE category = "physical-health" ORDER BY comment_date ASC', (err, community_comments) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      res.render('communities/physical-health', { community_posts, community_comments });
+    });
   });
 });
 

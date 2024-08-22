@@ -113,6 +113,19 @@ db.serialize(async () => {
     )
   `);
 
+  // Create community comments table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS community_comments (
+      comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      post_id INTEGER NOT NULL,
+      category TEXT NOT NULL,
+      commenter_name TEXT NOT NULL,
+      comment_text TEXT NOT NULL,
+      comment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (post_id) REFERENCES community_posts(post_id)
+    )
+  `);
+
   // Insert admin user
   const hashedAdminPassword = await bcrypt.hash('admin_password', 10);
   db.run(`INSERT INTO users (username, email, password, role) VALUES ('Admin', 'admin@example.com', ?, 'admin')`, [hashedAdminPassword]);
