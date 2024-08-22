@@ -38,7 +38,7 @@
                 <% if (user.id !== loggedInUserId) { %> <!-- Only show the button if this is not the logged-in user's profile -->
                     <form action="/add-friend" method="post" style="display:inline;">
                         <input type="hidden" name="friendId" value="<%= user.id %>">
-                        <button type="submit">Add Friend</button>
+                        <button type="submit" class="follow-button">Follow</button>
                     </form>
                 <% } %>                
             </div>
@@ -62,29 +62,31 @@
                         <p>You haven't posted anything yet.</p>
                     <% } %>
                 </div>
-                <div class="friends-section">
-                    <h3>Add a New Friend</h3>
-                    <form id="searchForm" method="POST">
-                        <input type="text" id="searchInput" name="username" placeholder="Enter friend's username">
-                        <button type="submit">Search</button>
-                    </form>
-                    <!-- Error message container -->
-                    <p id="errorMessage" style="color: red; display: none;"></p>
-                    <!-- Dropdown menu for search results -->
-                    <ul id="searchResults" class="dropdown-menu" style="display: none;">
-                    </ul>
-                    <h3>Your Friends</h3>
-                    <ul>
-                        <% friends.forEach(friend => { %>
-                            <div>
-                                <%= friend.username %> <!-- Display friend's username or other details -->
-                                <form action="/remove-friend/<%= friend.friendId%>" method="POST" style="display:inline;">
-                                    <button type="submit">Remove Friend</button>
-                                </form>
-                            </div>
-                        <% }); %>
-                    </ul>
-                </div>
+                <% if (user.id == loggedInUserId) { %> <!-- Only show the section if this is the logged-in user's profile -->
+                    <div class="friends-section">
+                        <h3>Add a New Friend</h3>
+                        <form id="searchForm" method="POST">
+                            <input type="text" id="searchInput" name="username" placeholder="Enter friend's username">
+                            <button type="submit">Search</button>
+                        </form>
+                        <!-- Error message container -->
+                        <p id="errorMessage" style="color: red; display: none;"></p>
+                        <!-- Dropdown menu for search results -->
+                        <ul id="searchResults" class="dropdown-menu" style="display: none;">
+                        </ul>
+                        <h3>Your Friends</h3>
+                        <ul>
+                            <% friends.forEach(friend => { %>
+                                <div>
+                                    <%= friend.username %> <!-- Display friend's username or other details -->
+                                    <form action="/remove-friend/<%= friend.friendId%>" method="POST" style="display:inline;">
+                                        <button type="submit" class="unfollow-button">Unfollow</button>
+                                    </form>
+                                </div>
+                            <% }); %>
+                        </ul>
+                    </div>
+                <% } %> 
             </div>
         </section>
     </div>
