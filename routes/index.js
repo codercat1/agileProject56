@@ -136,6 +136,91 @@ router.post('/communities/physical-health/:post_id/comment', (req, res) => {
   });
 });
 
+router.post('/communities/mental-health/:post_id/comment', (req, res) => {
+  const postId = req.params.post_id;
+  const commenterName = req.session.username;
+  const commentText = req.body.comment_text;
+  const commentDate = new Date().toISOString();
+
+  const query = `INSERT INTO community_comments (post_id, commenter_name, category, comment_text, comment_date) VALUES (?, ?, ?, ?, ?)`;
+  db.run(query, [postId, commenterName, 'mental-health', commentText, commentDate], function (err) {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Error adding comment');
+    } else {
+      res.redirect('/communities/mental-health');
+    }
+  });
+});
+
+router.post('/communities/general-diseases/:post_id/comment', (req, res) => {
+  const postId = req.params.post_id;
+  const commenterName = req.session.username;
+  const commentText = req.body.comment_text;
+  const commentDate = new Date().toISOString();
+
+  const query = `INSERT INTO community_comments (post_id, commenter_name, category, comment_text, comment_date) VALUES (?, ?, ?, ?, ?)`;
+  db.run(query, [postId, commenterName, 'general-diseases', commentText, commentDate], function (err) {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Error adding comment');
+    } else {
+      res.redirect('/communities/general-diseases');
+    }
+  });
+});
+
+router.post('/communities/human-body/:post_id/comment', (req, res) => {
+  const postId = req.params.post_id;
+  const commenterName = req.session.username;
+  const commentText = req.body.comment_text;
+  const commentDate = new Date().toISOString();
+
+  const query = `INSERT INTO community_comments (post_id, commenter_name, category, comment_text, comment_date) VALUES (?, ?, ?, ?, ?)`;
+  db.run(query, [postId, commenterName, 'human-body', commentText, commentDate], function (err) {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Error adding comment');
+    } else {
+      res.redirect('/communities/human-body');
+    }
+  });
+});
+
+router.post('/communities/medicine/:post_id/comment', (req, res) => {
+  const postId = req.params.post_id;
+  const commenterName = req.session.username;
+  const commentText = req.body.comment_text;
+  const commentDate = new Date().toISOString();
+
+  const query = `INSERT INTO community_comments (post_id, commenter_name, category, comment_text, comment_date) VALUES (?, ?, ?, ?, ?)`;
+  db.run(query, [postId, commenterName, 'medicine', commentText, commentDate], function (err) {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Error adding comment');
+    } else {
+      res.redirect('/communities/medicine');
+    }
+  });
+});
+
+router.post('/communities/fitness/:post_id/comment', (req, res) => {
+  const postId = req.params.post_id;
+  const commenterName = req.session.username;
+  const commentText = req.body.comment_text;
+  const commentDate = new Date().toISOString();
+
+  const query = `INSERT INTO community_comments (post_id, commenter_name, category, comment_text, comment_date) VALUES (?, ?, ?, ?, ?)`;
+  db.run(query, [postId, commenterName, 'fitness', commentText, commentDate], function (err) {
+    if (err) {
+      console.error(err.message);
+      res.status(500).send('Error adding comment');
+    } else {
+      res.redirect('/communities/fitness');
+    }
+  });
+});
+
 // Likes route
 router.post('/post/:post_id/like', (req, res) => {
   const postId = req.params.post_id;
@@ -257,7 +342,14 @@ router.get('/communities/mental-health', (req, res) => {
       console.error(err.message);
       return res.status(500).send('Database error');
     }
-    res.render('communities/mental-health', { community_posts });
+
+    db.all('SELECT * FROM community_comments WHERE category = "mental-health" ORDER BY comment_date ASC', (err, community_comments) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      res.render('communities/mental-health', { community_posts, community_comments });
+    });
   });
 });
 
@@ -296,7 +388,14 @@ router.get('/communities/medicine', (req, res) => {
       console.error(err.message);
       return res.status(500).send('Database error');
     }
-    res.render('communities/medicine', { community_posts });
+
+    db.all('SELECT * FROM community_comments WHERE category = "medicine" ORDER BY comment_date ASC', (err, community_comments) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      res.render('communities/medicine', { community_posts, community_comments });
+    });
   });
 });
 
@@ -335,7 +434,14 @@ router.get('/communities/human-body', (req, res) => {
       console.error(err.message);
       return res.status(500).send('Database error');
     }
-    res.render('communities/human-body', { community_posts });
+
+    db.all('SELECT * FROM community_comments WHERE category = "human-body" ORDER BY comment_date ASC', (err, community_comments) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      res.render('communities/human-body', { community_posts, community_comments });
+    });
   });
 });
 
@@ -374,7 +480,14 @@ router.get('/communities/general-diseases', (req, res) => {
       console.error(err.message);
       return res.status(500).send('Database error');
     }
-    res.render('communities/general-diseases', { community_posts });
+
+    db.all('SELECT * FROM community_comments WHERE category = "general-diseases" ORDER BY comment_date ASC', (err, community_comments) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      res.render('communities/general-diseases', { community_posts, community_comments });
+    });
   });
 });
 
@@ -413,7 +526,14 @@ router.get('/communities/fitness', (req, res) => {
       console.error(err.message);
       return res.status(500).send('Database error');
     }
-    res.render('communities/fitness', { community_posts });
+
+    db.all('SELECT * FROM community_comments WHERE category = "fitness" ORDER BY comment_date ASC', (err, community_comments) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      res.render('communities/fitness', { community_posts, community_comments });
+    });
   });
 });
 
