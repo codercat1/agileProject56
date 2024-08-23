@@ -69,10 +69,12 @@
 
                 <div class="notes">
                     <h2>Notes</h2>
-                    <div class="notes-content">
+                    <div class="notes-content" id="notes-content">
+                        <p>Select a date to view your notes.</p>
                         <!-- Data will be populated here when a date is clicked -->
                     </div>
                     <textarea placeholder="Write your notes here..."></textarea>
+                    <button id="save-notes-button">Save Notes</button>
                 </div>
                 
             </div>
@@ -90,6 +92,11 @@
         <p>&copy; 2024 Healro. All rights reserved.</p>
     </footer>
 
+
+    <!--extract date from database-->
+    <script src="/js/activities.js"></script>
+
+    <!--generate calendar-->
     <script>
         document.getElementById('calendarInput').addEventListener('change', function() {
         const calendarGrid = document.querySelector('.calendar-grid');
