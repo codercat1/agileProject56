@@ -57,6 +57,12 @@
                                 </div>
                                 <h2><%= post.title %></h2>
                                 <p><%= post.content %></p>
+                                <div class="post-actions">
+                                    <form action="/communities/fitness/<%= post.post_id %>/like" method="POST" style="display:inline;">
+                                        <button type="submit" class="like-button">Like</button>
+                                    </form>
+                                    <p class="likes-count">Likes: <%= post.likes %></p>
+                                </div>
                                 <div class="comments">
                                     <h3>Comments</h3>
                                     <% community_comments.filter(comment => comment.post_id === post.post_id).forEach(comment => { %>

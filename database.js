@@ -126,6 +126,18 @@ db.serialize(async () => {
     )
   `);
 
+  // Create community likes table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS community_likes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      post_id INTEGER,
+      user_id INTEGER,
+      FOREIGN KEY (post_id) REFERENCES posts(post_id),
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      UNIQUE (post_id, user_id)
+    )
+  `);
+
   // Insert admin user
   const hashedAdminPassword = await bcrypt.hash('admin_password', 10);
   db.run(`INSERT INTO users (username, email, password, role) VALUES ('Admin', 'admin@example.com', ?, 'admin')`, [hashedAdminPassword]);
