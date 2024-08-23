@@ -1,3 +1,5 @@
+//This file is responsible for database management, including creating tables and managing user data. It utilizes SQLite for database operations.
+
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 
@@ -30,6 +32,7 @@ db.serialize(async () => {
       steps INTEGER,
       mvpa INTEGER,
       sleep INTEGER,
+      date Text,
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
