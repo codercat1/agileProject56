@@ -45,20 +45,29 @@
                 </ul>
             </div>
             
-            <!-- Calendar and Notes(split into data display and note) -->
+            <!-- Calendar -->
             <div class="calendar">
                 <h2>Select Month</h2>
                 <div class="monthSelect">
                     <!-- Calendar Content -->
-                    <input type="month" class="calendar-input">
+                    <input type="month" class="calendar-input" id="calendarInput">
                 </div>
                 <div class="calendar-grid">
                     <!-- Calendar dates will be dynamically generated here -->
+
+                    <!-- OPTIONAL: week headers -->
+                    <!-- <div class="day-header">Monday</div>
+                    <div class="day-header">Tuesday</div>
+                    <div class="day-header">Wednesday</div>
+                    <div class="day-header">Thursday</div>
+                    <div class="day-header">Friday</div>
+                    <div class="day-header">Saturday</div>
+                    <div class="day-header">Sunday</div> -->
                 </div>
             </div>
 
 
-            <!--notes-->
+            <!-- activities data and notes-->
             <div class="tools">
                 <!--activity data-->
                 <div class="activity-data">
@@ -89,5 +98,48 @@
     <footer>
         <p>&copy; 2024 Healro. All rights reserved.</p>
     </footer>
+
+    <script>
+        document.getElementById('calendarInput').addEventListener('change', function() {
+        const calendarGrid = document.querySelector('.calendar-grid');
+        calendarGrid.innerHTML = ''; // Clear previous dates
+        
+        const selectedDate = new Date(this.value);
+        const year = selectedDate.getFullYear();
+        const month = selectedDate.getMonth();
+        
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDayOfMonth = new Date(year, month + 1, 0);
+        
+        const firstDayOfWeek = firstDayOfMonth.getDay(); // Day of the week (0 for Sunday, 6 for Saturday)
+        const daysInMonth = lastDayOfMonth.getDate(); // Total number of days in the month
+        
+        // Adjusting for Monday as the first day of the week
+        const adjustedFirstDay = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+        
+        // Add empty cells before the start of the month
+        for (let i = 0; i < adjustedFirstDay; i++) {
+            const emptyCell = document.createElement('div');
+            calendarGrid.appendChild(emptyCell);
+        }
+        
+        // Add actual days of the month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateCell = document.createElement('div');
+            dateCell.classList.add('calendar-date');
+            dateCell.textContent = day;
+            
+            // Attach click event to each date cell
+            dateCell.addEventListener('click', function() {
+                // Here you can handle the logic to store/retrieve information from the database
+                alert(`You clicked on ${day}/${month + 1}/${year}`);
+                // Perform database operations here
+            });
+            
+            calendarGrid.appendChild(dateCell);
+        }
+    });
+    </script>
+    
 </body>
 </html>
