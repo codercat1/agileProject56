@@ -1,6 +1,9 @@
 
 /*-----------------------------topics styling-----------------------------------------*/
 .my-activities {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
     padding: 20px;
     margin-left: 250px;
     max-width: calc(100% - 250px);
@@ -12,6 +15,8 @@
 }
 
 .activity-topics {
+    flex: 1;
+    margin-right: 20px;
     margin-bottom: 20px;
     background-color: #f1f1f1;
     padding: 10px;
@@ -20,6 +25,8 @@
 }
 
 .activity-topics ul {
+    flex: 1;
+    margin-right: 20px;
     padding: 0;
     margin: 0;
     list-style-type: none; /* Ensure no bullets for the list */
@@ -93,6 +100,7 @@
 
 /*-----------------------------notes styling-----------------------------------------*/
 .notes {
+    flex: 1;
     background-color: white;
     padding: 20px;
     border-radius: 10px;
