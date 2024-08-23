@@ -37,6 +37,7 @@ db.serialize(async () => {
     )
   `);
 
+
   // Create friends table
   db.run(`
     CREATE TABLE IF NOT EXISTS friends (

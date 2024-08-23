@@ -112,11 +112,15 @@
                 <h2><%= user.username %></h2>
             </div>
             <div class="profile-content">
+                <div>
+                    <h3>Debugging Information</h3>
+                    <pre><%= JSON.stringify(healthStats, null, 2) %></pre>
+                </div>
                 <div class="posts">
                     <!-- Example Post -->
                     <% healthStats.forEach(stat => { %>
                     <div class="post">
-                        <p><strong><%= stat.date %></strong> - Calories: <%= stat.calories %>, Steps: <%= stat.steps %>, MVPA: <%= stat.mvpa %>, Sleep: <%= stat.sleep %> hours</p>
+                        <p><strong><%= user.username %></strong> - Calories: <%= stat.calories %>, Steps: <%= stat.steps %>, MVPA: <%= stat.mvpa %>, Sleep: <%= stat.sleep %> hours</p>
                     </div>
                     <% }) %>
                 </div>

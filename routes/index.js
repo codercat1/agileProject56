@@ -1000,9 +1000,9 @@ router.get('/health_tracker/:id', (req, res) => {
 // Handle form submission for health data
 router.post('/health_tracker/:id', (req, res) => {
   const userId = req.params.id;
-  const { calories, steps, mvpa, sleep } = req.body;
+  const { calories, steps, mvpa, sleep, stat_date } = req.body;
 
-  db.run('INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (?, ?, ?, ?, ?)', [userId, calories, steps, mvpa, sleep], function(err) {
+  db.run('INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep, date) VALUES (?, ?, ?, ?, ?, ?)', [userId, calories, steps, mvpa, sleep, stat_date], function(err) {
     if (err) {
       console.error(err.message);
       res.status(500).send('Database error');
