@@ -221,7 +221,7 @@ router.post('/communities/fitness/:post_id/comment', (req, res) => {
   });
 });
 
-// Likes route
+// Likes route for My Feed page
 router.post('/post/:post_id/like', (req, res) => {
   const postId = req.params.post_id;
   const userId = req.session.userId;
@@ -256,12 +256,222 @@ router.post('/post/:post_id/like', (req, res) => {
   });
 });
 
-// Communities page
+// Likes route for Physical Health community page
+router.post('/communities/physical-health/:post_id/like', (req, res) => {
+  const postId = req.params.post_id;
+  const userId = req.session.userId;
+
+  // Check if user has already liked the post
+  db.get('SELECT * FROM community_likes WHERE post_id = ? AND user_id = ?', [postId, userId], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    if (row) {
+      // User has already liked this post
+      return res.status(400).send('You have already liked this post');
+    }
+
+    // Add like to the database
+    db.run('INSERT INTO community_likes (post_id, user_id) VALUES (?, ?)', [postId, userId], (err) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+
+      // Increment like count on the post
+      db.run('UPDATE community_posts SET likes = likes + 1 WHERE post_id = ?', [postId], (err) => {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send('Database error');
+        }
+        res.redirect('/communities/physical-health');
+      });
+    });
+  });
+});
+
+// Likes route for Mental Health community page
+router.post('/communities/mental-health/:post_id/like', (req, res) => {
+  const postId = req.params.post_id;
+  const userId = req.session.userId;
+
+  // Check if user has already liked the post
+  db.get('SELECT * FROM community_likes WHERE post_id = ? AND user_id = ?', [postId, userId], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    if (row) {
+      // User has already liked this post
+      return res.status(400).send('You have already liked this post');
+    }
+
+    // Add like to the database
+    db.run('INSERT INTO community_likes (post_id, user_id) VALUES (?, ?)', [postId, userId], (err) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+
+      // Increment like count on the post
+      db.run('UPDATE community_posts SET likes = likes + 1 WHERE post_id = ?', [postId], (err) => {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send('Database error');
+        }
+        res.redirect('/communities/mental-health');
+      });
+    });
+  });
+});
+
+// Likes route for General Diseases community page
+router.post('/communities/general-diseases/:post_id/like', (req, res) => {
+  const postId = req.params.post_id;
+  const userId = req.session.userId;
+
+  // Check if user has already liked the post
+  db.get('SELECT * FROM community_likes WHERE post_id = ? AND user_id = ?', [postId, userId], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    if (row) {
+      // User has already liked this post
+      return res.status(400).send('You have already liked this post');
+    }
+
+    // Add like to the database
+    db.run('INSERT INTO community_likes (post_id, user_id) VALUES (?, ?)', [postId, userId], (err) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+
+      // Increment like count on the post
+      db.run('UPDATE community_posts SET likes = likes + 1 WHERE post_id = ?', [postId], (err) => {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send('Database error');
+        }
+        res.redirect('/communities/general-diseases');
+      });
+    });
+  });
+});
+
+// Likes route for Human Body community page
+router.post('/communities/human-body/:post_id/like', (req, res) => {
+  const postId = req.params.post_id;
+  const userId = req.session.userId;
+
+  // Check if user has already liked the post
+  db.get('SELECT * FROM community_likes WHERE post_id = ? AND user_id = ?', [postId, userId], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    if (row) {
+      // User has already liked this post
+      return res.status(400).send('You have already liked this post');
+    }
+
+    // Add like to the database
+    db.run('INSERT INTO community_likes (post_id, user_id) VALUES (?, ?)', [postId, userId], (err) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+
+      // Increment like count on the post
+      db.run('UPDATE community_posts SET likes = likes + 1 WHERE post_id = ?', [postId], (err) => {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send('Database error');
+        }
+        res.redirect('/communities/human-body');
+      });
+    });
+  });
+});
+
+// Likes route for Medicine community page
+router.post('/communities/medicine/:post_id/like', (req, res) => {
+  const postId = req.params.post_id;
+  const userId = req.session.userId;
+
+  // Check if user has already liked the post
+  db.get('SELECT * FROM community_likes WHERE post_id = ? AND user_id = ?', [postId, userId], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    if (row) {
+      // User has already liked this post
+      return res.status(400).send('You have already liked this post');
+    }
+
+    // Add like to the database
+    db.run('INSERT INTO community_likes (post_id, user_id) VALUES (?, ?)', [postId, userId], (err) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+
+      // Increment like count on the post
+      db.run('UPDATE community_posts SET likes = likes + 1 WHERE post_id = ?', [postId], (err) => {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send('Database error');
+        }
+        res.redirect('/communities/medicine');
+      });
+    });
+  });
+});
+
+// Likes route for Fitness community page
+router.post('/communities/fitness/:post_id/like', (req, res) => {
+  const postId = req.params.post_id;
+  const userId = req.session.userId;
+
+  // Check if user has already liked the post
+  db.get('SELECT * FROM community_likes WHERE post_id = ? AND user_id = ?', [postId, userId], (err, row) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+    if (row) {
+      // User has already liked this post
+      return res.status(400).send('You have already liked this post');
+    }
+
+    // Add like to the database
+    db.run('INSERT INTO community_likes (post_id, user_id) VALUES (?, ?)', [postId, userId], (err) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+
+      // Increment like count on the post
+      db.run('UPDATE community_posts SET likes = likes + 1 WHERE post_id = ?', [postId], (err) => {
+        if (err) {
+          console.error(err.message);
+          return res.status(500).send('Database error');
+        }
+        res.redirect('/communities/fitness');
+      });
+    });
+  });
+});
+
+// Communities Homepage
 router.get('/communities', (req, res) => {
   res.render('communities');
 });
 
-// Community page for Physical Health
+// Physical Health Community page
 router.post('/communities/physical-health', (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
@@ -307,7 +517,7 @@ router.get('/communities/physical-health', (req, res) => {
   });
 });
 
-// Community page for Mental Health
+// Mental Health Community page
 router.post('/communities/mental-health', (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
@@ -353,99 +563,7 @@ router.get('/communities/mental-health', (req, res) => {
   });
 });
 
-// Community page for Medicine
-router.post('/communities/medicine', (req, res) => {
-  const { title, body } = req.body;
-  const userId = req.session.userId; // Get the user ID from the session
-  const username = req.session.username; // Get the username from the session
-  const publishedAt = new Date().toISOString(); // Get current date and time
-
-  // Check if title and body are provided
-  if (!title || !body) {
-      return res.status(400).send('Title and body are required');
-  }
-
-  // Ensure user is authenticated
-  if (!userId) {
-    return res.status(401).send('User not authenticated');
-  }
-
-  db.run(
-    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
-    ['medicine', userId, title, body, username, publishedAt],
-    (err) => {
-      if (err) {
-        return res.status(500).send(err.message);
-      }
-      res.redirect('/communities/medicine');
-    }
-  );
-});
-
-router.get('/communities/medicine', (req, res) => {
-  db.all('SELECT * FROM community_posts WHERE category = "medicine" ORDER BY published_at DESC', (err, community_posts) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500).send('Database error');
-    }
-
-    db.all('SELECT * FROM community_comments WHERE category = "medicine" ORDER BY comment_date ASC', (err, community_comments) => {
-      if (err) {
-        console.error(err.message);
-        return res.status(500).send('Database error');
-      }
-      res.render('communities/medicine', { community_posts, community_comments });
-    });
-  });
-});
-
-// Community page for Human Body
-router.post('/communities/human-body', (req, res) => {
-  const { title, body } = req.body;
-  const userId = req.session.userId; // Get the user ID from the session
-  const username = req.session.username; // Get the username from the session
-  const publishedAt = new Date().toISOString(); // Get current date and time
-
-  // Check if title and body are provided
-  if (!title || !body) {
-      return res.status(400).send('Title and body are required');
-  }
-
-  // Ensure user is authenticated
-  if (!userId) {
-    return res.status(401).send('User not authenticated');
-  }
-
-  db.run(
-    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
-    ['human-body', userId, title, body, username, publishedAt],
-    (err) => {
-      if (err) {
-        return res.status(500).send(err.message);
-      }
-      res.redirect('/communities/human-body');
-    }
-  );
-});
-
-router.get('/communities/human-body', (req, res) => {
-  db.all('SELECT * FROM community_posts WHERE category = "human-body" ORDER BY published_at DESC', (err, community_posts) => {
-    if (err) {
-      console.error(err.message);
-      return res.status(500).send('Database error');
-    }
-
-    db.all('SELECT * FROM community_comments WHERE category = "human-body" ORDER BY comment_date ASC', (err, community_comments) => {
-      if (err) {
-        console.error(err.message);
-        return res.status(500).send('Database error');
-      }
-      res.render('communities/human-body', { community_posts, community_comments });
-    });
-  });
-});
-
-// Community page for General Diseases
+// General Diseases Community page
 router.post('/communities/general-diseases', (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
@@ -491,7 +609,99 @@ router.get('/communities/general-diseases', (req, res) => {
   });
 });
 
-// Community page for Fitness
+// Human Body Community page
+router.post('/communities/human-body', (req, res) => {
+  const { title, body } = req.body;
+  const userId = req.session.userId; // Get the user ID from the session
+  const username = req.session.username; // Get the username from the session
+  const publishedAt = new Date().toISOString(); // Get current date and time
+
+  // Check if title and body are provided
+  if (!title || !body) {
+      return res.status(400).send('Title and body are required');
+  }
+
+  // Ensure user is authenticated
+  if (!userId) {
+    return res.status(401).send('User not authenticated');
+  }
+
+  db.run(
+    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
+    ['human-body', userId, title, body, username, publishedAt],
+    (err) => {
+      if (err) {
+        return res.status(500).send(err.message);
+      }
+      res.redirect('/communities/human-body');
+    }
+  );
+});
+
+router.get('/communities/human-body', (req, res) => {
+  db.all('SELECT * FROM community_posts WHERE category = "human-body" ORDER BY published_at DESC', (err, community_posts) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+
+    db.all('SELECT * FROM community_comments WHERE category = "human-body" ORDER BY comment_date ASC', (err, community_comments) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      res.render('communities/human-body', { community_posts, community_comments });
+    });
+  });
+});
+
+// Medicine Community page
+router.post('/communities/medicine', (req, res) => {
+  const { title, body } = req.body;
+  const userId = req.session.userId; // Get the user ID from the session
+  const username = req.session.username; // Get the username from the session
+  const publishedAt = new Date().toISOString(); // Get current date and time
+
+  // Check if title and body are provided
+  if (!title || !body) {
+      return res.status(400).send('Title and body are required');
+  }
+
+  // Ensure user is authenticated
+  if (!userId) {
+    return res.status(401).send('User not authenticated');
+  }
+
+  db.run(
+    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
+    ['medicine', userId, title, body, username, publishedAt],
+    (err) => {
+      if (err) {
+        return res.status(500).send(err.message);
+      }
+      res.redirect('/communities/medicine');
+    }
+  );
+});
+
+router.get('/communities/medicine', (req, res) => {
+  db.all('SELECT * FROM community_posts WHERE category = "medicine" ORDER BY published_at DESC', (err, community_posts) => {
+    if (err) {
+      console.error(err.message);
+      return res.status(500).send('Database error');
+    }
+
+    db.all('SELECT * FROM community_comments WHERE category = "medicine" ORDER BY comment_date ASC', (err, community_comments) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(500).send('Database error');
+      }
+      res.render('communities/medicine', { community_posts, community_comments });
+    });
+  });
+});
+
+// Fitness community page
 router.post('/communities/fitness', (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
