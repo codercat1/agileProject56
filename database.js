@@ -32,7 +32,6 @@ db.serialize(async () => {
       steps INTEGER,
       mvpa INTEGER,
       sleep INTEGER,
-      date Text,
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
