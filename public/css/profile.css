@@ -94,3 +94,36 @@
 .dropdown-menu form {
     display: inline;
 }
+
+/* Follow Button */
+.follow-button {
+    background-color: white; /* Default background color */
+    border: 2px solid green; /* Green border */
+    color: green; /* Green text */
+    padding: 5px 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.follow-button:hover {
+    background-color: green; /* Green background on hover */
+    color: white; /* White text on hover */
+}
+
+/* Unfollow Button */
+.unfollow-button {
+    background-color: white; /* Default background color */
+    border: 2px solid red; /* Red border */
+    margin: 5px;
+    color: red; /* Red text */
+    padding: 5px 7px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.unfollow-button:hover {
+    background-color: red; /* Red background on hover */
+    color: white; /* White text on hover */
+}

@@ -76,6 +76,10 @@
                     <label for="sleep">Sleep (hours):</label>
                     <input type="number" id="sleep" name="sleep" required>
                 </div>
+                <div class="date-input">
+                    <label for="stat-date">Date:</label>
+                    <input type="date" id="stat-date" name="stat_date" required>
+                </div>
                 <button type="submit">Update Stats</button>
             </form>
 
@@ -108,6 +112,10 @@
                 <h2><%= user.username %></h2>
             </div>
             <div class="profile-content">
+                <div>
+                    <h3>Debugging Information</h3>
+                    <pre><%= JSON.stringify(healthStats, null, 2) %></pre>
+                </div>
                 <div class="posts">
                     <!-- Example Post -->
                     <% healthStats.forEach(stat => { %>

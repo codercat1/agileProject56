@@ -1,3 +1,5 @@
+//This file is responsible for database management, including creating tables and managing user data. It utilizes SQLite for database operations.
+
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 
@@ -30,9 +32,11 @@ db.serialize(async () => {
       steps INTEGER,
       mvpa INTEGER,
       sleep INTEGER,
+      date Text,
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
+
 
   // Create friends table
   db.run(`
@@ -110,6 +114,31 @@ db.serialize(async () => {
       likes INTEGER DEFAULT 0,
       views INTEGER DEFAULT 0,
       FOREIGN KEY (user_id) REFERENCES users(id)
+    )
+  `);
+
+  // Create community comments table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS community_comments (
+      comment_id INTEGER PRIMARY KEY AUTOINCREMENT,
+      post_id INTEGER NOT NULL,
+      category TEXT NOT NULL,
+      commenter_name TEXT NOT NULL,
+      comment_text TEXT NOT NULL,
+      comment_date DATETIME DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (post_id) REFERENCES community_posts(post_id)
+    )
+  `);
+
+  // Create community likes table
+  db.run(`
+    CREATE TABLE IF NOT EXISTS community_likes (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      post_id INTEGER,
+      user_id INTEGER,
+      FOREIGN KEY (post_id) REFERENCES posts(post_id),
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      UNIQUE (post_id, user_id)
     )
   `);
 

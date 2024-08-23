@@ -57,6 +57,23 @@
                                 </div>
                                 <h2><%= post.title %></h2>
                                 <p><%= post.content %></p>
+                                <div class="post-actions">
+                                    <form action="/communities/human-body/<%= post.post_id %>/like" method="POST" style="display:inline;">
+                                        <button type="submit" class="like-button">Like</button>
+                                    </form>
+                                    <p class="likes-count">Likes: <%= post.likes %></p>
+                                </div>
+                                <div class="comments">
+                                    <h3>Comments</h3>
+                                    <% community_comments.filter(comment => comment.post_id === post.post_id).forEach(comment => { %>
+                                        <p><strong><%= comment.commenter_name %></strong> | <%= new Date(comment.comment_date).toLocaleString() %></p>
+                                        <p><%= comment.comment_text %></p>
+                                    <% }) %>
+                                    <form action="/communities/human-body/<%= post.post_id %>/comment" method="POST">
+                                        <textarea name="comment_text" rows="3" placeholder="Write your comment..." required></textarea>
+                                        <button type="submit" class="comment-button">Comment</button>
+                                    </form>
+                                </div>
                             </div>
                         <% }) %>
                     <% } else { %>

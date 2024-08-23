@@ -32,10 +32,10 @@
             </nav>
         </header>
         <section class="my-activities">
-            <h2>Monthly Record</h2>
 
             <!--activity topics: view only-->
             <div class="activity-topics">
+                <h2>Monthly Record</h2>
                 <ul>
                     <li>General</li>
                     <li>Sleep</li>
@@ -45,44 +45,99 @@
                 </ul>
             </div>
             
-            <!-- Calendar and Notes(split into data display and note) -->
+            <!-- Calendar -->
             <div class="calendar">
                 <h2>Select Month</h2>
                 <div class="monthSelect">
                     <!-- Calendar Content -->
-                    <input type="month" class="calendar-input">
+                    <input type="month" class="calendar-input" id="calendarInput">
                 </div>
-                <div class="calendar-grid">
+                <div class="calendar-grid" id="calendarGrid">
                     <!-- Calendar dates will be dynamically generated here -->
                 </div>
             </div>
 
-            <!--activity data-->
-            <div class="data">
-                <!--extract data from date-->
 
-            </div>
-
-
-            <!--notes-->
-            <div class="notes">
-                <h2>Notes</h2>
-                <div class="notes-content">
+            <!-- activities data and notes-->
+            <div class="tools">
+                <!--activity data-->
+                <div class="activity-data">
+                    <h2>Your data</h2>
+                    <div id="health-stats"></div>
                     <!-- Data will be populated here when a date is clicked -->
                 </div>
-                <textarea placeholder="Write your notes here..."></textarea>
-            </div>
-        </div>
 
-    </section>
+                <div class="notes">
+                    <h2>Notes</h2>
+                    <div class="notes-content" id="notes-content">
+                        <p>Select a date to view your notes.</p>
+                        <!-- Notes will display here when a date is clicked -->
+                    </div>
+                    <textarea placeholder="Write your notes here..."></textarea>
+                    <button id="save-notes-button">Save Notes</button>
+                </div>
+                
+            </div>
+        </section>
             
         <!--removed customise(input data function in activities page)-->
         <!-- <button class="customize-button" onclick="openCustomizePopup()">Customize</button> -->
 
+        <section class="connections">
+            
+        </section>
         
     </div>
     <footer>
         <p>&copy; 2024 Healro. All rights reserved.</p>
     </footer>
+
+
+    <!--extract date from database-->
+    <script src="/js/activities.js"></script>
+
+    <!--generate calendar-->
+    <script>
+        document.getElementById('calendarInput').addEventListener('change', function() {
+        const calendarGrid = document.querySelector('.calendar-grid');
+        calendarGrid.innerHTML = ''; // Clear previous dates
+        
+        const selectedDate = new Date(this.value);
+        const year = selectedDate.getFullYear();
+        const month = selectedDate.getMonth();
+        
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDayOfMonth = new Date(year, month + 1, 0);
+        
+        const firstDayOfWeek = firstDayOfMonth.getDay(); // Day of the week (0 for Sunday, 6 for Saturday)
+        const daysInMonth = lastDayOfMonth.getDate(); // Total number of days in the month
+        
+        // Adjusting for Monday as the first day of the week
+        const adjustedFirstDay = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+        
+        // Add empty cells before the start of the month
+        for (let i = 0; i < adjustedFirstDay; i++) {
+            const emptyCell = document.createElement('div');
+            calendarGrid.appendChild(emptyCell);
+        }
+        
+        // Add actual days of the month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateCell = document.createElement('div');
+            dateCell.classList.add('calendar-date');
+            dateCell.textContent = day;
+            
+            // Attach click event to each date cell
+            dateCell.addEventListener('click', function() {
+                // Here you can handle the logic to store/retrieve information from the database
+                alert(`You clicked on ${day}/${month + 1}/${year}`);
+                // Perform database operations here
+            });
+            
+            calendarGrid.appendChild(dateCell);
+        }
+    });
+    </script>
+    
 </body>
 </html>
