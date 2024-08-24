@@ -38,6 +38,22 @@ db.serialize(async () => {
   `);
 
 
+  // Add date column to health_stats table
+  db.run(`ALTER TABLE health_stats ADD COLUMN date TEXT`, (err) => {
+    if (err) {
+        // This error will occur if the column already exists, which is fine
+        if (err.message.includes('duplicate column name')) {
+            console.log('The date column already exists in health_stats table.');
+        } else {
+            console.error('Error adding date column to health_stats table:', err.message);
+        }
+    } else {
+        console.log('Date column added to health_stats table.');
+    }
+});
+
+
+
   // Create friends table
   db.run(`
     CREATE TABLE IF NOT EXISTS friends (
@@ -142,48 +158,52 @@ db.serialize(async () => {
     )
   `);
 
-  // Insert admin user
-  const hashedAdminPassword = await bcrypt.hash('admin_password', 10);
-  db.run(`INSERT INTO users (username, email, password, role) VALUES ('Admin', 'admin@example.com', ?, 'admin')`, [hashedAdminPassword]);
+  
+// Insert admin user
+const hashedAdminPassword = await bcrypt.hash('admin_password', 10);
+db.run(`INSERT OR IGNORE INTO users (username, email, password, role) VALUES ('Admin', 'admin@example.com', ?, 'admin')`, [hashedAdminPassword]);
 
-  // Insert dummy users
-  const hashedPassword1 = await bcrypt.hash('password1', 10);
-  const hashedPassword2 = await bcrypt.hash('password2', 10);
-  db.run(`INSERT INTO users (username, email, password, role) VALUES ('John Doe', 'john@gmail.com', ?, 'user')`, [hashedPassword1]);
-  db.run(`INSERT INTO users (username, email, password, role) VALUES ('Jane Smith', 'jane@gmail.com', ?, 'user')`, [hashedPassword2]);
+// Insert dummy users
+const hashedPassword1 = await bcrypt.hash('password1', 10);
+const hashedPassword2 = await bcrypt.hash('password2', 10);
+db.run(`INSERT OR IGNORE INTO users (username, email, password, role) VALUES ('John Doe', 'john@gmail.com', ?, 'user')`, [hashedPassword1]);
+db.run(`INSERT OR IGNORE INTO users (username, email, password, role) VALUES ('Jane Smith', 'jane@gmail.com', ?, 'user')`, [hashedPassword2]);
 
-  // Insert dummy posts for John Doe
-  db.run(`INSERT INTO posts (user_id, username, title, content, published_at) VALUES (2, 'John Doe', 'First Post', 'This is the content of John Doe''s first post.', ?)`, [new Date().toISOString()]);
-  db.run(`INSERT INTO posts (user_id, username, title, content, published_at) VALUES (2, 'John Doe', 'Second Post', 'This is the content of John Doe''s second post.', ?)`, [new Date().toISOString()]);
+// Insert dummy posts for John Doe
+db.run(`INSERT OR IGNORE INTO posts (user_id, username, title, content, published_at) VALUES (2, 'John Doe', 'First Post', 'This is the content of John Doe''s first post.', ?)`, [new Date().toISOString()]);
+db.run(`INSERT OR IGNORE INTO posts (user_id, username, title, content, published_at) VALUES (2, 'John Doe', 'Second Post', 'This is the content of John Doe''s second post.', ?)`, [new Date().toISOString()]);
 
-  // Insert dummy posts for Jane Smith
-  db.run(`INSERT INTO posts (user_id, username, title, content, published_at) VALUES (3, 'Jane Smith', 'First Post', 'This is the content of Jane Smith''s first post.', ?)`, [new Date().toISOString()]);
-  db.run(`INSERT INTO posts (user_id, username, title, content, published_at) VALUES (3, 'Jane Smith', 'Second Post', 'This is the content of Jane Smith''s second post.', ?)`, [new Date().toISOString()]);
+// Insert dummy posts for Jane Smith
+db.run(`INSERT OR IGNORE INTO posts (user_id, username, title, content, published_at) VALUES (3, 'Jane Smith', 'First Post', 'This is the content of Jane Smith''s first post.', ?)`, [new Date().toISOString()]);
+db.run(`INSERT OR IGNORE INTO posts (user_id, username, title, content, published_at) VALUES (3, 'Jane Smith', 'Second Post', 'This is the content of Jane Smith''s second post.', ?)`, [new Date().toISOString()]);
 
-  // Insert dummy health data for John Doe
-  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (2, 2000, 8000, 45, 7)`);
-  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (2, 2200, 9000, 60, 6.5)`);
+// Insert dummy health data for John Doe
+db.run(`INSERT OR IGNORE INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (2, 2000, 8000, 45, 7)`);
+db.run(`INSERT OR IGNORE INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (2, 2200, 9000, 60, 6.5)`);
 
-  // Insert dummy health data for Jane Smith
-  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (3, 1800, 7000, 30, 8)`);
-  db.run(`INSERT INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (3, 1900, 7500, 35, 7.5)`);
+// Insert dummy health data for Jane Smith
+db.run(`INSERT OR IGNORE INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (3, 1800, 7000, 30, 8)`);
+db.run(`INSERT OR IGNORE INTO health_stats (user_id, calories, steps, mvpa, sleep) VALUES (3, 1900, 7500, 35, 7.5)`);
 
-  // Insert dummy friends data for John Doe
-  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 3, 'Jane Smith', 'Great workout buddy!')`);
-  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 2, 'Self', 'Stay motivated!')`);
+// Insert dummy friends data for John Doe
+db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 3, 'Jane Smith', 'Great workout buddy!')`);
+db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message) VALUES (2, 2, 'Self', 'Stay motivated!')`);
 
-  // Insert dummy friends data for Jane Smith
-  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 2, 'John Doe', 'Inspiring runner!')`);
-  db.run(`INSERT INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 3, 'Self', 'Keep going!')`, (err) => {
+// Insert dummy friends data for Jane Smith
+db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 2, 'John Doe', 'Inspiring runner!')`);
+db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 3, 'Self', 'Keep going!')`, (err) => {
+  if (err) {
+    console.error(err.message);
+  }
+  db.close((err) => {
     if (err) {
       console.error(err.message);
+    } else {
+      console.log('Database closed.');
     }
-    db.close((err) => {
-      if (err) {
-        console.error(err.message);
-      } else {
-        console.log('Database closed.');
-      }
-    });
   });
+});
+
+
+
 });
