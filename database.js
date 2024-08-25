@@ -52,7 +52,19 @@ db.serialize(async () => {
     }
 });
 
-
+// Add notes column to health_stats table
+db.run(`ALTER TABLE health_stats ADD COLUMN notes TEXT`, (err) => {
+  if (err) {
+      // This error will occur if the column already exists, which is fine
+      if (err.message.includes('duplicate column name')) {
+          console.log('The notes column already exists in health_stats table.');
+      } else {
+          console.error('Error adding notes column to health_stats table:', err.message);
+      }
+  } else {
+      console.log('notes column added to health_stats table.');
+  }
+});
 
   // Create friends table
   db.run(`
