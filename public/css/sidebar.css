@@ -1,77 +1,97 @@
 /* Sidebar Styles */
 .sidebar {
-    width: 200px;
-    background-color: #333;
+    width: 250px;
+    background-color: #405d91;
     color: #fff;
     height: 100vh;
     padding: 20px;
     position: fixed;
     top: 0;
     left: 0;
-    overflow-y: auto;
-    transition: width 0.3s ease;
+    /* overflow-y: auto; */
+    transition: left 0.3s ease, width 0.3s ease;
+    z-index: 1001;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
 
+/* Header row containing hamburger and heading */
+.sidebar-header { 
+    margin-top: 40px;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 4px dashed #1d1d48; /*line*/
+    width: 100%;
+    margin-bottom: 20px; /* Space below the header */
+}
+
+/* Hamburger button */
+.hamburger {
+    font-size: 24px; /* Reduced font size */
+    cursor: pointer;
+    color: #fff;
+    background-color: #252254;
+    padding: 8px 10px; /* Adjusted padding for a smaller button */
+    border-radius: 5px;
+    margin-top: 5px;
+    position: absolute;
+    top: 20px;
+    right: 6px; /* Shifted closer to the right edge */
+    transition: transform 0.3s ease;
+}
+
+/*--------------------sidebar content-------------------*/
 .sidebar h2 {
     color: #fff;
     text-align: center;
+    margin: 0; /* Remove default margin */
+    
 }
 
 .sidebar nav ul {
     list-style: none;
     padding: 0;
+    width: 100%;
 }
 
 .sidebar nav ul li {
     margin: 20px 0;
+    width: 100%;
 }
 
 .sidebar nav ul li a {
     color: #fff;
     text-decoration: none;
     font-size: 18px;
+    display: block;
+    padding: 10px 15px;
+    width: 100%;
+    transition: background-color 0.3s ease;
 }
 
-/* ---------------------------sidebar hover------------------------------------*/
-/* Sidebar starts off hidden */
-.sidebar {
-    position: fixed;
-    top: 0;
-    left: -250px; 
-    width: 250px; /*left an edge of sidebar visible while hidden*/
-    height: 100%;
-    padding: 20px;
-    transition: left 0.3s ease;
-    z-index: 1001;
+.sidebar nav ul li a:hover {
+    background-color: #555;
 }
 
-
-/* When hovering over the icon or the sidebar, the sidebar slides into view */
-.sidebar:hover{
-    left: 0;
+/* Sidebar hidden; partially visible */
+.sidebar.hidden {
+    left: -200px; /* Adjust this value to control how much of the sidebar remains visible */
 }
 
-/* Adjust the main content to start after the sidebar*/
+/* Adjust main content */
 .main-content {
-    margin-left: -200px;
+    margin-left: 50px;
     transition: margin-left 0.3s ease;
 }
 
-.sidebar .arrows {
-    position: absolute;
-    background-image: url('https://i.pinimg.com/564x/85/d1/27/85d127c90473159e9232a4a1e1636cb5.jpg');
-    top: 10px;
-    right: 5px;
-    width: 40px;
-    height: 40px;
-    background-size: cover;
-    background-repeat: no-repeat;
-    
+.main-content.shifted {
+    margin-left: -180px; /* Adjust this value to match the visible part of the sidebar */
 }
 
-.sidebar:hover .arrows {
-    background-image: url('https://i.pinimg.com/564x/85/d1/27/85d127c90473159e9232a4a1e1636cb5.jpg');
-    transition: background-image 0.3s ease;
-    background-repeat: no-repeat;
+/* Hamburger button rotation when sidebar is hidden */
+.sidebar.hidden .hamburger {
+    transform: rotate(180deg);
 }
-
