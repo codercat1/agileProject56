@@ -93,56 +93,9 @@
         <p>&copy; 2024 Healro. All rights reserved.</p>
     </footer>
 
-
-    <!--extract date from database-->
-    <script src="/js/activities.js"></script>
-
-    <!--generate calendar-->
-    <!-- <script>
-        document.getElementById('calendarInput').addEventListener('change', function() {
-        const calendarGrid = document.querySelector('.calendar-grid');
-        calendarGrid.innerHTML = ''; // Clear previous dates
-        
-        const selectedDate = new Date(this.value);
-        const year = selectedDate.getFullYear();
-        const month = selectedDate.getMonth();
-        
-        const firstDayOfMonth = new Date(year, month, 1);
-        const lastDayOfMonth = new Date(year, month + 1, 0);
-        
-        const firstDayOfWeek = firstDayOfMonth.getDay(); // Day of the week (0 for Sunday, 6 for Saturday)
-        const daysInMonth = lastDayOfMonth.getDate(); // Total number of days in the month
-        
-        // Adjusting for Monday as the first day of the week
-        const adjustedFirstDay = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-        
-        // Add empty cells before the start of the month
-        for (let i = 0; i < adjustedFirstDay; i++) {
-            const emptyCell = document.createElement('div');
-            calendarGrid.appendChild(emptyCell);
-        }
-        
-        // Add actual days of the month
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dateCell = document.createElement('div');
-            dateCell.classList.add('calendar-date');
-            dateCell.textContent = day;
-            
-            // Attach click event to each date cell
-            dateCell.addEventListener('click', function() {
-                // Here you can handle the logic to store/retrieve information from the database
-                alert(`You clicked on ${day}/${month + 1}/${year}`);
-                // Perform database operations here
-            });
-            
-            calendarGrid.appendChild(dateCell);
-        }
-    });
-    </script> -->
-    
+    <!--generate calendar and fetch health-stats-->
     <script>
-        //generate calendar and fetch health-stats
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('calendarInput').addEventListener('change', function() {
         const calendarGrid = document.querySelector('.calendar-grid');
         calendarGrid.innerHTML = ''; // Clear previous dates
