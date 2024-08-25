@@ -63,7 +63,7 @@
             <div class="tools">
                 <!--activity data-->
                 <div class="activity-data">
-                    <h2>Selected Date: </h2>
+                    <h2>Selected Date: <span id="selectedDate"></span></h2>
                     <div id="health-stats"></div>
                     <!-- Data will be populated here when a date is clicked -->
                 </div>
@@ -98,7 +98,7 @@
     <script src="/js/activities.js"></script>
 
     <!--generate calendar-->
-    <script>
+    <!-- <script>
         document.getElementById('calendarInput').addEventListener('change', function() {
         const calendarGrid = document.querySelector('.calendar-grid');
         calendarGrid.innerHTML = ''; // Clear previous dates
@@ -138,7 +138,90 @@
             calendarGrid.appendChild(dateCell);
         }
     });
-    </script>
+    </script> -->
     
+    <script>
+        //generate calendar and fetch health-stats
+document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('calendarInput').addEventListener('change', function() {
+        const calendarGrid = document.querySelector('.calendar-grid');
+        calendarGrid.innerHTML = ''; // Clear previous dates
+        
+        const selectedDate = new Date(this.value);
+        const year = selectedDate.getFullYear();
+        const month = selectedDate.getMonth();
+        
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDayOfMonth = new Date(year, month + 1, 0);
+        
+        const firstDayOfWeek = firstDayOfMonth.getDay();
+        const daysInMonth = lastDayOfMonth.getDate();
+        
+        const adjustedFirstDay = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+        
+        for (let i = 0; i < adjustedFirstDay; i++) {
+            const emptyCell = document.createElement('div');
+            calendarGrid.appendChild(emptyCell);
+        }
+        
+        // Add actual days of the month
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dateCell = document.createElement('div');
+            dateCell.classList.add('calendar-date');
+            dateCell.textContent = day;
+            
+            dateCell.addEventListener('click', function() {
+                const selectedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                // Fetch health data for the selected date
+                fetch(`/get-health-data?date=${selectedDate}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const dataContainer = document.querySelector('.activity-data');
+                        dataContainer.innerHTML = '';  // Clear previous data
+
+                        if (data.length > 0) {
+                            data.forEach(stat => {
+                                dataContainer.innerHTML += `
+                                    <div class="post">
+                                        <p><strong>Date: ${new Date(stat.date).toLocaleDateString()}</strong></p>
+                                        <p>Calories: ${stat.calories}</p>
+                                        <p>Steps: ${stat.steps}</p>
+                                        <p>MVPA: ${stat.mvpa}</p>
+                                        <p>Sleep: ${stat.sleep} hours</p>
+                                    </div>`;
+                            });
+                        } else {
+                            dataContainer.innerHTML = '<p>No data available for this date.</p>';
+                        }
+                    })
+                    .catch(error => console.error('Error fetching health data:', error));
+            });
+
+            calendarGrid.appendChild(dateCell);
+        }
+    });
+});
+
+
+// Function to fetch notes for a selected date
+function fetchNotes(date) {
+    fetch(`/get-notes?date=${date}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data && data.note) {
+                notesContentDiv.innerHTML = `<p>${data.note}</p>`;
+                notesTextarea.value = data.note;
+            } else {
+                notesContentDiv.innerHTML = '<p>No notes for this date.</p>';
+                notesTextarea.value = '';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching notes:', error);
+        });
+}
+
+    </script>
 </body>
 </html>

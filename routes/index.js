@@ -968,6 +968,23 @@ router.post('/remove-friend/:id', (req, res) => {
 //   });
 // });
 
+// activities page: Route to get health data for a specific date
+router.get('/get-health-data', (req, res) => {
+  const date = req.query.date;  // Extract the date from the query parameters
+
+  // Query the health_stats table for entries matching the provided date
+  db.all('SELECT * FROM health_stats WHERE date = ?', [date], (err, rows) => {
+      if (err) {
+          console.error(err.message);
+          return res.status(500).json({ error: 'Failed to retrieve health data' });
+      }
+
+      // Return the retrieved health stats as JSON
+      res.json(rows);
+  });
+});
+
+
 // Health Tracker route
 router.get('/health_tracker/:id', (req, res) => {
   const userId = req.params.id;
@@ -1010,6 +1027,7 @@ router.post('/health_tracker/:id', (req, res) => {
     }
   });
 });
+
 
 // Physical Health Page
 router.get('/contents/physical-health', (req, res) => {
