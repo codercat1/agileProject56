@@ -58,20 +58,6 @@ router.get('/posting', (req, res) => {
   });
 });
 
-// OLD POSTING ROUTE for /posting
-// router.post('/posting', (req, res) => {
-//   const { title, body } = req.body;
-//   const username = req.session.username || 'default_username';
-//   const publishedAt = new Date().toISOString();
-
-//   db.run('INSERT INTO posts (title, content, username, published_at) VALUES (?, ?, ?, ?)', [title, body, username, publishedAt], (err) => {
-//       if (err) {
-//           return res.status(500).send(err.message);
-//       }
-//       res.redirect('/posting');
-//   });
-// });
-
 // Updated Posting route to include user_id
 router.post('/posting', (req, res) => {
   const { title, body } = req.body;
@@ -810,35 +796,6 @@ router.post('/logout', (req, res) => {
   });
 });
 
-
-// OLD Profile route
-// router.get('/profile/:id', (req, res) => {
-//   const userId = req.params.id;
-
-//   db.get('SELECT * FROM users WHERE id = ?', [userId], (err, userRow) => {
-//     if (err) {
-//       console.error(err.message);
-//       res.status(500).send('Database error');
-//     } else {
-//       db.all('SELECT * FROM health_stats WHERE user_id = ?', [userId], (err, healthRows) => {
-//         if (err) {
-//           console.error(err.message);
-//           res.status(500).send('Database error');
-//         } else {
-//           db.all('SELECT * FROM friends WHERE user_id = ?', [userId], (err, friendRows) => {
-//             if (err) {
-//               console.error(err.message);
-//               res.status(500).send('Database error');
-//             } else {
-//               res.render('profile', { user: userRow, healthStats: healthRows, friends: friendRows });
-//             }
-//           });
-//         }
-//       });
-//     }
-//   });
-// });
-
 // Updated profile route with joined query to fetch friend's username
 router.get('/profile/:id', (req, res) => {
   const userId = req.params.id;
@@ -944,30 +901,6 @@ router.post('/remove-friend/:id', (req, res) => {
     res.redirect(`/profile/${userId}`);
   });
 });
-
-
-// OLD Health Tracker route
-// router.get('/health_tracker/:id', (req, res) => {
-//   const userId = req.params.id;
-
-//   db.get('SELECT * FROM users WHERE id = ?', [userId], (err, userRow) => {
-//     if (err) {
-//       console.error(err.message);
-//       res.status(500).send('Database error');
-//     } else {
-//       db.get('SELECT * FROM health_stats WHERE user_id = ? ORDER BY id DESC LIMIT 1', [userId], (err, statsRow) => {
-//         if (err) {
-//           console.error(err.message);
-//           res.status(500).send('Database error');
-//         } else {
-//           const stats = statsRow || { calories: 0, steps: 0, mvpa: 0, sleep: 0 };
-//           res.render('health_tracker', { user: userRow, stats });
-//         }
-//       });
-//     }
-//   });
-// });
-
 
 // route to get health data & notes for a specific date
 router.get('/get-health-data', (req, res) => {
