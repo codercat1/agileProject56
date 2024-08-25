@@ -1,27 +1,35 @@
-// Function to fetch health stats for a selected date
-function fetchHealthStats(date) {
-    fetch(`/get-health-stats?date=${date}`)
-        .then(response => response.json())
-        .then(data => {
-            healthStatsDiv.innerHTML = ''; // Clear previous data
+document.addEventListener('DOMContentLoaded', function () {
+    // Add event listeners to calendar days
+    document.querySelectorAll('.calendar-day').forEach(day => {
+        day.addEventListener('click', function () {
+            const selectedDate = this.dataset.date;
 
-            if (data && Object.keys(data).length > 0) {
-                const statsContent = `
-                    <p>Calories Consumed: ${data.calories_consumed ?? 'N/A'}</p>
-                    <p>Steps Taken: ${data.steps_taken ?? 'N/A'}</p>
-                    <p>MVPA (mins): ${data.mvpa ?? 'N/A'}</p>
-                    <p>Sleep (hours): ${data.sleep_hours ?? 'N/A'}</p>
-                `;
-                healthStatsDiv.innerHTML = statsContent;
-            } else {
-                healthStatsDiv.innerHTML = '<p>No data available for this date.</p>';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching health stats:', error);
-            healthStatsDiv.innerHTML = '<p>Error fetching data. Please try again later.</p>';
+            // Fetch health data for the selected date
+            fetch(`/get-health-data?date=${selectedDate}`)
+                .then(response => response.json())
+                .then(data => {
+                    // Clear previous data
+                    const postsContainer = document.querySelector('#your-data .posts');
+                    postsContainer.innerHTML = '';
+
+                    // Populate new data
+                    if (data.length > 0) {
+                        data.forEach(stat => {
+                            postsContainer.innerHTML += `
+                                <div class="post">
+                                    <p><strong> Date: ${new Date(stat.date).toLocaleDateString()} </strong> - Calories: ${stat.calories}, Steps: ${stat.steps}, MVPA: ${stat.mvpa}, Sleep: ${stat.sleep} hours</p>
+                                </div>`;
+                        });
+                    } else {
+                        postsContainer.innerHTML = '<p>No data available for this date.</p>';
+                    }
+                })
+                .catch(error => console.error('Error fetching health data:', error));
         });
-}
+    });
+});
+
+
 
 // Function to fetch notes for a selected date
 function fetchNotes(date) {

@@ -120,7 +120,7 @@
                     <!-- Example Post -->
                     <% healthStats.forEach(stat => { %>
                     <div class="post">
-                        <p><strong><%= user.username %> </strong> - Date: <%= new Date(stat.stat_date).toLocaleDateString() %>, Calories: <%= stat.calories %>, Steps: <%= stat.steps %>, MVPA: <%= stat.mvpa %>, Sleep: <%= stat.sleep %> hours</p>
+                        <p><strong> Date: <%= new Date(stat.date).toLocaleDateString() %> </strong> - Calories: <%= stat.calories %>, Steps: <%= stat.steps %>, MVPA: <%= stat.mvpa %>, Sleep: <%= stat.sleep %> hours</p>
                     </div>
                     <% }) %>
                 </div>
