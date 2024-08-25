@@ -70,12 +70,16 @@
 
                 <div class="notes">
                     <h2>Notes</h2>
-                    <div class="notes-content" id="notes-content">
+                    <div class="notes-content" id="notesContent">
                         <p>Select a date to view your notes.</p>
-                        <!-- Notes will display here when a date is clicked -->
+                        <div class="n">
+                            <!-- Notes will display here when a date is clicked -->
+                        </div>
                     </div>
-                    <textarea placeholder="Write your notes here..."></textarea>
-                    <button id="save-notes-button">Save Notes</button>
+                    <div class="new-notes" id="newNotes">
+                        <textarea placeholder="Write your notes here..."></textarea>
+                        <button id="save-notes-button">Save Notes</button>
+                    </div>
                 </div>
                 
             </div>
@@ -131,6 +135,7 @@
 
                 // Update the Selected Date display
                 const selectedDateElement = document.getElementById('selectedDate');
+                //human readable date (with week headings)
                 selectedDateElement.textContent = new Date(clickedDate).toDateString();
 
                 // Fetch health data for the selected date
@@ -148,7 +153,6 @@
                             data.forEach(stat => {
                                 healthStatsContainer.innerHTML += `
                                     <div class="stat-item">
-                                        <p><strong>Date: ${new Date(stat.date).toLocaleDateString()}</strong></p>
                                         <p>Calories: ${stat.calories}</p>
                                         <p>Steps: ${stat.steps}</p>
                                         <p>MVPA: ${stat.mvpa}</p>
