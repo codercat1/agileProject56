@@ -109,8 +109,26 @@
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+    max-width: 100%; /* Ensure it does not exceed the available space */
 }
 
+.health-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 20px; /* Add some space from the "Selected Date" */
+}
+
+.stat-item {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensures full width */
+    max-width: 100%; /* Prevents overflow */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
 
 /*-------notes styling--------*/
 .notes {

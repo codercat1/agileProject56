@@ -64,7 +64,7 @@
                 <!--activity data-->
                 <div class="activity-data">
                     <h2>Selected Date: <span id="selectedDate"></span></h2>
-                    <div id="health-stats"></div>
+                    <div class="health-stats"></div>
                     <!-- Data will be populated here when a date is clicked -->
                 </div>
 
@@ -122,21 +122,32 @@
             const dateCell = document.createElement('div');
             dateCell.classList.add('calendar-date');
             dateCell.textContent = day;
-            
+
+            // Add a click event listener to update the selected date
             dateCell.addEventListener('click', function() {
-                const selectedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const clickedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                console.log(`Date clicked: ${clickedDate}`); // Debugging info
+
+                // Update the Selected Date display
+                const selectedDateElement = document.getElementById('selectedDate');
+                selectedDateElement.textContent = new Date(clickedDate).toDateString();
 
                 // Fetch health data for the selected date
-                fetch(`/get-health-data?date=${selectedDate}`)
-                    .then(response => response.json())
+                fetch(`/get-health-data?date=${clickedDate}`)
+                    .then(response => {
+                        console.log('Fetch response:', response); // Log the raw response
+                        return response.json();
+                    })
                     .then(data => {
-                        const dataContainer = document.querySelector('.activity-data');
-                        dataContainer.innerHTML = '';  // Clear previous data
+                        console.log('Health data:', data); // Debugging info: Log the fetched data
+                        const healthStatsContainer = document.querySelector('.health-stats');
+                        healthStatsContainer.innerHTML = '';  // Clear previous data
 
                         if (data.length > 0) {
                             data.forEach(stat => {
-                                dataContainer.innerHTML += `
-                                    <div class="post">
+                                healthStatsContainer.innerHTML += `
+                                    <div class="stat-item">
                                         <p><strong>Date: ${new Date(stat.date).toLocaleDateString()}</strong></p>
                                         <p>Calories: ${stat.calories}</p>
                                         <p>Steps: ${stat.steps}</p>
@@ -145,10 +156,12 @@
                                     </div>`;
                             });
                         } else {
-                            dataContainer.innerHTML = '<p>No data available for this date.</p>';
+                            healthStatsContainer.innerHTML = '<p>No data available for this date.</p>';
                         }
                     })
-                    .catch(error => console.error('Error fetching health data:', error));
+                    .catch(error => {
+                        console.error('Error fetching health data:', error); // Debugging info: logs any errors
+                    });
             });
 
             calendarGrid.appendChild(dateCell);
@@ -157,24 +170,26 @@
 });
 
 
-// Function to fetch notes for a selected date
-function fetchNotes(date) {
-    fetch(`/get-notes?date=${date}`)
-        .then(response => response.json())
-        .then(data => {
-            if (data && data.note) {
-                notesContentDiv.innerHTML = `<p>${data.note}</p>`;
-                notesTextarea.value = data.note;
-            } else {
-                notesContentDiv.innerHTML = '<p>No notes for this date.</p>';
-                notesTextarea.value = '';
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching notes:', error);
-        });
-}
+    // Function to fetch notes for a selected date
+    function fetchNotes(date) {
+        const notesContentDiv = document.getElementById('notes-content');  // Assuming the div with notes is in the DOM
+        const notesTextarea = document.querySelector('textarea');  // Assuming the textarea for notes is in the DOM
 
+        fetch(`/get-notes?date=${date}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.note) {
+                    notesContentDiv.innerHTML = `<p>${data.note}</p>`;
+                    notesTextarea.value = data.note;
+                } else {
+                    notesContentDiv.innerHTML = '<p>No notes for this date.</p>';
+                    notesTextarea.value = '';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching notes:', error);
+            });
+        }
     </script>
 </body>
 </html>

@@ -968,18 +968,19 @@ router.post('/remove-friend/:id', (req, res) => {
 //   });
 // });
 
-// activities page: Route to get health data for a specific date
-router.get('/get-health-data', (req, res) => {
-  const date = req.query.date;  // Extract the date from the query parameters
 
-  // Query the health_stats table for entries matching the provided date
+// Route to get health data for a specific date
+router.get('/get-health-data', (req, res) => {
+  const date = req.query.date;
+
+  // Query the database for health stats on the specified date
   db.all('SELECT * FROM health_stats WHERE date = ?', [date], (err, rows) => {
       if (err) {
           console.error(err.message);
           return res.status(500).json({ error: 'Failed to retrieve health data' });
       }
 
-      // Return the retrieved health stats as JSON
+      // Return the health stats as JSON
       res.json(rows);
   });
 });
