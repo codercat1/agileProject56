@@ -112,7 +112,7 @@
     max-width: 100%; /* Ensure it does not exceed the available space */
 }
 
-.health-stats {
+.health-stat {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
