@@ -969,22 +969,43 @@ router.post('/remove-friend/:id', (req, res) => {
 // });
 
 
-// route to get health data for a specific date
+// route to get health data & notes for a specific date
 router.get('/get-health-data', (req, res) => {
   const date = req.query.date;
+
+  console.log(`Fetching health data for date: ${date}`);
 
   // Query the database for health stats on the specified date
   db.all('SELECT * FROM health_stats WHERE date = ?', [date], (err, rows) => {
       if (err) {
-          console.error(err.message);
+          console.error('Error fetching health data:', err.message);
           return res.status(500).json({ error: 'Failed to retrieve health data' });
       }
 
+      console.log('Health data fetched:', rows);
       // Return the health stats as JSON
       res.json(rows);
   });
 });
 
+// route to save notes for a specific date
+router.post('/save-notes', (req, res) => {
+  const { date, notes } = req.body;
+
+  //debug to check note saved 
+  console.log(`Saving note for date: ${date}`);
+  console.log(`Note content: ${notes}`);
+
+  db.run('UPDATE health_stats SET notes = ? WHERE date = ?', [notes, date], function (err) {
+      if (err) {
+          console.error('Error saving note:', err.message);
+          return res.status(500).json({ error: 'Failed to save notes' });
+      }
+
+      console.log('Note saved successfully');
+      res.json({ success: true });
+  });
+});
 
 // Health Tracker route
 router.get('/health_tracker/:id', (req, res) => {
