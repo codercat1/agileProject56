@@ -969,7 +969,7 @@ router.post('/remove-friend/:id', (req, res) => {
 // });
 
 
-// Route to get health data for a specific date
+// route to get health data for a specific date
 router.get('/get-health-data', (req, res) => {
   const date = req.query.date;
 
