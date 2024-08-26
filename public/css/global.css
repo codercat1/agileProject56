@@ -1,4 +1,20 @@
 /* Global Styles */
+h2{
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+button {
+    background-color: #1d1d48;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+button:hover {
+    background-color:#303089;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;

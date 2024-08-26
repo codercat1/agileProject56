@@ -1,14 +1,14 @@
 /* Sidebar Styles */
 .sidebar {
     width: 250px;
-    background-color: #405d91;
+    background-color: #3c5786;
     color: #fff;
     height: 100vh;
-    padding: 20px;
+    padding: 30px;
     position: fixed;
     top: 0;
     left: 0;
-    /* overflow-y: auto; */
+    overflow-y: auto;
     transition: left 0.3s ease, width 0.3s ease;
     z-index: 1001;
     display: flex;
@@ -45,7 +45,7 @@
 
 /*--------------------sidebar content-------------------*/
 .sidebar h2 {
-    color: #fff;
+    color: #ffffff;
     text-align: center;
     margin: 0; /* Remove default margin */
     
@@ -73,7 +73,7 @@
 }
 
 .sidebar nav ul li a:hover {
-    background-color: #555;
+    background-color: #1d1d48;;
 }
 
 /* Sidebar hidden; partially visible */

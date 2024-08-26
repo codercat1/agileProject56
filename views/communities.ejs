@@ -64,23 +64,22 @@
     <footer>
         <p>&copy; 2024 Healro. All rights reserved.</p>
     </footer>
-
-    <!--sidebar toggle--> 
-    <script>
-        document.getElementById("hamburger").addEventListener("click", function() {
-            var sidebar = document.getElementById("sidebar");
-            var mainContent = document.querySelector(".main-content");
-    
-            sidebar.classList.toggle("hidden");
-            mainContent.classList.toggle("shifted");
-    
-            if (sidebar.classList.contains("hidden")) {
-                this.innerHTML = '&#9776;';  // Change to hamburger icon when sidebar is hidden
-            } else {
-                this.innerHTML = '&times;';  // Change to 'X' icon when sidebar is visible
-            }
-        });
-    
-        </script>
 </body>
 </html>
+
+<!--sidebar toggle--> 
+<script>
+    document.getElementById("hamburger").addEventListener("click", function() {
+        var sidebar = document.getElementById("sidebar");
+        var mainContent = document.querySelector(".main-content");
+
+        sidebar.classList.toggle("hidden");
+        mainContent.classList.toggle("shifted");
+
+        if (sidebar.classList.contains("hidden")) {
+            this.innerHTML = '&#9776;';  // Change to hamburger icon when sidebar is hidden
+        } else {
+            this.innerHTML = '&times;';  // Change to 'X' icon when sidebar is visible
+        }
+    });
+</script>

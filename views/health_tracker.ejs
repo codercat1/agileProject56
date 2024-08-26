@@ -9,9 +9,13 @@
     <title>Health Tracker</title>
 </head>
 <body>
-    <div class="sidebar">
-        <img class="arrows" src="https://i.pinimg.com/564x/d4/60/fe/d460fe089360a8776144942b2e526087.jpg">
-        <h2>Healro</h2>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Healro</h2>
+            <div class="hamburger" id="hamburger">
+                &#9776;
+            </div>
+        </div>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
@@ -20,7 +24,6 @@
                 <li><a href="/contents">Contents</a></li>
                 <li><a href="/posting">My Feed</a></li>
                 <li><a href="/communities">Communities</a></li>
-                <li><a href="/admin/home">Admin</a></li>
             </ul>
         </nav>
     </div>
@@ -213,3 +216,21 @@
     </footer>
 </body>
 </html>
+
+<!--side bar toggle--> 
+<script>
+    document.getElementById("hamburger").addEventListener("click", function() {
+        var sidebar = document.getElementById("sidebar");
+        var mainContent = document.querySelector(".main-content");
+
+        sidebar.classList.toggle("hidden");
+        mainContent.classList.toggle("shifted");
+
+        if (sidebar.classList.contains("hidden")) {
+            this.innerHTML = '&#9776;';  // Change to hamburger icon when sidebar is hidden
+        } else {
+            this.innerHTML = '&times;';  // Change to 'X' icon when sidebar is visible
+        }
+    });
+
+    </script>

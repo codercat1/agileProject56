@@ -87,142 +87,143 @@
         <p>&copy; 2024 Healro. All rights reserved.</p>
     </footer>
 
-    <!--generate calendar and fetch health-stats-->
-    <script>
+    
+</body>
+</html>
+
+<!--generate calendar and fetch health-stats (with notes)-->
+<script>
     document.addEventListener('DOMContentLoaded', function () {
     let selectedDate;
 
-    document.getElementById('calendarInput').addEventListener('change', function() {
-        const calendarGrid = document.querySelector('.calendar-grid');
-        calendarGrid.innerHTML = ''; // Clear previous dates
-        
-        const selectedMonth = new Date(this.value);
-        const year = selectedMonth.getFullYear();
-        const month = selectedMonth.getMonth();
-        
-        const firstDayOfMonth = new Date(year, month, 1);
-        const lastDayOfMonth = new Date(year, month + 1, 0);
-        
-        const firstDayOfWeek = firstDayOfMonth.getDay();
-        const daysInMonth = lastDayOfMonth.getDate();
-        
-        const adjustedFirstDay = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
-        
-        for (let i = 0; i < adjustedFirstDay; i++) {
-            const emptyCell = document.createElement('div');
-            calendarGrid.appendChild(emptyCell);
-        }
-        
-        for (let day = 1; day <= daysInMonth; day++) {
-            const dateCell = document.createElement('div');
-            dateCell.classList.add('calendar-date');
-            dateCell.textContent = day;
-
-            dateCell.addEventListener('click', function() {
-                selectedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-
-                console.log(`Date clicked: ${selectedDate}`); // Debugging info
-
-                const selectedDateElement = document.getElementById('selectedDate');
-                selectedDateElement.textContent = new Date(selectedDate).toDateString();
-
-                fetchHealthData(selectedDate);
-                fetchNotes(selectedDate);
-            });
-
-            calendarGrid.appendChild(dateCell);
-        }
-    });
-
-    //fetching health data by date
-    function fetchHealthData(date) {
-        fetch(`/get-health-data?date=${date}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Health data received:', data); // Debugging info
-                const healthStatsContainer = document.querySelector('.health-stat');
-                healthStatsContainer.innerHTML = '';  // Clear previous data
-
-                if (data.length > 0) {
-                    data.forEach(stat => {
-                        healthStatsContainer.innerHTML += `
-                            <div class="stat-item">
-                                <p>Calories: ${stat.calories}</p>
-                                <p>Steps: ${stat.steps}</p>
-                                <p>MVPA: ${stat.mvpa}</p>
-                                <p>Sleep: ${stat.sleep} hours</p>
-                            </div>`;
-                    });
-                } else {
-                    healthStatsContainer.innerHTML = '<p>No data available for this date.</p>';
-                }
-            })
-            .catch(error => console.error('Error fetching health data:', error));
-    }
-
-    //fetch notes by date
-    function fetchNotes(date) {
-        console.log(`Fetching notes for date: ${date}`); // Debugging info
-
-        fetch(`/get-health-data?date=${date}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log('Notes received:', data); // Debugging info
-
-                const notesContainer = document.querySelector('.n');
-                notesContainer.innerHTML = '';  // Clear previous data
-
-                if (data.length > 0 && data[0].notes) {
-                    notesContainer.innerHTML = `<p>${data[0].notes}</p>`;
-                } else {
-                    notesContainer.innerHTML = '<p>No notes available for this date.</p>';
-                }
-            })
-            .catch(error => console.error('Error fetching notes:', error));
-    }
-
-    document.getElementById('save-notes-button').addEventListener('click', function () {
-        const notesTextarea = document.querySelector('textarea');
-        const notes = notesTextarea.value;
-
-        //need to have a date selected before saving a note
-        if (!selectedDate) {
-            alert('Please select a date first.');
-            return;
-        }
-
-        console.log(`Saving notes for date: ${selectedDate}, Content: ${notes}`); // Debugging info
-
-
-        fetch('/save-notes', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                date: selectedDate,
-                notes: notes,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log('Save notes response:', data); // Debugging info
-
-            if (data.success) {
-                alert('Notes saved successfully!');
-                fetchNotes(selectedDate); // Refresh the notes display
-            } else {
-                alert('Failed to save notes.');
+        document.getElementById('calendarInput').addEventListener('change', function() {
+            const calendarGrid = document.querySelector('.calendar-grid');
+            calendarGrid.innerHTML = ''; // Clear previous dates
+            
+            const selectedMonth = new Date(this.value);
+            const year = selectedMonth.getFullYear();
+            const month = selectedMonth.getMonth();
+            
+            const firstDayOfMonth = new Date(year, month, 1);
+            const lastDayOfMonth = new Date(year, month + 1, 0);
+            
+            const firstDayOfWeek = firstDayOfMonth.getDay();
+            const daysInMonth = lastDayOfMonth.getDate();
+            
+            const adjustedFirstDay = firstDayOfWeek === 0 ? 6 : firstDayOfWeek - 1;
+            
+            for (let i = 0; i < adjustedFirstDay; i++) {
+                const emptyCell = document.createElement('div');
+                calendarGrid.appendChild(emptyCell);
             }
-        })
-        .catch(error => console.error('Error saving notes:', error));
-    });
-});
+            
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateCell = document.createElement('div');
+                dateCell.classList.add('calendar-date');
+                dateCell.textContent = day;
 
-    </script>
-      
-    <!--side bar toggle--> 
-    <script>
+                dateCell.addEventListener('click', function() {
+                    selectedDate = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+
+                    console.log(`Date clicked: ${selectedDate}`); // Debugging info
+
+                    const selectedDateElement = document.getElementById('selectedDate');
+                    selectedDateElement.textContent = new Date(selectedDate).toDateString();
+
+                    fetchHealthData(selectedDate);
+                    fetchNotes(selectedDate);
+                });
+                calendarGrid.appendChild(dateCell);
+            }
+        });
+
+        //fetching health data by date
+        function fetchHealthData(date) {
+            fetch(`/get-health-data?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Health data received:', data); // Debugging info
+                    const healthStatsContainer = document.querySelector('.health-stat');
+                    healthStatsContainer.innerHTML = '';  // Clear previous data
+
+                    if (data.length > 0) {
+                        data.forEach(stat => {
+                            healthStatsContainer.innerHTML += `
+                                <div class="stat-item">
+                                    <p>Calories: ${stat.calories}</p>
+                                    <p>Steps: ${stat.steps}</p>
+                                    <p>MVPA: ${stat.mvpa}</p>
+                                    <p>Sleep: ${stat.sleep} hours</p>
+                                </div>`;
+                        });
+                    } else {
+                        healthStatsContainer.innerHTML = '<p>No data available for this date.</p>';
+                    }
+                })
+            .catch(error => console.error('Error fetching health data:', error));
+        }
+
+        //fetch notes by date
+        function fetchNotes(date) {
+            console.log(`Fetching notes for date: ${date}`); // Debugging info
+
+            fetch(`/get-health-data?date=${date}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Notes received:', data); // Debugging info
+
+                    const notesContainer = document.querySelector('.n');
+                    notesContainer.innerHTML = '';  // Clear previous data
+
+                    if (data.length > 0 && data[0].notes) {
+                        notesContainer.innerHTML = `<p>${data[0].notes}</p>`;
+                    } else {
+                        notesContainer.innerHTML = '<p>No notes available for this date.</p>';
+                    }
+                })
+                .catch(error => console.error('Error fetching notes:', error));
+        }
+
+        document.getElementById('save-notes-button').addEventListener('click', function () {
+            const notesTextarea = document.querySelector('textarea');
+            const notes = notesTextarea.value;
+
+            //need to have a date selected before saving a note
+            if (!selectedDate) {
+                alert('Please select a date first.');
+                return;
+            }
+
+            console.log(`Saving notes for date: ${selectedDate}, Content: ${notes}`); // Debugging info
+
+            fetch('/save-notes', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    date: selectedDate,
+                    notes: notes,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Save notes response:', data); // Debugging info
+
+                if (data.success) {
+                    alert('Notes saved successfully!');
+                    fetchNotes(selectedDate); // Refresh the notes display
+                } else {
+                    alert('Failed to save notes.');
+                }
+            })
+            .catch(error => console.error('Error saving notes:', error));
+        });
+    });
+</script>
+
+<!--sidebar toggle--> 
+<script>
     document.getElementById("hamburger").addEventListener("click", function() {
         var sidebar = document.getElementById("sidebar");
         var mainContent = document.querySelector(".main-content");
@@ -236,7 +237,4 @@
             this.innerHTML = '&times;';  // Change to 'X' icon when sidebar is visible
         }
     });
-
-    </script>
-</body>
-</html>
+</script>
