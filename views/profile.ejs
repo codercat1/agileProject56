@@ -33,12 +33,15 @@
                     <li><form action="/logout" method="post" style="display:inline;"><button type="submit">Log Off</button></form></li>
                 </ul>
             </nav>
-        </header>
+        </header>  
         <section class="user-profile">
             <div class="profile-header">
                 <img src="/images/user-profile.jpg" alt="Profile Picture" class="profile-picture">
                 <h2><%= user.username %></h2>
                 <p>000,000 Followers</p>
+                <p class="page-summary">
+                    View and manage your Healro profile, including your personal information, posts, and friends. Follow other users, search for friends by username, and manage your friend list. This page provides an overview of your activity and connections within the Healro community.
+                </p>      
                 <% if (user.id !== loggedInUserId) { %> <!-- Only show the button if this is not the logged-in user's profile -->
                     <form action="/add-friend" method="post" style="display:inline;">
                         <input type="hidden" name="friendId" value="<%= user.id %>">
