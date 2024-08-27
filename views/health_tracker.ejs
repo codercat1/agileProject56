@@ -132,9 +132,19 @@
         </section>
         
     </div>
+    
+        <!-- Hidden fields to store dynamic data -->
+        <input type="hidden" id="calories-data" value="<%= stats.calories %>">
+        <input type="hidden" id="steps-data" value="<%= stats.steps %>">
+        <input type="hidden" id="mvpa-data" value="<%= stats.mvpa %>">
+        <input type="hidden" id="sleep-data" value="<%= stats.sleep %>">
+    
+        <!-- Include the external JavaScript file -->
+        <script src="/js/healthTrackerChart.js"></script>
+
 
     <!-- Place the script just before the closing body tag -->
-    <script>
+    <!-- <script>
         const ctx = document.getElementById('myChart').getContext('2d');
         const myChart = new Chart(ctx, {
             type: 'doughnut',
@@ -212,7 +222,7 @@
                 }
             }
         });
-    </script>
+    </script> -->
     <footer>
         <p>&copy; 2024 Healro. All rights reserved.</p>
     </footer>
