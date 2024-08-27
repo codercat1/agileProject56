@@ -182,6 +182,14 @@ db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message)
 db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 2, 'John Doe', 'Inspiring runner!')`);
 db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 3, 'Self', 'Keep going!')`);
 
+// Insert dummy articles
+db.run(`INSERT OR IGNORE INTO articles (title, content, category) VALUES ('Article 1', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur gravida nisi a justo elementum, ac sodales eros pellentesque.', 'physical-health')`);
+db.run(`INSERT OR IGNORE INTO articles (title, content, category) VALUES ('Article 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Donec auctor dolor non tellus cursus, ac gravida quam dignissim.', 'fitness')`);
+db.run(`INSERT OR IGNORE INTO articles (title, content, category) VALUES ('Article 3', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Sed vestibulum, mi eget interdum gravida, lacus arcu.', 'general-disease')`);
+db.run(`INSERT OR IGNORE INTO articles (title, content, category) VALUES ('Article 4', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque habitant morbi tristique senectus et netus et malesuada fames.', 'human-body')`);
+db.run(`INSERT OR IGNORE INTO articles (title, content, category) VALUES ('Article 5', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce tincidunt est sit amet felis hendrerit, vitae feugiat purus luctus.', 'medicine')`);
+db.run(`INSERT OR IGNORE INTO articles (title, content, category) VALUES ('Article 6', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum bibendum urna et diam facilisis, nec hendrerit arcu efficitur.', 'mental-health')`);
+
 
 
 db.close((err) => {
