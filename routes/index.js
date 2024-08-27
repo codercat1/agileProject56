@@ -492,7 +492,7 @@ router.get('/communities', (req, res) => {
 });
 
 // Physical Health Community page
-router.post('/communities/physical-health', (req, res) => {
+router.post('/communities/physical-health', upload, (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
   const username = req.session.username; // Get the username from the session
@@ -508,9 +508,11 @@ router.post('/communities/physical-health', (req, res) => {
     return res.status(401).send('User not authenticated');
   }
 
+  const imageUrl = req.file ? `/uploads/${req.file.filename}` : null; // Check if image was uploaded
+
   db.run(
-    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
-    ['physical-health', userId, title, body, username, publishedAt],
+    'INSERT INTO community_posts (category, user_id, image_url, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    ['physical-health', userId, imageUrl, title, body, username, publishedAt],
     (err) => {
       if (err) {
         return res.status(500).send(err.message);
@@ -538,7 +540,7 @@ router.get('/communities/physical-health', (req, res) => {
 });
 
 // Mental Health Community page
-router.post('/communities/mental-health', (req, res) => {
+router.post('/communities/mental-health', upload, (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
   const username = req.session.username; // Get the username from the session
@@ -554,9 +556,11 @@ router.post('/communities/mental-health', (req, res) => {
     return res.status(401).send('User not authenticated');
   }
 
+  const imageUrl = req.file ? `/uploads/${req.file.filename}` : null; // Check if image was uploaded
+
   db.run(
-    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
-    ['mental-health', userId, title, body, username, publishedAt],
+    'INSERT INTO community_posts (category, user_id, title, image_url, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    ['mental-health', userId, title, imageUrl, body, username, publishedAt],
     (err) => {
       if (err) {
         return res.status(500).send(err.message);
@@ -584,7 +588,7 @@ router.get('/communities/mental-health', (req, res) => {
 });
 
 // General Diseases Community page
-router.post('/communities/general-diseases', (req, res) => {
+router.post('/communities/general-diseases', upload, (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
   const username = req.session.username; // Get the username from the session
@@ -600,9 +604,11 @@ router.post('/communities/general-diseases', (req, res) => {
     return res.status(401).send('User not authenticated');
   }
 
+  const imageUrl = req.file ? `/uploads/${req.file.filename}` : null; // Check if image was uploaded
+
   db.run(
-    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
-    ['general-diseases', userId, title, body, username, publishedAt],
+    'INSERT INTO community_posts (category, user_id, title, image_url, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    ['general-diseases', userId, title, imageUrl, body, username, publishedAt],
     (err) => {
       if (err) {
         return res.status(500).send(err.message);
@@ -630,7 +636,7 @@ router.get('/communities/general-diseases', (req, res) => {
 });
 
 // Human Body Community page
-router.post('/communities/human-body', (req, res) => {
+router.post('/communities/human-body', upload, (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
   const username = req.session.username; // Get the username from the session
@@ -646,9 +652,11 @@ router.post('/communities/human-body', (req, res) => {
     return res.status(401).send('User not authenticated');
   }
 
+  const imageUrl = req.file ? `/uploads/${req.file.filename}` : null; // Check if image was uploaded
+
   db.run(
-    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
-    ['human-body', userId, title, body, username, publishedAt],
+    'INSERT INTO community_posts (category, user_id, title, image_url, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    ['human-body', userId, title, imageUrl, body, username, publishedAt],
     (err) => {
       if (err) {
         return res.status(500).send(err.message);
@@ -676,7 +684,7 @@ router.get('/communities/human-body', (req, res) => {
 });
 
 // Medicine Community page
-router.post('/communities/medicine', (req, res) => {
+router.post('/communities/medicine', upload, (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
   const username = req.session.username; // Get the username from the session
@@ -692,9 +700,11 @@ router.post('/communities/medicine', (req, res) => {
     return res.status(401).send('User not authenticated');
   }
 
+  const imageUrl = req.file ? `/uploads/${req.file.filename}` : null; // Check if image was uploaded
+
   db.run(
-    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
-    ['medicine', userId, title, body, username, publishedAt],
+    'INSERT INTO community_posts (category, user_id, title, image_url, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    ['medicine', userId, title, imageUrl, body, username, publishedAt],
     (err) => {
       if (err) {
         return res.status(500).send(err.message);
@@ -722,7 +732,7 @@ router.get('/communities/medicine', (req, res) => {
 });
 
 // Fitness community page
-router.post('/communities/fitness', (req, res) => {
+router.post('/communities/fitness', upload, (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
   const username = req.session.username; // Get the username from the session
@@ -738,9 +748,11 @@ router.post('/communities/fitness', (req, res) => {
     return res.status(401).send('User not authenticated');
   }
 
+  const imageUrl = req.file ? `/uploads/${req.file.filename}` : null; // Check if image was uploaded
+
   db.run(
-    'INSERT INTO community_posts (category, user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
-    ['fitness', userId, title, body, username, publishedAt],
+    'INSERT INTO community_posts (category, user_id, title, image_url, content, username, published_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    ['fitness', userId, title, imageUrl, body, username, publishedAt],
     (err) => {
       if (err) {
         return res.status(500).send(err.message);

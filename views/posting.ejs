@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>My Feed</title>
 </head>
 <body>
@@ -72,7 +73,7 @@
                                 <p><%= post.content %> #topic</p>
                                 <div class="post-actions">
                                     <form action="/post/<%= post.post_id %>/like" method="POST" style="display:inline;">
-                                        <button type="submit" class="like-button">Like <%= post.likes %></button>
+                                        <button type="submit" class="like-button"><i class="fas fa-thumbs-up"></i> Like <%= post.likes %></button>
                                     </form>
                                 </div>
                                 <div class="comments">
@@ -83,7 +84,7 @@
                                     <% }) %>
                                     <form action="/post/<%= post.post_id %>/comment" method="POST">
                                         <textarea name="comment_text" rows="3" placeholder="Write your comment..." required></textarea>
-                                        <button type="submit" class="comment-button">Comment</button>
+                                        <button type="submit" class="comment-button"><i class="fas fa-comment-dots"></i> Comment</button>
                                     </form>
                                 </div>
                             </div>

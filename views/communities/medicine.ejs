@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Medicine</title>
 </head>
 <body>
@@ -32,7 +33,7 @@
         <section class="today-topic">
             <!-- Community Posts Section -->
             <h1>Medicine</h1>
-            <form action="/communities/medicine" method="POST">
+            <form action="/communities/medicine" method="POST" enctype="multipart/form-data">
                 <div class="posts-creation">
                     <div>
                         <label for="title">Title:</label>
@@ -41,6 +42,9 @@
                     <div>
                         <label for="body">Body:</label>
                         <textarea id="body" name="body" rows="5" required></textarea>
+                    </div>
+                    <div>
+                        <input type="file" name="image" accept="image/*">
                     </div>
                     <div>
                         <button type="submit">Post</button>
@@ -56,12 +60,16 @@
                                     <p><strong><%= post.username %></strong> | <%= new Date(post.published_at).toLocaleString() %></p>
                                 </div>
                                 <h2><%= post.title %></h2>
+                                <div class="post-image">
+                                    <% if (post.image_url) { %>
+                                        <img src="<%= post.image_url %>" alt="Post Image">
+                                    <% } %>
+                                </div>
                                 <p><%= post.content %></p>
                                 <div class="post-actions">
                                     <form action="/communities/medicine/<%= post.post_id %>/like" method="POST" style="display:inline;">
-                                        <button type="submit" class="like-button">Like</button>
+                                        <button type="submit" class="like-button"><i class="fas fa-thumbs-up"></i> Like <%= post.likes %></button>
                                     </form>
-                                    <p class="likes-count">Likes: <%= post.likes %></p>
                                 </div>
                                 <div class="comments">
                                     <h3>Comments</h3>
@@ -71,7 +79,7 @@
                                     <% }) %>
                                     <form action="/communities/medicine/<%= post.post_id %>/comment" method="POST">
                                         <textarea name="comment_text" rows="3" placeholder="Write your comment..." required></textarea>
-                                        <button type="submit" class="comment-button">Comment</button>
+                                        <button type="submit" class="comment-button"><i class="fas fa-comment-dots"></i> Comment</button>
                                     </form>
                                 </div>
                             </div>

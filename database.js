@@ -100,7 +100,7 @@ db.run(`ALTER TABLE health_stats ADD COLUMN notes TEXT`, (err) => {
       published_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       content TEXT NOT NULL,
       likes INTEGER DEFAULT 0,
-      views INTEGER DEFAULT 0,
+      image_url TEXT,
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
@@ -140,7 +140,7 @@ db.run(`ALTER TABLE health_stats ADD COLUMN notes TEXT`, (err) => {
       content TEXT NOT NULL,
       published_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       likes INTEGER DEFAULT 0,
-      views INTEGER DEFAULT 0,
+      image_url TEXT,
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
