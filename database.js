@@ -11,7 +11,7 @@ const db = new sqlite3.Database('./database.db', (err) => {
   }
 });
 
-db.serialize(async () => {
+db.serialize(() => {
   // Create users table
   db.run(`
     CREATE TABLE IF NOT EXISTS users (
@@ -32,39 +32,11 @@ db.serialize(async () => {
       steps INTEGER,
       mvpa INTEGER,
       sleep INTEGER,
-      date Text,
+      date TEXT,
+      notes TEXT,
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
   `);
-
-
-  // Add date column to health_stats table
-  db.run(`ALTER TABLE health_stats ADD COLUMN date TEXT`, (err) => {
-    if (err) {
-        // This error will occur if the column already exists, which is fine
-        if (err.message.includes('duplicate column name')) {
-            console.log('The date column already exists in health_stats table.');
-        } else {
-            console.error('Error adding date column to health_stats table:', err.message);
-        }
-    } else {
-        console.log('Date column added to health_stats table.');
-    }
-});
-
-// Add notes column to health_stats table
-db.run(`ALTER TABLE health_stats ADD COLUMN notes TEXT`, (err) => {
-  if (err) {
-      // This error will occur if the column already exists, which is fine
-      if (err.message.includes('duplicate column name')) {
-          console.log('The notes column already exists in health_stats table.');
-      } else {
-          console.error('Error adding notes column to health_stats table:', err.message);
-      }
-  } else {
-      console.log('notes column added to health_stats table.');
-  }
-});
 
   // Create friends table
   db.run(`
@@ -100,6 +72,7 @@ db.run(`ALTER TABLE health_stats ADD COLUMN notes TEXT`, (err) => {
       published_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       content TEXT NOT NULL,
       likes INTEGER DEFAULT 0,
+      views INTEGER DEFAULT 0,
       image_url TEXT,
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
@@ -140,6 +113,7 @@ db.run(`ALTER TABLE health_stats ADD COLUMN notes TEXT`, (err) => {
       content TEXT NOT NULL,
       published_at DATETIME DEFAULT CURRENT_TIMESTAMP,
       likes INTEGER DEFAULT 0,
+      views INTEGER DEFAULT 0,
       image_url TEXT,
       FOREIGN KEY (user_id) REFERENCES users(id)
     )
@@ -170,7 +144,10 @@ db.run(`ALTER TABLE health_stats ADD COLUMN notes TEXT`, (err) => {
     )
   `);
 
-  
+});
+
+
+async function insertDummyData() {
 // Insert admin user
 const hashedAdminPassword = await bcrypt.hash('admin_password', 10);
 db.run(`INSERT OR IGNORE INTO users (username, email, password, role) VALUES ('Admin', 'admin@example.com', ?, 'admin')`, [hashedAdminPassword]);
@@ -203,19 +180,18 @@ db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message)
 
 // Insert dummy friends data for Jane Smith
 db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 2, 'John Doe', 'Inspiring runner!')`);
-db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 3, 'Self', 'Keep going!')`, (err) => {
+db.run(`INSERT OR IGNORE INTO friends (user_id, friend_id, friend_name, message) VALUES (3, 3, 'Self', 'Keep going!')`);
+
+
+
+db.close((err) => {
   if (err) {
     console.error(err.message);
+  } else {
+    console.log('Database closed.');
   }
-  db.close((err) => {
-    if (err) {
-      console.error(err.message);
-    } else {
-      console.log('Database closed.');
-    }
-  });
 });
+}
 
-
-
-});
+// Call the function to insert data
+insertDummyData();

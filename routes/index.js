@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
-const db = require('../db'); // Assuming you created db.js for modularization
+const db = require('../db'); // created db.js for modularization
 const multer = require('multer');
 const path = require('path');
 
