@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcrypt');
 const router = express.Router();
 const db = require('../db'); // Assuming you created db.js for modularization
+const multer = require('multer');
+const path = require('path');
 
 // Middleware to inject user data into all routes
 router.use((req, res, next) => {
@@ -38,6 +40,35 @@ router.get('/contents', (req, res) => {
   res.render('contents');
 });
 
+// Set storage engine for multer
+const storage = multer.diskStorage({
+  destination: './uploads/', // Directory to save the uploaded files
+  filename: function(req, file, cb) {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+// Initialize upload
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 1000000 }, // Limit file size to 1MB
+  fileFilter: function(req, file, cb) {
+    checkFileType(file, cb);
+  }
+}).single('image'); // 'image' should match the name attribute in your form
+
+// Check file type function
+function checkFileType(file, cb) {
+  const filetypes = /jpeg|jpg|png|gif/;
+  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = filetypes.test(file.mimetype);
+
+  if (mimetype && extname) {
+    return cb(null, true);
+  } else {
+    cb('Error: Images Only!');
+  }
+}
 
 // Posting page
 router.get('/posting', (req, res) => {
@@ -59,7 +90,7 @@ router.get('/posting', (req, res) => {
 });
 
 // Updated Posting route to include user_id
-router.post('/posting', (req, res) => {
+router.post('/posting', upload, (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
   const username = req.session.username; // Get the username from the session
@@ -75,11 +106,14 @@ router.post('/posting', (req, res) => {
     return res.status(401).send('User not authenticated');
   }
 
+  const imageUrl = req.file ? `/uploads/${req.file.filename}` : null; // Check if image was uploaded
+
   db.run(
-    'INSERT INTO posts (user_id, title, content, username, published_at) VALUES (?, ?, ?, ?, ?)',
-    [userId, title, body, username, publishedAt],
+    'INSERT INTO posts (user_id, title, content, image_url, username, published_at) VALUES (?, ?, ?, ?, ?, ?)',
+    [userId, title, body, imageUrl, username, publishedAt],
     (err) => {
       if (err) {
+        console.error('Database insert error:', err.message);
         return res.status(500).send(err.message);
       }
       res.redirect('/posting');

@@ -119,6 +119,7 @@
     gap: 15px;
     transition: background-color 0.3s, box-shadow 0.3s;
     max-width: 100%;
+    overflow: hidden;
 }
 
 .post:hover {
@@ -126,10 +127,13 @@
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
 }
 
-.post img {
+.post .post-image img {
     width: 100%;
+    max-width: 600px;
+    max-height: 400px;
     height: auto;
     border-radius: 8px;
+    display: block;
     margin-bottom: 15px;
 }
 
@@ -176,10 +180,6 @@
     margin-top: 10px;
     font-size: 0.9em;
     color: var(--text-color);
-}
-
-.comments {
-    margin-top: 20px;
 }
 
 .comments h3 {
