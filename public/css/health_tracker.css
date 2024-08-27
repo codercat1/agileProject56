@@ -68,17 +68,31 @@ form div {
     margin-bottom: 10px;
 }
 
+.icon {
+    width: 20px; /* Adjust size as needed */
+    height: auto;
+    margin-right: 8px; /* Space between icon and text */
+    vertical-align: middle; /* Aligns icon with text */
+}
+
+.stat-item h3 {
+    display: flex;
+    align-items: center;
+}
+
+
 
 /* taken from posts, combine them later, kept here for activities page to use */
 
 /* Profile Page Styles */
-.user-profile {
+/* Ensure it doesn't overlap with sidebar */
+/* .user-profile {
     text-align: center;
     padding: 20px;
-    margin-left: 250px; /* Ensure it doesn't overlap with sidebar */
-}
+    margin-left: 250px; 
+} */
 
-.profile-header {
+/* .profile-header {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -116,4 +130,4 @@ form div {
     width: 100%;
     border-radius: 10px;
     margin-bottom: 10px;
-}
+} */

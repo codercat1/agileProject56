@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/health_tracker.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <title>Health Tracker</title>
 </head>
 <body>
@@ -47,22 +50,23 @@
 
             <div class="health-stats">
                 <div class="stat-item">
-                    <h3>Calories</h3>
+                    <h3><i class="fas fa-utensils"></i> Calories</h3> <!-- Fork and knife icon -->
                     <p><%= stats.calories %> <span>consumed</span></p>
                 </div>
                 <div class="stat-item">
-                    <h3>Steps</h3>
+                    <h3><i class="fas fa-walking"></i> Steps</h3> <!-- Walking icon -->
                     <p><%= stats.steps %> / <span>5,000</span></p>
                 </div>
                 <div class="stat-item">
-                    <h3>MVPA</h3>
+                    <h3><i class="fas fa-running"></i> MVPA</h3> <!-- Running icon -->
                     <p><%= stats.mvpa %> <span>/ 30 mins</span></p>
                 </div>
                 <div class="stat-item">
-                    <h3>Sleep</h3>
+                    <h3><i class="fas fa-bed"></i> Sleep</h3> <!-- Bed icon -->
                     <p><%= stats.sleep %> <span>/ 7 hours</span></p>
                 </div>
             </div>
+            
 
             <form action="/health_tracker/<%= user.id %>" method="POST">
                 <div>
@@ -91,7 +95,6 @@
             <div class="friends">
                 <h3>Your friends</h3>
                 <div class="friend-list">
-                    <!-- Example friend -->
                     <div class="friend-item">
                         <img src="/images/friend1.png" alt="friend 1">
                         <p><strong>friend 1</strong></p>
@@ -111,25 +114,14 @@
             </div>
         </section>
 
-        <section class="user-profile">
+        <!-- <section class="user-profile">
             <div class="profile-header">
                 <img src="/images/user-profile.jpg" alt="Profile Picture" class="profile-picture">
                 <h2><%= user.username %></h2>
             </div>
             <div class="profile-content">
-                <!-- <div>
-                    <h3>Debugging Information</h3>
-                    <pre><%= JSON.stringify(healthStats, null, 2) %></pre>
-                </div> -->
-                <!-- <div class="posts">
-                    <% healthStats.forEach(stat => { %>
-                    <div class="post">
-                        <p><strong> Date: <%= new Date(stat.date).toLocaleDateString() %> </strong> - Calories: <%= stat.calories %>, Steps: <%= stat.steps %>, MVPA: <%= stat.mvpa %>, Sleep: <%= stat.sleep %> hours</p>
-                    </div>
-                    <% }) %>
-                </div> -->
             </div>
-        </section>
+        </section> -->
         
     </div>
     
@@ -142,87 +134,6 @@
         <!-- Include the external JavaScript file -->
         <script src="/js/healthTrackerChart.js"></script>
 
-
-    <!-- Place the script just before the closing body tag -->
-    <!-- <script>
-        const ctx = document.getElementById('myChart').getContext('2d');
-        const myChart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Calories', '', 'Steps', '', 'MVPA', '', 'Sleep', ''],
-                datasets: [{
-                    data: [
-                        Math.min((<%= stats.calories %> / 2000) * 45, 45),  // Calories: Cap at 45 degrees
-                        45 - Math.min((<%= stats.calories %> / 2000) * 45, 45), // Grey remainder
-                        Math.min((<%= stats.steps %> / 5000) * 45, 45),     // Steps: Cap at 45 degrees
-                        45 - Math.min((<%= stats.steps %> / 5000) * 45, 45), // Grey remainder
-                        Math.min((<%= stats.mvpa %> / 30) * 45, 45),        // MVPA: Cap at 45 degrees
-                        45 - Math.min((<%= stats.mvpa %> / 30) * 45, 45), // Grey remainder
-                        Math.min((<%= stats.sleep %> / 7) * 45, 45),         // Sleep: Cap at 45 degrees
-                        45 - Math.min((<%= stats.sleep %> / 7) * 45, 45), // Grey remainder
-                    ],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',  // Calories (Red)
-                        'rgba(192, 192, 192, 0.2)',   // Grey remainder
-                        'rgba(54, 162, 235, 0.2)',  // Steps (Blue)
-                        'rgba(192, 192, 192, 0.2)',   // Grey remainder
-                        'rgba(255, 206, 86, 0.2)',  // MVPA (Yellow)
-                        'rgba(192, 192, 192, 0.2)',   // Grey remainder
-                        'rgba(75, 192, 192, 0.2)',  // Sleep (Green)
-                        'rgba(192, 192, 192, 0.2)',   // Grey remainder
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',  // Calories (Red)
-                        'rgba(255, 255, 255, 0)', // Transparent border for remainder
-                        'rgba(54, 162, 235, 1)',  // Steps (Blue)
-                        'rgba(255, 255, 255, 0)', // Transparent border for remainder
-                        'rgba(255, 206, 86, 1)',  // MVPA (Yellow)
-                        'rgba(255, 255, 255, 0)', // Transparent border for remainder
-                        'rgba(75, 192, 192, 1)',  // Sleep (Green)
-                        'rgba(255, 255, 255, 0)', // Transparent border for remainder
-                    ],
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                rotation: 270,  // Start from the top
-                circumference: 180,  // Half doughnut (180 degrees)
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                // Hide tooltip for grey remainder segments
-                                    if (!context.label) {
-                                    return null;
-                                }
-                                
-                                const labelIndex = context.dataIndex / 2;
-                                const labels = [
-                                    `<%= stats.calories %> Calories`,
-                                    `<%= stats.steps %> Steps`,
-                                    `<%= stats.mvpa %> Mins`,
-                                    `<%= stats.sleep %> Hours`,
-                                ];
-                                return labels[Math.floor(labelIndex)];
-                            }
-                        },
-                        // Hide the tooltip box if there's no data to display
-                        displayColors: false,
-                    },
-                    legend: {
-                        labels: {
-                            filter: function(legendItem, chartData) {
-                                // Only show legend for non-remainder segments
-                                return chartData.labels[legendItem.index] !== '';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    </script> -->
     <footer>
         <p>&copy; 2024 Healro. All rights reserved.</p>
     </footer>
