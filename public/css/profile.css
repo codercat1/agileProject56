@@ -1,8 +1,9 @@
 /* Profile Page Styles */
+/* 250px Ensure it doesn't overlap with sidebar */
 .user-profile {
     text-align: center;
     padding: 20px;
-    margin-left: 250px; /* Ensure it doesn't overlap with sidebar */
+    margin-left: 250px;
 }
 
 .profile-header {
@@ -12,10 +13,9 @@
     margin-bottom: 20px;
 }
 
-.profile-picture {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
+.profile-icon {
+    font-size: 60px; 
+    color: #666; 
     margin-bottom: 10px;
 }
 
