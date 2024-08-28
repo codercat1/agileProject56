@@ -7,8 +7,13 @@
     <title>General Disease</title>
 </head>
 <body>
-    <div class="sidebar">
-        <h2>Healro</h2>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Healro</h2>
+            <div class="hamburger" id="hamburger">
+                &#9776;
+            </div>
+        </div>
         <nav>
             <ul>
                 <li><a href="/">Home</a></li>
@@ -63,3 +68,20 @@
     </div>
 </body>
 </html>
+
+<!--sidebar toggle--> 
+<script>
+    document.getElementById("hamburger").addEventListener("click", function() {
+        var sidebar = document.getElementById("sidebar");
+        var mainContent = document.querySelector(".main-content");
+
+        sidebar.classList.toggle("hidden");
+        mainContent.classList.toggle("shifted");
+
+        if (sidebar.classList.contains("hidden")) {
+            this.innerHTML = '&#9776;';  // Change to hamburger icon when sidebar is hidden
+        } else {
+            this.innerHTML = '&times;';  // Change to 'X' icon when sidebar is visible
+        }
+    });
+</script>
