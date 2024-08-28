@@ -137,3 +137,24 @@ td a:hover {
 .button-container button:hover {
     background-color: #0056b3;
 }
+
+.admin-dashboard {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.admin-dashboard-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #fff;
+    background-color: #007bff;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-left: 250px;
+}
+
+.admin-dashboard-button:hover {
+    background-color: #0056b3;
+}
