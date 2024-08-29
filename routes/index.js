@@ -1209,16 +1209,28 @@ function isAdmin(req, res, next) {
 
 // Route to render the admin home page
 router.get('/admin/home', isAdmin, (req, res) => {
-  const query = `SELECT id, title, category, content, published_at FROM articles ORDER BY published_at DESC`;
+  const userId = req.session.userId;
+  const userQuery = `SELECT id, username, role FROM users WHERE id = ? LIMIT 1`;
 
-  db.all(query, [], (err, articles) => {
+  db.get(userQuery, [userId], (err, user) => {
     if (err) {
       return res.status(500).send(`Internal Server Error: ${err.message}`);
     }
 
-    res.render('admin/admin-home', { user: req.session.user, articles });
+    if (user) {
+      const articleQuery = `SELECT id, title, category, content, published_at FROM articles ORDER BY published_at DESC`;
+
+      db.all(articleQuery, [], (err, articles) => {
+        if (err) {
+          return res.status(500).send(`Internal Server Error: ${err.message}`);
+        }
+
+        res.render('admin/admin-home', { user, articles });
+      });
+    }
   });
 });
+
 
 // Route to handle article deletion
 router.post('/admin/delete/:id', isAdmin, (req, res) => {
