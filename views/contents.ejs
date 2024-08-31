@@ -75,9 +75,11 @@
         </section>
 
         <!-- Admin Dashboard Button -->
-        <div class="admin-dashboard">
-            <a href="/admin/home" class="admin-dashboard-button">Admin Dashboard</a>
-        </div>
+<% if (userRole === 'admin') { %>
+    <div class="admin-dashboard">
+      <a href="/admin/home" class="admin-dashboard-button">Admin Dashboard</a>
+    </div>
+  <% } %>
     </div>
     <footer>
         <p>&copy; 2024 Healro. All rights reserved.</p>

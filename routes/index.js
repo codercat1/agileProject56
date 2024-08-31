@@ -37,8 +37,9 @@ router.get('/activities', (req, res) => {
 
 // Contents
 router.get('/contents', (req, res) => {
-  res.render('contents');
+  res.render('contents', { userRole: req.session.role });
 });
+
 
 // Set storage engine for multer
 const storage = multer.diskStorage({
