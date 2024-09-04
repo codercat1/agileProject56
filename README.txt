@@ -12,23 +12,15 @@ This project is a health education website that provides various functionalities
 -Database integration for persistent data storage
 
 1. Install the necessary dependencies:
-copy this line to install the necessary dependencies
--> npm install node.js sqlite3 bcrypt multer express express-session ejs
-
-node.js
-sqlite3
-bcrypt
-multer
-express
-express-session
-ejs
+copy this line to install the necessary dependencies:
+npm install node.js sqlite3 bcrypt multer express express-session ejs
 
 2. Set up the database: Ensure that database.db exists in the root folder. 
 If not, create it or migrate the database using the following:
-->  node database.js
+node database.js
 
 3. Start the server:
-->  npm run start
+npm run start
 
 After starting the server, you can access the website 
 by navigating to http://localhost:3000 in your browser.
