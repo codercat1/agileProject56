@@ -90,7 +90,7 @@ router.get('/posting', (req, res) => {
   });
 });
 
-// Updated Posting route to include user_id
+// Posting route to include user_id
 router.post('/posting', upload, (req, res) => {
   const { title, body } = req.body;
   const userId = req.session.userId; // Get the user ID from the session
@@ -843,7 +843,7 @@ router.post('/logout', (req, res) => {
   });
 });
 
-// Updated profile route with joined query to fetch friend's username
+// profile route to select and display posts by user, with joined query to fetch friend's username
 router.get('/profile/:id', (req, res) => {
   const userId = req.params.id;
   const loggedInUserId = req.session.userId;

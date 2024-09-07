@@ -1,9 +1,7 @@
-// public/js/healthTrackerChart.js
-
 document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById('myChart').getContext('2d');
 
-    // Define the dynamic data (you will replace these with actual values from EJS)
+    // Define the dynamic data (which is replaced with actual values from EJS)
     const calories = parseFloat(document.getElementById('calories-data').value);
     const steps = parseFloat(document.getElementById('steps-data').value);
     const mvpa = parseFloat(document.getElementById('mvpa-data').value);
