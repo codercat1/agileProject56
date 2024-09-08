@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const session = require('express-session'); // Add this line
+const session = require('express-session');
 const indexRouter = require('./routes/index');
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,7 +14,7 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'defaultSecretKey', // Use the environment variable
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false, httpOnly: true } // Set to true if using HTTPS
+  cookie: { secure: false, httpOnly: true }
 }));
 
 // Set up EJS

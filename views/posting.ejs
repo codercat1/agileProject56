@@ -113,11 +113,11 @@
             headers: {
               'Content-Type': 'application/json'
             },
-            credentials: 'same-origin' // Include cookies for session management
+            credentials: 'same-origin'
           })
           .then(response => response.json())
           .then(data => {
-            alert(data.message); // Show a simple alert or you can customize this
+            alert(data.message);
             if (data.likes !== undefined) {
               // Update the like count
               const likeCount = button.nextElementSibling;

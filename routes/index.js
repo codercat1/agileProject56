@@ -56,7 +56,7 @@ const upload = multer({
   fileFilter: function(req, file, cb) {
     checkFileType(file, cb);
   }
-}).single('image'); // 'image' should match the name attribute in your form
+}).single('image');
 
 // Check file type function
 function checkFileType(file, cb) {
