@@ -8,7 +8,6 @@ let db;
 // Middleware setup for JSON parsing
 app.use(express.json());
 
-// Sample endpoint to be tested (you need to adjust based on your actual route logic)
 app.get('/get-health-data', (req, res) => {
   const { date } = req.query;
   db.all(`SELECT * FROM health_stats WHERE date = ?`, [date], (err, rows) => {
